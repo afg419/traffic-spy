@@ -1,21 +1,6 @@
-module TrafficSpy
-  class Server < Sinatra::Base
-    get '/' do
-      erb :index
-    end
+module Parser
+  def self.parse(params)
 
-    not_found do
-      erb :error
-    end
-
-    post '/sources' do
-      User.create(params)
-      "User registered!"
-    end
-
-    post '/sources/:identifier/data' do |identifier|
-      binding.pry
-    end
   end
 end
 
