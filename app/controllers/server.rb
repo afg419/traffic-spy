@@ -9,7 +9,7 @@ module TrafficSpy
     end
 
     post '/sources' do
-      user = User.create(params)
+      user = User.new(params)
 
       user.save
       status 200
