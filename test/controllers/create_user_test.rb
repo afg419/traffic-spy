@@ -9,7 +9,7 @@ class CreateUserTest < ControllerTest
 
     assert_equal 200, last_response.status
     assert_equal 1, (final_count - initial_count)
-    assert_equal "Success - 200 OK: User registered! {'identifier':'params[:identifier]'}", last_response.body
+    assert_equal "Success - 200 OK: User registered! {'identifier':'jumpstartlab'}", last_response.body
   end
 
   def test_400_is_returned_if_name_param_is_missing

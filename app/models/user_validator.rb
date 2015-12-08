@@ -7,10 +7,9 @@ class UserValidator
 
   def validate(params)
     user = User.new(params)
-
     if user.save
       self.status = 200
-      self.body = "Success - 200 OK: User registered! {'identifier':'params[:identifier]'}"
+      self.body = "Success - 200 OK: User registered! {'identifier':'#{params[:identifier]}'}"
     elsif
       params[:identifier].to_s == "" || params[:rootUrl].to_s == ""
       self.status = 400
