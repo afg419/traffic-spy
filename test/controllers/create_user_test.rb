@@ -33,19 +33,17 @@ class CreateUserTest < ControllerTest
   end
 
   def test_403_is_returned_if_user_already_exists
-    skip
     initial_count = User.count
     post '/sources', {"identifier"=>"jumpstartlab", "rootUrl"=>"http://jumpstartlab.com"}
     final_count = User.count
     assert_equal 1, (final_count - initial_count)
 
-    initial_count = User.count
     post '/sources', {"identifier"=>"jumpstartlab", "rootUrl"=>"http://jumpstartlab.com"}
     final_count = User.count
     assert_equal 1, (final_count - initial_count)
 
     assert_equal 403, last_response.status
-    assert_equal "Identifier Already Exists - 403 Forbidden"
+    assert_equal "Identifier Already Exists - 403 Forbidden", last_response.body
   end
 
 end
