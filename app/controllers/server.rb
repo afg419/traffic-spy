@@ -15,7 +15,12 @@ module TrafficSpy
         status 200
         body "Success - 200 OK: User registered! {'identifier':'params[:identifier]'}"
       elsif
-        
+        params[:identifier] == "" || params[:rootUrl] == ""
+        status 400
+        body "Missing Parameters - 400 Bad Request"
+
+      end
     end
+
   end
 end

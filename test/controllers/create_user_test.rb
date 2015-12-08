@@ -19,18 +19,17 @@ class CreateUserTest < ControllerTest
 
     assert_equal 400, last_response.status
     assert_equal 0, (final_count - initial_count)
-    assert_equal "Missing Parameters - 400 Bad Request"
+    assert_equal "Missing Parameters - 400 Bad Request", last_response.body
   end
 
   def test_400_is_returned_if_rootUrl_param_is_missing
-    skip
     initial_count = User.count
     post '/sources', {"identifier"=>"jumpstartlab", "rootUrl"=>""}
     final_count = User.count
 
     assert_equal 400, last_response.status
     assert_equal 0, (final_count - initial_count)
-    assert_equal "Missing Parameters - 400 Bad Request"
+    assert_equal "Missing Parameters - 400 Bad Request", last_response.body
   end
 
   def test_403_is_returned_if_user_already_exists
