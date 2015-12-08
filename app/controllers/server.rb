@@ -9,8 +9,11 @@ module TrafficSpy
     end
 
     post '/sources' do
-      User.create(params)
-      "User registered!"
+      user = User.create(params)
+
+      user.save
+      status 200
+      body "Success - 200 OK: User registered! {'identifier':'params[:identifier]'}"
     end
   end
 end
