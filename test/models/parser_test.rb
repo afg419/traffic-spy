@@ -56,7 +56,7 @@ class ParserTest < Minitest::Test
   # end
 
   def test_module_exists
-    assert Parser
+    assert TrafficSpy::Parser
   end
 
   def test_it_parses_params
@@ -75,7 +75,7 @@ class ParserTest < Minitest::Test
               #  "identifier"=>"jumpstartlab",
               #  "rootUrl"=>"jumpstartlab.com"}
 
-    assert_equal expected, Parser.new.parse(params)
+    assert_equal expected, TrafficSpy::Parser.new.parse(params)
   end
 
   def test_it_parses_without_userAgent_data
@@ -89,6 +89,6 @@ class ParserTest < Minitest::Test
                "resolution_width"=>"1920",
                "resolution_height"=>"1280",
                "ip"=>"63.29.38.211"}
-    assert_equal expected, Parser.new.parse(params_without_agent)
+    assert_equal expected, TrafficSpy::Parser.new.parse(params_without_agent)
   end
 end

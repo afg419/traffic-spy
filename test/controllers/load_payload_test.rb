@@ -21,9 +21,9 @@ class LoadPayloadTest < ControllerTest
   end
 
   def test_loads_valid_payload_data
-    initial_count = Payload.count
+    initial_count = TrafficSpy::Payload.count
     post '/sources/jumpstartlab/data', params
-    final_count = Payload.count
+    final_count = TrafficSpy::Payload.count
 
     assert_equal 1, final_count - initial_count
 
