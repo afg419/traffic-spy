@@ -79,6 +79,18 @@ class ParserTest < Minitest::Test
   end
 
   def test_it_parses_without_userAgent_data
-    Parser.parse(params_without_agent)
+    expected = {"url"=>"http://jumpstartlab.com/blog",
+               "requestedAt"=>"2013-02-16 21:38:28 -0700",
+               "respondedIn"=>37,
+               "referredBy"=>"http://jumpstartlab.com",
+               "requestType"=>"GET",
+               "parameters"=>[],
+               "eventName"=>"socialLogin",
+               "resolutionWidth"=>"1920",
+               "resolutionHeight"=>"1280",
+               "ip"=>"63.29.38.211",
+               "identifier"=>"jumpstartlab",
+               "rootUrl"=>"jumpstartlab.com"}
+    assert_equal expected, Parser.parse(params_without_agent)
   end
 end
