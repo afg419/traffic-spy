@@ -65,15 +65,15 @@ class ParserTest < Minitest::Test
                "respondedIn"=>37,
                "referredBy"=>"http://jumpstartlab.com",
                "requestType"=>"GET",
-               "parameters"=>[],
+              #  "parameters"=>[],
                "eventName"=>"socialLogin",
                "resolutionWidth"=>"1920",
                "resolutionHeight"=>"1280",
                "ip"=>"63.29.38.211",
                "browser"=>"Chrome",
-               "platform"=>"Macintosh",
-               "identifier"=>"jumpstartlab",
-               "rootUrl"=>"jumpstartlab.com"}
+               "platform"=>"Macintosh"}
+              #  "identifier"=>"jumpstartlab",
+              #  "rootUrl"=>"jumpstartlab.com"}
 
     assert_equal expected, Parser.parse(params)
   end
@@ -84,13 +84,13 @@ class ParserTest < Minitest::Test
                "respondedIn"=>37,
                "referredBy"=>"http://jumpstartlab.com",
                "requestType"=>"GET",
-               "parameters"=>[],
+              #  "parameters"=>[],
                "eventName"=>"socialLogin",
                "resolutionWidth"=>"1920",
                "resolutionHeight"=>"1280",
-               "ip"=>"63.29.38.211",
-               "identifier"=>"jumpstartlab",
-               "rootUrl"=>"jumpstartlab.com"}
+               "ip"=>"63.29.38.211"}
+              #  "identifier"=>"jumpstartlab",
+              #  "rootUrl"=>"jumpstartlab.com"}
     assert_equal expected, Parser.parse(params_without_agent)
   end
 end

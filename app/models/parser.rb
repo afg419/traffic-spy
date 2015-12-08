@@ -1,11 +1,13 @@
 require 'JSON'
+require 'useragent'
 
 module Parser
   def self.parse(params)
     parsed = JSON.parse(params["payload"])
     parsed = user_agent_parsing(parsed) if parsed["userAgent"]
-    parsed["identifier"] = params["identifier"]
-    parsed["rootUrl"] = parsed["url"].split('/')[2]
+    # parsed["identifier"] = params["identifier"]
+    # parsed["rootUrl"] = parsed["url"].split('/')[2]
+    parsed.delete("parameters")
     parsed
   end
 

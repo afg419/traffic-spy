@@ -16,7 +16,8 @@ module TrafficSpy
     end
 
     post '/sources/:identifier/data' do |identifier|
-      binding.pry
+      parsed = Parser.parse(params)
+      Payload.create(parsed)
     end
   end
 end
