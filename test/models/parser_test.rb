@@ -61,14 +61,14 @@ class ParserTest < Minitest::Test
 
   def test_it_parses_params
     expected = {"url"=>"http://jumpstartlab.com/blog",
-               "requestedAt"=>"2013-02-16 21:38:28 -0700",
-               "respondedIn"=>37,
-               "referredBy"=>"http://jumpstartlab.com",
-               "requestType"=>"GET",
+               "requested_at"=>"2013-02-16 21:38:28 -0700",
+               "responded_in"=>37,
+               "referred_by"=>"http://jumpstartlab.com",
+               "request_type"=>"GET",
               #  "parameters"=>[],
-               "eventName"=>"socialLogin",
-               "resolutionWidth"=>"1920",
-               "resolutionHeight"=>"1280",
+               "event_name"=>"socialLogin",
+               "resolution_width"=>"1920",
+               "resolution_height"=>"1280",
                "ip"=>"63.29.38.211",
                "browser"=>"Chrome",
                "platform"=>"Macintosh"}
@@ -80,17 +80,15 @@ class ParserTest < Minitest::Test
 
   def test_it_parses_without_userAgent_data
     expected = {"url"=>"http://jumpstartlab.com/blog",
-               "requestedAt"=>"2013-02-16 21:38:28 -0700",
-               "respondedIn"=>37,
-               "referredBy"=>"http://jumpstartlab.com",
-               "requestType"=>"GET",
+               "requested_at"=>"2013-02-16 21:38:28 -0700",
+               "responded_in"=>37,
+               "referred_by"=>"http://jumpstartlab.com",
+               "request_type"=>"GET",
               #  "parameters"=>[],
-               "eventName"=>"socialLogin",
-               "resolutionWidth"=>"1920",
-               "resolutionHeight"=>"1280",
+               "event_name"=>"socialLogin",
+               "resolution_width"=>"1920",
+               "resolution_height"=>"1280",
                "ip"=>"63.29.38.211"}
-              #  "identifier"=>"jumpstartlab",
-              #  "rootUrl"=>"jumpstartlab.com"}
     assert_equal expected, Parser.new.parse(params_without_agent)
   end
 end

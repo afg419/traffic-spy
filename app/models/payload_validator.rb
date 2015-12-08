@@ -1,10 +1,9 @@
-
-class UserValidator
+class PayloadValidator
 
   attr_accessor :status, :body
 
   def validate(params)
-    user = User.new(params)
+    user = Payload.new(params)
     if user.save
       self.status = 200
       self.body = "Success - 200 OK: User registered! {'identifier':'#{params[:identifier]}'}"
