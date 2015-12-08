@@ -39,7 +39,7 @@ module TrafficSpy
       "ip",
       "browser",
       "platform",
-      "userId"].zip(
+      "userId","rootUrl"].zip(
       ["url",
        "requested_at",
        "responded_in",
@@ -51,7 +51,7 @@ module TrafficSpy
        "ip",
        "browser",
        "platform",
-       "user_id"]).to_h
+       "user_id","root_url"]).to_h
     end
   end
 end

@@ -26,8 +26,6 @@ class LoadPayloadTest < ControllerTest
     final_count = TrafficSpy::Payload.count
 
     assert_equal 1, final_count - initial_count
-
-
   end
 
 end
