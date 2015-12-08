@@ -9,6 +9,8 @@ module TrafficSpy
     end
 
     post '/sources' do
+      User.create(params)
+      "User registered!"
     end
   end
 end
