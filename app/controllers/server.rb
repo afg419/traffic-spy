@@ -11,9 +11,11 @@ module TrafficSpy
     post '/sources' do
       user = User.new(params)
 
-      user.save
-      status 200
-      body "Success - 200 OK: User registered! {'identifier':'params[:identifier]'}"
+      if user.save
+        status 200
+        body "Success - 200 OK: User registered! {'identifier':'params[:identifier]'}"
+      elsif
+        
     end
   end
 end
