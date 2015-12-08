@@ -16,7 +16,7 @@ module TrafficSpy
     end
 
     post '/sources/:identifier/data' do |identifier|
-      parsed = Parser.parse(params)
+      parsed = Parser.new.parse(params)
       Payload.create(parsed)
     end
   end

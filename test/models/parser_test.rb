@@ -75,7 +75,7 @@ class ParserTest < Minitest::Test
               #  "identifier"=>"jumpstartlab",
               #  "rootUrl"=>"jumpstartlab.com"}
 
-    assert_equal expected, Parser.parse(params)
+    assert_equal expected, Parser.new.parse(params)
   end
 
   def test_it_parses_without_userAgent_data
@@ -91,6 +91,6 @@ class ParserTest < Minitest::Test
                "ip"=>"63.29.38.211"}
               #  "identifier"=>"jumpstartlab",
               #  "rootUrl"=>"jumpstartlab.com"}
-    assert_equal expected, Parser.parse(params_without_agent)
+    assert_equal expected, Parser.new.parse(params_without_agent)
   end
 end
