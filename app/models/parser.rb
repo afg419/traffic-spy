@@ -3,17 +3,18 @@ require 'JSON'
 module Parser
   def self.parse(params)
     parsed = JSON.parse(params["payload"])
-    agent = user_agent_parsing(parsed["userAgent"])
-    parsed.delete("userAgent")
-    parsed["browser"] = agent.browser
-    parsed["platform"] = agent.platform
+    parsed = user_agent_parsing(parsed) if parsed["userAgent"]
     parsed["identifier"] = params["identifier"]
     parsed["rootUrl"] = parsed["url"].split('/')[2]
     parsed
   end
 
-  def self.user_agent_parsing(user_agent_string)
-    UserAgent.parse(user_agent_string)
+  def self.user_agent_parsing(parsed)
+    agent = UserAgent.parse(parsed["userAgent"])
+    parsed.delete("userAgent")
+    parsed["browser"] = agent.browser
+    parsed["platform"] = agent.platform
+    parsed
   end
 end
 

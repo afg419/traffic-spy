@@ -20,6 +20,41 @@ class ParserTest < Minitest::Test
      "identifier"=>"jumpstartlab"}
   end
 
+  def params_without_agent
+    {"payload"=>
+      "{\"url\":\"http://jumpstartlab.com/blog\",
+          \"requestedAt\":\"2013-02-16 21:38:28 -0700\",
+          \"respondedIn\":37,
+          \"referredBy\":\"http://jumpstartlab.com\",
+          \"requestType\":\"GET\",
+          \"parameters\":[],
+          \"eventName\":\"socialLogin\",
+          \"resolutionWidth\":\"1920\",
+          \"resolutionHeight\":\"1280\",
+          \"ip\":\"63.29.38.211\"}",
+     "splat"=>[],
+     "captures"=>["jumpstartlab"],
+     "identifier"=>"jumpstartlab"}
+  end
+
+  # def params_with_agent_no_data
+  #   {"payload"=>
+  #     "{\"url\":\"http://jumpstartlab.com/blog\",
+  #         \"requestedAt\":\"2013-02-16 21:38:28 -0700\",
+  #         \"respondedIn\":37,
+  #         \"referredBy\":\"http://jumpstartlab.com\",
+  #         \"requestType\":\"GET\",
+  #         \"parameters\":[],
+  #         \"eventName\":\"socialLogin\",
+  #         \"userAgent\":\"\",
+  #         \"resolutionWidth\":\"1920\",
+  #         \"resolutionHeight\":\"1280\",
+  #         \"ip\":\"63.29.38.211\"}",
+  #    "splat"=>[],
+  #    "captures"=>["jumpstartlab"],
+  #    "identifier"=>"jumpstartlab"}
+  # end
+
   def test_module_exists
     assert Parser
   end
@@ -41,5 +76,9 @@ class ParserTest < Minitest::Test
                "rootUrl"=>"jumpstartlab.com"}
 
     assert_equal expected, Parser.parse(params)
+  end
+
+  def test_it_parses_without_userAgent_data
+    Parser.parse(params_without_agent)
   end
 end
