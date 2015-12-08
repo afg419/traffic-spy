@@ -1,9 +1,28 @@
+require 'JSON'
+
 module Parser
   def self.parse(params)
+    parsed = JSON.parse(params["payload"])
+    agent = user_agent_parsing(parsed["userAgent"])
+    parsed.delete("userAgent")
+    parsed["browser"] = agent.browser
+    parsed["platform"] = agent.platform
+    parsed["identifier"] = params["identifier"]
+    parsed["rootUrl"] = parsed["url"].split('/')[2]
+    parsed
+  end
 
+  def self.user_agent_parsing(user_agent_string)
+    UserAgent.parse(user_agent_string)
   end
 end
 
+
+# user_agent.browser
+# # => 'Chrome'
+# user_agent.version
+# # => '19.0.1084.56'
+# user_agent.platform
 
 # {"payload"=>
 #   "{\"url\":\"http://jumpstartlab.com/blog\",
