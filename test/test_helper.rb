@@ -11,7 +11,6 @@ require 'capybara'
 
 Capybara.app = TrafficSpy::Server
 
-
 class ControllerTest < Minitest::Test
   include Rack::Test::Methods #gives GET, POST, DELETE, etc
 
