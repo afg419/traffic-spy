@@ -22,7 +22,7 @@ class AppDetailsTest < FeatureTest
   end
 
   def test_goes_to_app_details_page
-    TrafficSpy::User.create("identifier":"jumpstartlab", "root_url":"/jumpstartlab")
+    TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "/jumpstartlab")
     TrafficSpy::Payload.create(payload)
 
     visit('/sources/jumpstartlab')
@@ -49,7 +49,7 @@ class AppDetailsTest < FeatureTest
   end
 
   def test_goes_to_app_error_page_if_no_data_for_user
-    TrafficSpy::User.create("identifier":"jumpstartlab", "root_url":"http://jumpstartlab.com")
+    TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "http://jumpstartlab.com")
 
     visit('/sources/jumpstartlab')
     assert_equal '/sources/jumpstartlab', current_path

@@ -22,7 +22,7 @@ class UrlDetailsTest < FeatureTest
   end
 
   def test_goes_to_url_details_page
-    TrafficSpy::User.create("identifier":"jumpstartlab", "root_url":"http://jumpstartlab.com")
+    TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "http://jumpstartlab.com")
     TrafficSpy::Payload.create(payload)
 
     visit('/sources/jumpstartlab/urls/blog')
