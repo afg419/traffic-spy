@@ -51,6 +51,7 @@ module TrafficSpy
         erb :application_details_error
       elsif user_row.payloads.find_by(url:@local_url).nil?
         @error = "Sorry! #{@local_url} has not been requested!"
+        erb :application_details_error  
       else
         @data = 0
         erb :url_details

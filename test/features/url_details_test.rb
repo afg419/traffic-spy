@@ -33,35 +33,37 @@ class UrlDetailsTest < FeatureTest
     end
 
     refute page.has_css?("app_details_error")
-
   end
-  #
-  # def test_goes_to_app_error_page_if_user_not_registered
-  #   visit('/sources/jumpstartlab')
-  #   assert_equal '/sources/jumpstartlab', current_path
-  #
-  #   within('#app_details_header') do
-  #     assert page.has_content?("jumpstartlab")
-  #   end
-  #
-  #   within('#app_details_error') do
-  #     assert page.has_content?("has not been registered!")
-  #   end
-  # end
-  #
-  # def test_goes_to_app_details_page
-  #   TrafficSpy::User.create("identifier":"jumpstartlab", "root_url":"/jumpstartlab")
-  #
-  #   visit('/sources/jumpstartlab')
-  #   assert_equal '/sources/jumpstartlab', current_path
-  #
-  #   within('#app_details_header') do
-  #     assert page.has_content?("jumpstartlab")
-  #   end
-  #
-  #   within('#app_details_error') do
-  #     assert page.has_content?("No payload data has been registered")
-  #   end
-  # end
 
+  def test_goes_to_app_error_page_if_user_not_registered
+    visit('/sources/jumpstartlab/urls/blog')
+    assert_equal '/sources/jumpstartlab/urls/blog', current_path
+
+    refute page.has_css?("#url_details_header")
+
+    within('#app_details_header') do
+      assert page.has_content?("jumpstartlab's")
+      assert page.has_content?("Error")
+    end
+
+    within('#app_details_error') do
+      assert page.has_content?("has not been registered")
+    end
+  end
+
+  def test_goes_to_app_details_page
+    skip
+    TrafficSpy::User.create("identifier":"jumpstartlab", "root_url":"/jumpstartlab")
+
+    visit('/sources/jumpstartlab/urls/dog')
+    assert_equal '/sources/jumpstartlab/urls/dog', current_path
+
+    within('#app_details_header') do
+      assert page.has_content?("jumpstartlab")
+    end
+
+    within('#app_details_error') do
+      assert page.has_content?("No payload data has been registered")
+    end
+  end
 end
