@@ -32,12 +32,4 @@ class UserValidatorTest < ModelTest
     assert_equal 403, validator.status
     assert_equal "Identifier Already Exists - 403 Forbidden", validator.body
   end
-
-  def test_it_returns_status_400
-      params = params = {"identifier"=>"jumpstartlab", "rootUrl"=>"http://jumpstartlab.com"}
-      validated = TrafficSpy::UserValidator.new
-      validated.validate(params)
-
-      assert_equal 400, validated.status
-  end
 end
