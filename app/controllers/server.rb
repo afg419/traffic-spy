@@ -18,7 +18,7 @@ module TrafficSpy
     post '/sources/:identifier/data' do |identifier|
       ruby_params = TrafficSpy::Parser.new.parse(params)
       payload = TrafficSpy::PayloadValidator.new
-      payload.validate(ruby_params, identifier)
+      payload.insert_or_error_status(ruby_params, identifier)
 
       status(payload.status)
       body(payload.body)

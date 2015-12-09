@@ -15,16 +15,9 @@ module TrafficSpy
       !(ruby_params.keys.sort == column_names.sort)
     end
 
-    def validate(ruby_params, identifier)
-      validate_or_insert(ruby_params,identifier)
-      # if TrafficSpy::User.find_by(identifier: identifier)
-      #   ruby_params["user_id"] = TrafficSpy::User.find_by(identifier: identifier).id
-      #   determine_user_payload_status(ruby_params)
-      # else
-      #   self.status = 403
-      #   self.body = "Application Not Registered - 403 Forbidden"
-      # end
-    end
+    # def validate(ruby_params, identifier)
+    #   insert_or_error_status(ruby_params,identifier)
+    # end
 
     def determine_user_payload_status(ruby_params)
       payload = TrafficSpy::Payload.new(ruby_params)
@@ -45,7 +38,7 @@ module TrafficSpy
       ruby_params.merge({"payload_sha" => sha})
     end
 
-    def validate_or_insert(ruby_params, identifier)
+    def insert_or_error_status(ruby_params, identifier)
       ruby_params = prep_sha(ruby_params)
       if no_user?(ruby_params,identifier)
         self.status = 403
@@ -78,7 +71,6 @@ module TrafficSpy
       keys.delete("user_id")
       !(keys.sort == columns.sort)
     end
-
 
   end
 end

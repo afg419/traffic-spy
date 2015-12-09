@@ -13,8 +13,7 @@ class PayloadValidatorTest < ModelTest
      "resolution_height"=>"1280",
      "ip"=>"63.29.38.211",
      "browser"=>"Chrome",
-     "platform"=>"Macintosh",
-     "user_id"=>"1"}
+     "platform"=>"Macintosh"}
   end
 
   def load_user_info
@@ -29,7 +28,7 @@ class PayloadValidatorTest < ModelTest
     load_user_info
     identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
-    validator.validate(ruby_params, identifier)
+    validator.insert_or_error_status(ruby_params, identifier)
 
 
     assert_equal 200, validator.status
@@ -45,7 +44,8 @@ class PayloadValidatorTest < ModelTest
     incomplete_params.delete(key_to_delete)
     validator = TrafficSpy::PayloadValidator.new
 
-    validator.validate(incomplete_params, identifier)
+
+    validator.insert_or_error_status(incomplete_params, identifier)
 
     assert_equal 400, validator.status
     assert_equal "Missing Payload - 400 Bad Request", validator.body
@@ -53,11 +53,11 @@ class PayloadValidatorTest < ModelTest
 
   def test_validate_method_returns_proper_messages_for_duplicate_payload
     load_user_info
-    identifier = "jumpstartlab"    
+    identifier = "jumpstartlab"
 
     validator = TrafficSpy::PayloadValidator.new
-    validator.validate(ruby_params,identifier)
-    validator.validate(ruby_params, identifier)
+    TrafficSpy::Payload.create(validator.prep_sha(ruby_params))
+    validator.insert_or_error_status(ruby_params, identifier)
 
     assert_equal 403, validator.status
     assert_equal "Already Received Request - 403 Forbidden", validator.body
@@ -68,7 +68,7 @@ class PayloadValidatorTest < ModelTest
     identifier = "gobbiltygook"
 
     validator = TrafficSpy::PayloadValidator.new
-    validator.validate(ruby_params, identifier)
+    validator.insert_or_error_status(ruby_params, identifier)
 
     assert_equal 403, validator.status
     assert_equal "Application Not Registered - 403 Forbidden", validator.body
