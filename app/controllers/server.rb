@@ -41,18 +41,34 @@ module TrafficSpy
     get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
       @user = identifier
       user_row = TrafficSpy::User.find_by(identifier: identifier)
-      @local_url = relative_path
       if user_row.nil?
         @error = "Sorry! #{@user.capitalize} has not been registered!"
         erb :application_details_error
-      elsif user_row.payloads.find_by(url:@local_url).nil?
-        @error = "Sorry! #{@local_url} has not been requested!"
+      elsif user_row.payloads.find_by(url:relative_path).nil?
+        @error = "Sorry! #{relative_path} has not been requested!"
         erb :application_details_error
       else
+        @local_url = relative_path
         @data = 0
         erb :url_details
       end
+    end
 
+
+    get '/sources/:identifier/events/:event_name' do |identifier, event_name|
+      @user = identifier
+      user_row = TrafficSpy::User.find_by(identifier: identifier)
+      if user_row.nil?
+        @error = "Sorry! #{@user.capitalize} has not been registered!"
+        erb :application_details_error
+      elsif user_row.payloads.find_by(event_name:event_name).nil?
+        @error = "Sorry! #{event_name} has not been defined!"
+        erb :application_details_error
+      else
+        @event = event_name
+        @data = 0
+        erb :event_details
+      end
     end
 
   end
