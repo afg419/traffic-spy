@@ -2,10 +2,14 @@ module TrafficSpy
   class PayloadValidator
 
     attr_accessor :status, :body
+    
+    include TrafficSpy::JSONRubyTranslator
 
-    def validate(params)
-      user = TrafficSpy::Payload.new(params)
-      if user.save
+    def validate(parsed)
+      prep_for_table_column_names(parsed)
+
+      payload = TrafficSpy::Payload.new(parsed)
+      if payload.save
         self.status = 200
         self.body = "Success - 200 OK: User registered! {'identifier':'#{params[:identifier]}'}"
       elsif

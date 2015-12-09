@@ -10,9 +10,9 @@ module TrafficSpy
       user = TrafficSpy::User.new(ruby_params)
       if user.save
         self.status = 200
-        self.body = "Success - 200 OK: User registered! {'identifier':'#{params[:identifier]}'}"
+        self.body = "Success - 200 OK: User registered! {'identifier':'#{ruby_params["identifier"]}'}"
       elsif
-        params[:identifier].nil? || params[:rootUrl].nil?
+        ruby_params['identifier'].nil? || ruby_params['rootUrl'].nil?
         self.status = 400
         self.body = "Missing Parameters - 400 Bad Request"
       else
