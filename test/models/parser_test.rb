@@ -84,7 +84,6 @@ class ParserTest < Minitest::Test
                "responded_in"=>37,
                "referred_by"=>"http://jumpstartlab.com",
                "request_type"=>"GET",
-              #  "parameters"=>[],
                "event_name"=>"socialLogin",
                "resolution_width"=>"1920",
                "resolution_height"=>"1280",
