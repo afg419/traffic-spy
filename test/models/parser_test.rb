@@ -60,7 +60,7 @@ class ParserTest < Minitest::Test
   end
 
   def test_it_parses_params
-    expected = {"url"=>"http://jumpstartlab.com/blog",
+    expected = {"url"=>"blog",
                "requested_at"=>"2013-02-16 21:38:28 -0700",
                "responded_in"=>37,
                "referred_by"=>"http://jumpstartlab.com",
@@ -79,7 +79,7 @@ class ParserTest < Minitest::Test
   end
 
   def test_it_parses_without_userAgent_data
-    expected = {"url"=>"http://jumpstartlab.com/blog",
+    expected = {"url"=>"blog",
                "requested_at"=>"2013-02-16 21:38:28 -0700",
                "responded_in"=>37,
                "referred_by"=>"http://jumpstartlab.com",

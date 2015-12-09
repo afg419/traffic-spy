@@ -8,6 +8,7 @@ module TrafficSpy
       raw_data = JSON.parse(params["payload"])
       raw_data = user_agent_parsing(raw_data) if raw_data["userAgent"]
       raw_data.delete("parameters")
+      raw_data["url"] = raw_data["url"].split('/').last
       prep_for_table_column_names(raw_data)
     end
 
