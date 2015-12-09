@@ -2,8 +2,8 @@ require_relative '../test_helper'
 
 class PayloadValidatorTest < ModelTest
 
-  def ruby_params
-    {"url"=>"blog",
+  def ruby_params(i = nil)
+    {"url"=>"blog#{i}",
      "requested_at"=>"2013-02-16 21:38:28 -0700",
      "responded_in"=>37,
      "referred_by"=>"http://jumpstartlab.com",
@@ -16,8 +16,8 @@ class PayloadValidatorTest < ModelTest
      "platform"=>"Macintosh"}
   end
 
-  def load_user_info
-    TrafficSpy::User.create("identifier"=>"jumpstartlab", "root_url"=>"http://jumpstartlab.com")
+  def load_user_info(j = nil)
+    TrafficSpy::User.create("identifier"=>"jumpstartlab#{j}", "root_url"=>"http://jumpstartlab.com")
   end
 
   def test_class_exists
@@ -30,10 +30,44 @@ class PayloadValidatorTest < ModelTest
     validator = TrafficSpy::PayloadValidator.new
     validator.insert_or_error_status(ruby_params, identifier)
 
-
     assert_equal 200, validator.status
     assert_equal "Success - 200 OK", validator.body
   end
+
+  def test_validate_method_assigns_object_to_correct_user
+    load_user_info
+    identifier = "jumpstartlab"
+    validator = TrafficSpy::PayloadValidator.new
+    validator.insert_or_error_status(ruby_params, identifier)
+
+    assert_equal 200, validator.status
+    assert_equal 1, TrafficSpy::Payload.all.first.user_id
+  end
+
+  def test_validate_method_assigns_object_to_correct_user_multiple_users
+    load_user_info
+    load_user_info(1)
+
+    identifier = "jumpstartlab"
+    validator = TrafficSpy::PayloadValidator.new
+    validator.insert_or_error_status(ruby_params, identifier)
+
+    identifier = "jumpstartlab1"
+    validator.insert_or_error_status(ruby_params(1), identifier)
+
+    identifier = "jumpstartlab1"
+    validator.insert_or_error_status(ruby_params(2), identifier)
+
+    identifier = "jumpstartlab"
+    validator.insert_or_error_status(ruby_params(3), identifier)
+
+    first_urls = TrafficSpy::User.find_by(identifier:"jumpstartlab").payloads.map{|x| x.url}
+    second_urls = TrafficSpy::User.find_by(identifier:"jumpstartlab1").payloads.map{|x| x.url}
+
+    assert_equal ["blog","blog3"], first_urls
+    assert_equal ["blog1", "blog2"], second_urls
+  end
+
 
   def test_validate_method_returns_proper_messages_for_missing_params
     load_user_info
@@ -43,7 +77,6 @@ class PayloadValidatorTest < ModelTest
     incomplete_params = ruby_params
     incomplete_params.delete(key_to_delete)
     validator = TrafficSpy::PayloadValidator.new
-
 
     validator.insert_or_error_status(incomplete_params, identifier)
 

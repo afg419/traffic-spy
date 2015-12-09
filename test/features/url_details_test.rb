@@ -51,8 +51,7 @@ class UrlDetailsTest < FeatureTest
     end
   end
 
-  def test_goes_to_app_details_page
-    skip
+  def test_goes_to_app_error_page_if_url_does_not_exist
     TrafficSpy::User.create("identifier":"jumpstartlab", "root_url":"/jumpstartlab")
 
     visit('/sources/jumpstartlab/urls/dog')
@@ -63,7 +62,7 @@ class UrlDetailsTest < FeatureTest
     end
 
     within('#app_details_error') do
-      assert page.has_content?("No payload data has been registered")
+      assert page.has_content?("has not been requested")
     end
   end
 end

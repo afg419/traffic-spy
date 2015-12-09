@@ -17,7 +17,7 @@ module TrafficSpy
         self.status = 403
         self.body = "Already Received Request - 403 Forbidden"
       else
-        TrafficSpy::Payload.create(ruby_params)
+        TrafficSpy::User.find_by(identifier: identifier).payloads.create(ruby_params)
         self.status = 200
         self.body = "Success - 200 OK"
       end
