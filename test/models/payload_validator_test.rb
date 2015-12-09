@@ -13,7 +13,8 @@ class PayloadValidatorTest < ModelTest
      "resolution_height"=>"1280",
      "ip"=>"63.29.38.211",
      "browser"=>"Chrome",
-     "platform"=>"Macintosh"}
+     "platform"=>"Macintosh",
+     "user_id"=>"1"}
   end
 
   def load_user_info
@@ -30,6 +31,7 @@ class PayloadValidatorTest < ModelTest
     validator = TrafficSpy::PayloadValidator.new
     validator.validate(ruby_params, identifier)
 
+
     assert_equal 200, validator.status
     assert_equal "Success - 200 OK", validator.body
   end
@@ -42,6 +44,7 @@ class PayloadValidatorTest < ModelTest
     incomplete_params = ruby_params
     incomplete_params.delete(key_to_delete)
     validator = TrafficSpy::PayloadValidator.new
+
     validator.validate(incomplete_params, identifier)
 
     assert_equal 400, validator.status
@@ -50,11 +53,10 @@ class PayloadValidatorTest < ModelTest
 
   def test_validate_method_returns_proper_messages_for_duplicate_payload
     load_user_info
-    identifier = "jumpstartlab"
-
-    TrafficSpy::Payload.create(ruby_params)
+    identifier = "jumpstartlab"    
 
     validator = TrafficSpy::PayloadValidator.new
+    validator.validate(ruby_params,identifier)
     validator.validate(ruby_params, identifier)
 
     assert_equal 403, validator.status
