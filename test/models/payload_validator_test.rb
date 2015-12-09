@@ -16,36 +16,63 @@ class PayloadValidatorTest < ModelTest
      "platform"=>"Macintosh"}
   end
 
+  def user_info
+    params = {"identifier"=>"jumpstartlab", "rootUrl"=>"http://jumpstartlab.com"}
+    validator = TrafficSpy::UserValidator.new
+    validator.validate(params)
+  end
+
   def test_class_exists
     assert TrafficSpy::PayloadValidator
   end
 
   def test_validate_method_returns_proper_messages_for_good_params
+    user_info
+    identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
-    validator.validate(ruby_params)
+    validator.validate(ruby_params, identifier)
 
     assert_equal 200, validator.status
     assert_equal "Success - 200 OK", validator.body
   end
 
   def test_validate_method_returns_proper_messages_for_missing_params
+    user_info
+    identifier = "jumpstartlab"
+
     key_to_delete = ruby_params.keys.sample
     incomplete_params = ruby_params
     incomplete_params.delete(key_to_delete)
     validator = TrafficSpy::PayloadValidator.new
-    validator.validate(incomplete_params)
+    validator.validate(incomplete_params, identifier)
 
     assert_equal 400, validator.status
     assert_equal "Missing Payload - 400 Bad Request", validator.body
   end
 
   def test_validate_method_returns_proper_messages_for_duplicate_payload
+    user_info
+    identifier = "jumpstartlab"
+
     TrafficSpy::Payload.create(ruby_params)
 
     validator = TrafficSpy::PayloadValidator.new
-    validator.validate(ruby_params)
+    validator.validate(ruby_params, identifier)
 
     assert_equal 403, validator.status
     assert_equal "Already Received Request - 403 Forbidden", validator.body
+  end
+
+  def test_validate_method_returns_proper_messages_if_data_is_submitted_to_an_application_url_that_does_not_exist
+    user_info
+    identifier = "gobbiltygook"
+
+    TrafficSpy::Payload.create(ruby_params)
+
+    validator = TrafficSpy::PayloadValidator.new
+    validator.validate(ruby_params, identifier)
+
+    assert_equal 403, validator.status
+    assert_equal "Application Not Registered - 403 Forbidden", validator.body
   end
 end

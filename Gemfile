@@ -5,6 +5,7 @@ gem 'pg'
 gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'pry'
+gem 'pry-rescue'
 gem 'useragent'
 
 group :development, :test do

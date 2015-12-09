@@ -13,7 +13,7 @@ module TrafficSpy
                           :browser,
                           :platform
 
-    validates_uniqueness_of :url, scope:[:url,
+    validates_uniqueness_of :url, scope:[
                           :requested_at,
                           :responded_in,
                           :referred_by,

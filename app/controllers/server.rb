@@ -16,16 +16,16 @@ module TrafficSpy
     end
 
     post '/sources/:identifier/data' do |identifier|
-      parsed = TrafficSpy::Parser.new.parse(params)
-      parsed[:user_id] = TrafficSpy::User.find_by(identifier: identifier).id
+      ruby_params = TrafficSpy::Parser.new.parse(params)
+      # parsed[:user_id] = TrafficSpy::User.find_by(identifier: identifier).id
       payload = TrafficSpy::PayloadValidator.new
-      payload.validate(parsed)
-      status(user.status)
-      body(user.body)
+      payload.validate(ruby_params, identifier)
+      status(payload.status)
+      body(payload.body)
 
 
-      parsed = TrafficSpy::Parser.new.parse(params)
-      TrafficSpy::Payload.create(parsed)
+      # parsed = TrafficSpy::Parser.new.parse(params)
+      # TrafficSpy::Payload.create(parsed)
     end
   end
 end
