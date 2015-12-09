@@ -7,7 +7,6 @@ module TrafficSpy
       end.to_h
     end
 
-
     def json_ruby_translator
       ["url",
       "requestedAt",

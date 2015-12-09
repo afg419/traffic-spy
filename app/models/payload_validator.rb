@@ -2,23 +2,31 @@ module TrafficSpy
   class PayloadValidator
 
     attr_accessor :status, :body
-    
+
     include TrafficSpy::JSONRubyTranslator
 
-    def validate(parsed)
-      prep_for_table_column_names(parsed)
+    def column_names
+      names = TrafficSpy::Payload.columns.map { |x| x.name }
+      names.delete("id")
+      names
+    end
 
-      payload = TrafficSpy::Payload.new(parsed)
+    def missing_attribute?(ruby_params) #or extra attribute
+      # column_names.any?{ |name| !ruby_params.keys.include?(name)}
+      !(ruby_params.keys.sort == column_names.sort)
+    end
+
+    def validate(ruby_params)
+      payload = TrafficSpy::Payload.new(ruby_params)
       if payload.save
         self.status = 200
-        self.body = "Success - 200 OK: User registered! {'identifier':'#{params[:identifier]}'}"
-      elsif
-        params[:identifier].nil? || params[:rootUrl].nil?
+        self.body = "Success - 200 OK"
+      elsif missing_attribute?(ruby_params)
         self.status = 400
-        self.body = "Missing Parameters - 400 Bad Request"
+        self.body = "Missing Payload - 400 Bad Request"
       else
         self.status = 403
-        self.body = "Identifier Already Exists - 403 Forbidden"
+        self.body = "Already Received Request - 403 Forbidden"
       end
     end
   end
