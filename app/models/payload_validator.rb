@@ -16,17 +16,24 @@ module TrafficSpy
       !(ruby_params.keys.sort == column_names.sort)
     end
 
-    def validate(ruby_params)
-      payload = TrafficSpy::Payload.new(ruby_params)
-      if payload.save
-        self.status = 200
-        self.body = "Success - 200 OK"
-      elsif missing_attribute?(ruby_params)
-        self.status = 400
-        self.body = "Missing Payload - 400 Bad Request"
+    def validate(ruby_params, identifier)
+      if TrafficSpy::User.find_by(identifier: identifier)
+        ruby_params["user_id"] = TrafficSpy::User.find_by(identifier: identifier).id
+
+        payload = TrafficSpy::Payload.new(ruby_params)
+        if payload.save
+          self.status = 200
+          self.body = "Success - 200 OK"
+        elsif missing_attribute?(ruby_params)
+          self.status = 400
+          self.body = "Missing Payload - 400 Bad Request"
+        else
+          self.status = 403
+          self.body = "Already Received Request - 403 Forbidden"
+        end
       else
         self.status = 403
-        self.body = "Already Received Request - 403 Forbidden"
+        self.body = "Application Not Registered - 403 Forbidden"
       end
     end
   end
