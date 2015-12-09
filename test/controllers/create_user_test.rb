@@ -34,9 +34,6 @@ class CreateUserTest < ControllerTest
 
   def test_403_is_returned_if_user_already_exists
     initial_count = TrafficSpy::User.count
-    # post '/sources', {"identifier"=>"jumpstartlab", "rootUrl"=>"http://jumpstartlab.com"}
-    # final_count = TrafficSpy::User.count
-    # assert_equal 1, (final_count - initial_count)
 
     TrafficSpy::User.create({:identifier=>"jumpstartlab", :root_url=>"http://jumpstartlab.com"})
 
