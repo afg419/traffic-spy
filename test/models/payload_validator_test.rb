@@ -3,7 +3,7 @@ require_relative '../test_helper'
 class PayloadValidatorTest < ModelTest
 
   def ruby_params
-    {"url"=>"http://jumpstartlab.com/blog",
+    {"url"=>"blog",
      "requested_at"=>"2013-02-16 21:38:28 -0700",
      "responded_in"=>37,
      "referred_by"=>"http://jumpstartlab.com",
@@ -16,10 +16,8 @@ class PayloadValidatorTest < ModelTest
      "platform"=>"Macintosh"}
   end
 
-  def user_info
-    params = {"identifier"=>"jumpstartlab", "rootUrl"=>"http://jumpstartlab.com"}
-    validator = TrafficSpy::UserValidator.new
-    validator.validate(params)
+  def load_user_info
+    TrafficSpy::User.create("identifier"=>"jumpstartlab", "root_url"=>"http://jumpstartlab.com")
   end
 
   def test_class_exists
@@ -27,7 +25,7 @@ class PayloadValidatorTest < ModelTest
   end
 
   def test_validate_method_returns_proper_messages_for_good_params
-    user_info
+    load_user_info
     identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
     validator.validate(ruby_params, identifier)
@@ -37,7 +35,7 @@ class PayloadValidatorTest < ModelTest
   end
 
   def test_validate_method_returns_proper_messages_for_missing_params
-    user_info
+    load_user_info
     identifier = "jumpstartlab"
 
     key_to_delete = ruby_params.keys.sample
@@ -51,7 +49,7 @@ class PayloadValidatorTest < ModelTest
   end
 
   def test_validate_method_returns_proper_messages_for_duplicate_payload
-    user_info
+    load_user_info
     identifier = "jumpstartlab"
 
     TrafficSpy::Payload.create(ruby_params)
@@ -64,10 +62,8 @@ class PayloadValidatorTest < ModelTest
   end
 
   def test_validate_method_returns_proper_messages_if_data_is_submitted_to_an_application_url_that_does_not_exist
-    user_info
+    load_user_info
     identifier = "gobbiltygook"
-
-    TrafficSpy::Payload.create(ruby_params)
 
     validator = TrafficSpy::PayloadValidator.new
     validator.validate(ruby_params, identifier)

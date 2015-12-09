@@ -20,7 +20,7 @@ class LoadPayloadTest < ControllerTest
      "identifier"=>"jumpstartlab"}
   end
 
-  def bad_params
+  def missing_params
     {"payload"=>
       "{\"url\":\"http://jumpstartlab.com/blog\",
           \"requestedAt\":\"2013-02-16 21:38:28 -0700\",
@@ -36,14 +36,12 @@ class LoadPayloadTest < ControllerTest
      "identifier"=>"jumpstartlab"}
   end
 
-  def user_info
-    registration = {"identifier"=>"jumpstartlab", "rootUrl"=>"http://jumpstartlab.com"}
-    validator = TrafficSpy::UserValidator.new
-    validator.validate(registration)
+  def load_user_info
+    TrafficSpy::User.create("identifier"=>"jumpstartlab", "root_url"=>"http://jumpstartlab.com")
   end
 
   def test_loads_valid_payload_data_and_returns_correct_responses
-    user_info
+    load_user_info
 
     initial_count = TrafficSpy::Payload.count
     post '/sources/jumpstartlab/data', params
@@ -55,10 +53,10 @@ class LoadPayloadTest < ControllerTest
   end
 
   def test_server_returns_correct_messages_for_missing_payload
-    user_info
+    load_user_info
 
     initial_count = TrafficSpy::Payload.count
-    post '/sources/jumpstartlab/data', bad_params
+    post '/sources/jumpstartlab/data', missing_params
     final_count = TrafficSpy::Payload.count
 
     assert_equal 0, (final_count - initial_count)
@@ -67,7 +65,7 @@ class LoadPayloadTest < ControllerTest
   end
 
   def test_server_returns_correct_messages_if_request_payload_has_already_been_received
-    user_info
+    load_user_info
 
     initial_count = TrafficSpy::Payload.count
     post '/sources/jumpstartlab/data', params
@@ -80,7 +78,7 @@ class LoadPayloadTest < ControllerTest
   end
 
   def test_server_returns_correct_messages_if_data_is_submitted_to_an_application_url_that_does_not_exist
-    user_info
+    load_user_info
 
     initial_count = TrafficSpy::Payload.count
     post '/sources/blabblabity/data', params

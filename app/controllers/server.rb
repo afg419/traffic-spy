@@ -17,15 +17,11 @@ module TrafficSpy
 
     post '/sources/:identifier/data' do |identifier|
       ruby_params = TrafficSpy::Parser.new.parse(params)
-      # parsed[:user_id] = TrafficSpy::User.find_by(identifier: identifier).id
       payload = TrafficSpy::PayloadValidator.new
       payload.validate(ruby_params, identifier)
+
       status(payload.status)
       body(payload.body)
-
-
-      # parsed = TrafficSpy::Parser.new.parse(params)
-      # TrafficSpy::Payload.create(parsed)
     end
 
     get '/sources/:identifier' do |identifier|
@@ -51,7 +47,7 @@ module TrafficSpy
         erb :application_details_error
       elsif user_row.payloads.find_by(url:@local_url).nil?
         @error = "Sorry! #{@local_url} has not been requested!"
-        erb :application_details_error  
+        erb :application_details_error
       else
         @data = 0
         erb :url_details
