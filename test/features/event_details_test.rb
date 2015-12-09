@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 
-class UrlDetailsTest < FeatureTest
+class EventDetailsTest < FeatureTest
 
   def payload
     {          "url"=>"blog",
@@ -21,26 +21,24 @@ class UrlDetailsTest < FeatureTest
     assert_equal 1+1, 2
   end
 
-  def test_goes_to_url_details_page
+  def test_goes_to_event_details_page
     TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "http://jumpstartlab.com")
     TrafficSpy::Payload.create(payload)
 
-    visit('/sources/jumpstartlab/urls/blog')
-    assert_equal '/sources/jumpstartlab/urls/blog', current_path
+    visit('/sources/jumpstartlab/events/socialLogin')
 
-    within('#url_details_header') do
+    within('#event_details_header') do
       assert page.has_content?("jumpstartlab")
-      assert page.has_content?("blog")
+      assert page.has_content?("socialLogin")
     end
 
     refute page.has_css?("app_details_error")
   end
 
   def test_goes_to_app_error_page_if_user_not_registered
-    visit('/sources/jumpstartlab/urls/blog')
-    assert_equal '/sources/jumpstartlab/urls/blog', current_path
+    visit('/sources/jumpstartlab/events/socialLogin')
 
-    refute page.has_css?("#url_details_header")
+    refute page.has_css?("#event_details_header")
 
     within('#app_details_header') do
       assert page.has_content?("jumpstartlab's")
@@ -55,15 +53,14 @@ class UrlDetailsTest < FeatureTest
   def test_goes_to_app_error_page_if_url_does_not_exist
     TrafficSpy::User.create("identifier":"jumpstartlab", "root_url":"/jumpstartlab")
 
-    visit('/sources/jumpstartlab/urls/dog')
-    assert_equal '/sources/jumpstartlab/urls/dog', current_path
+    visit('/sources/jumpstartlab/events/socialBLOGIN')
 
     within('#app_details_header') do
       assert page.has_content?("jumpstartlab")
     end
 
     within('#app_details_error') do
-      assert page.has_content?("has not been requested")
+      assert page.has_content?("has not been defined")
     end
   end
 end
