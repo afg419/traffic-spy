@@ -5,39 +5,6 @@ module TrafficSpy
 
     include TrafficSpy::JSONRubyTranslator
 
-    def column_names
-      names = TrafficSpy::Payload.columns.map { |x| x.name }
-      names.delete("id")
-      names
-    end
-
-    def missing_attribute?(ruby_params) #or extra attribute
-      !(ruby_params.keys.sort == column_names.sort)
-    end
-
-    # def validate(ruby_params, identifier)
-    #   insert_or_error_status(ruby_params,identifier)
-    # end
-
-    def determine_user_payload_status(ruby_params)
-      payload = TrafficSpy::Payload.new(ruby_params)
-      if payload.save
-        self.status = 200
-        self.body = "Success - 200 OK"
-      elsif missing_attribute?(ruby_params)
-        self.status = 400
-        self.body = "Missing Payload - 400 Bad Request"
-      else
-        self.status = 403
-        self.body = "Already Received Request - 403 Forbidden"
-      end
-    end
-
-    def prep_sha(ruby_params)
-      sha = Digest::SHA1.hexdigest(ruby_params.values.join)
-      ruby_params.merge({"payload_sha" => sha})
-    end
-
     def insert_or_error_status(ruby_params, identifier)
       ruby_params = prep_sha(ruby_params)
       if no_user?(ruby_params,identifier)
@@ -70,6 +37,17 @@ module TrafficSpy
       keys = ruby_params.keys
       keys.delete("user_id")
       !(keys.sort == columns.sort)
+    end
+
+    def column_names
+      names = TrafficSpy::Payload.columns.map { |x| x.name }
+      names.delete("id")
+      names
+    end
+
+    def prep_sha(ruby_params)
+      sha = Digest::SHA1.hexdigest(ruby_params.values.join)
+      ruby_params.merge({"payload_sha" => sha})
     end
 
   end
