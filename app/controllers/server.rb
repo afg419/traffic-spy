@@ -66,7 +66,7 @@ module TrafficSpy
         erb :application_details_error
       else
         @event = event_name
-        @data = 0
+        @analyst = EventAnalytics.new(identifier,event_name)
         erb :event_details
       end
     end

@@ -7,7 +7,7 @@ class EventIndexAnalyticsTest < ModelTest
   end
 
   def load_user_payload(n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com", browser="Chrome")
-    TrafficSpy::Payload.find_or_create_by({"url"=>"url#{n}",
+    TrafficSpy::Payload.create({"url"=>"url#{n}",
                                 "requested_at"=>"2013-02-16 21:38:28 -0700",
                                 "responded_in"=>response_time,
                                 "referred_by"=>referred_by,
@@ -17,7 +17,8 @@ class EventIndexAnalyticsTest < ModelTest
                                 "resolution_height"=>"1280",
                                 "ip"=>"63.29.38.211",
                                 "browser"=>browser,
-                                "platform"=>"platform#{n}"})
+                                "platform"=>"platform#{n}",
+                                "payload_sha"=>"#{rand(0..1000)}"})
   end
 
   def associate_user_payload(m, n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com", browser="Chrome")
