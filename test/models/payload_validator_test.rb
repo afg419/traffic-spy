@@ -61,8 +61,8 @@ class PayloadValidatorTest < ModelTest
     identifier = "jumpstartlab"
     validator.insert_or_error_status(ruby_params(3), identifier)
 
-    first_urls = TrafficSpy::User.find_by(identifier:"jumpstartlab").payloads.map{|x| x.url}
-    second_urls = TrafficSpy::User.find_by(identifier:"jumpstartlab1").payloads.map{|x| x.url}
+    first_urls = TrafficSpy::User.find_by(identifier:"jumpstartlab").payloads.map{|x| x.url.url}
+    second_urls = TrafficSpy::User.find_by(identifier:"jumpstartlab1").payloads.map{|x| x.url.url}
 
     assert_equal ["blog","blog3"], first_urls
     assert_equal ["blog1", "blog2"], second_urls

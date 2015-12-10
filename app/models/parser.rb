@@ -27,6 +27,9 @@ module TrafficSpy
       end.to_h
     end
 
+    def generate_data_for_payload()
+      
+    end
 
     def json_ruby_translator
       ["url",

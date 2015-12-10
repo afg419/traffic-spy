@@ -17,12 +17,19 @@ module TrafficSpy
         self.status = 403
         self.body = "Already Received Request - 403 Forbidden"
       else
-        TrafficSpy::User.find_by(identifier: identifier).payloads.create(ruby_params)
+        DbLoader.new(ruby_params,identifier).load_databases
+
+        # payload_params = ruby_params.select{|k,v| payload_columns.include?(k)}
+        # url_params = ruby_params.select{|k,v| url_columns.include?(k)}
+        # ruby_params_loadable = payload_params.merge({"url" => Url.find_or_create_by(url_params)})
+        # user = User.find_by(identifier: identifier)
+        # user.payloads.create(ruby_params_loadable)
+
         self.status = 200
         self.body = "Success - 200 OK"
       end
     end
-
+    #
     # def ruby_params
     #   { event: Event.find_or_create_by(),
     #   { url: Url.find_or_create_by(),
@@ -43,8 +50,16 @@ module TrafficSpy
       !(keys.sort == column_names.sort)
     end
 
+    def payload_columns
+      TrafficSpy::Payload.columns.map { |x| x.name }
+    end
+
+    def url_columns
+      TrafficSpy::Url.columns.map {|x| x.name}
+    end
+
     def column_names
-      names = TrafficSpy::Payload.columns.map { |x| x.name } + TrafficSpy::Url.columns.map {|x| x.name}
+      names = payload_columns + url_columns
       names.reject{|x| x == "id" || x == "url_id" || x == "user_id"}
     end
 
