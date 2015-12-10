@@ -26,7 +26,6 @@ class EventIndexAnalyticsTest < ModelTest
     associate_user_payload(0,1)
     associate_user_payload(0,2)
     associate_user_payload(0,2)
-
     returned = TrafficSpy::EventIndexAnalytics.new.events_by_popularity("identifier0")
 
     assert_equal ["event_name#{0}","event_name#{2}","event_name#{1}"], returned
