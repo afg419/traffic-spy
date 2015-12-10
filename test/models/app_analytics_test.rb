@@ -25,7 +25,6 @@ class AppAnalyticsTest < ModelTest
   end
 
   def test_we_can_return_average_response_times_per_url_in_descending_order
-    skip
     associate_user_payload(1, 37, "blog")
     associate_user_payload(1, 38, "blog")
     associate_user_payload(1, 23, "about")
@@ -36,9 +35,7 @@ class AppAnalyticsTest < ModelTest
 
     client = TrafficSpy::AppAnalytics.new
 
-    assert_equal "blog: 28.667 ms", client.url_response_times("identifier1", "blog")
-    assert_equal "about: 30.0 ms", client.url_response_times("identifier1", "about")
-    assert_equal "article/1: 57.5 ms", client.url_response_times("identifier1", "article/1")
+    assert_equal ["article/1: 57.5 ms", "about: 30.0 ms", "blog: 28.667 ms"], client.url_response_times("identifier1")
   end
 
   def test_we_can_return_all_the_requested_urls_in_the_correct_order

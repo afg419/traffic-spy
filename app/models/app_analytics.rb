@@ -5,10 +5,15 @@ module TrafficSpy
       TrafficSpy::User.find_by(identifier: identifier)
     end
 
-    def url_response_times(identifier, url)
+    def url_response_times(identifier)
       client = find_client(identifier)
-      average = client.payloads.select(:responded_in).where(url: url).average("responded_in").to_f.round(3)
-      "#{url}: #{average} ms"
+      pairs = client.payloads.pluck(:url, :responded_in)
+      grouped = pairs.group_by(&:first).map { |url, rt| [url, rt.map(&:last)]}
+      urls = grouped.map { |g| g[0] }
+      averages = grouped.map { |g| g[1].reduce(:+)/g[1].length.to_f }
+      stats = urls.zip(averages)
+      stats.sort_by { |g| g[1] }.reverse
+      stats.map { |s| "#{s[0]}: #{s[1].round(3)} ms" }.reverse
     end
 
     def requested_urls(identifier)
