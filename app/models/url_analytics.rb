@@ -28,7 +28,13 @@ module TrafficSpy
     def most_popular_referrers(identifier)
       client = find_client(identifier)
       referrers = client.payloads.group(:referred_by).count
-      referrers.sort.last[0]
+      referrers.keys[0..2]
+    end
+
+    def most_popular_user_agents(identifier) #browser
+      client = find_client(identifier)
+      browsers = client.payloads.group(:browser).count
+      browsers.keys[0..2]
     end
 
   end
