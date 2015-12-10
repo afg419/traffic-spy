@@ -18,10 +18,6 @@ class UrlDetailsTest < FeatureTest
                "payload_sha" => "12489809850939491939823"}
   end
 
-  def test_the_truth
-    assert_equal 1+1, 2
-  end
-
   def test_goes_to_url_details_page
     TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "http://jumpstartlab.com")
     TrafficSpy::DbLoader.new(payload,"jumpstartlab").load_databases

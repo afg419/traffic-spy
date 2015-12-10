@@ -2,7 +2,7 @@ require_relative '../test_helper'
 
 class EventDetailsTest < FeatureTest
 
-  def ruby_params
+  def payload
     {          "url"=>"blog",
                "requested_at"=>"2013-02-16 21:38:28 -0700",
                "responded_in"=>37,
@@ -14,7 +14,8 @@ class EventDetailsTest < FeatureTest
                "ip"=>"63.29.38.211",
                "user_id"=>1,
                "browser"=>"Mozilla",
-               "platform"=>"Mac"}
+               "platform"=>"Mac",
+               "payload_sha" => "12489809850939491939823"}
   end
 
   def test_the_truth
@@ -23,7 +24,7 @@ class EventDetailsTest < FeatureTest
 
   def test_goes_to_event_details_page
     TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "http://jumpstartlab.com")
-    TrafficSpy::Payload.create(ruby_params)
+    TrafficSpy::DbLoader.new(payload,"jumpstartlab").load_databases
 
     visit('/sources/jumpstartlab/events/socialLogin')
 
