@@ -38,18 +38,14 @@ module TrafficSpy
     end
 
     def missing_or_extra_attribute?(ruby_params)
-      # look at this method and column names method
-      columns = column_names
-      columns.delete("user_id")
       keys = ruby_params.keys
       keys.delete("user_id")
-      !(keys.sort == columns.sort)
+      !(keys.sort == column_names.sort)
     end
 
     def column_names
-      names = TrafficSpy::Payload.columns.map { |x| x.name }
-      names.delete("id")
-      names
+      names = TrafficSpy::Payload.columns.map { |x| x.name } + TrafficSpy::Url.columns.map {|x| x.name}
+      names.reject{|x| x == "id" || x == "url_id" || x == "user_id"}
     end
 
     def prep_sha(ruby_params)

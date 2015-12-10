@@ -126,14 +126,7 @@ class PayloadValidatorTest < ModelTest
     refute validator.duplicate_data?(ruby_params_sha2)
   end
 
-  def test_identifies_no_user
-    validator = TrafficSpy::PayloadValidator.new
 
-    load_user_info
-
-    refute validator.no_user?(ruby_params,"jumpstartlab")
-    assert validator.no_user?(ruby_params,"AHHH")
-  end
 
   def test_identifies_missing_or_extra_attributes
     validator = TrafficSpy::PayloadValidator.new
