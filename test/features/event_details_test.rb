@@ -2,7 +2,7 @@ require_relative '../test_helper'
 
 class EventDetailsTest < FeatureTest
 
-  def payload
+  def ruby_params
     {          "url"=>"blog",
                "requested_at"=>"2013-02-16 21:38:28 -0700",
                "responded_in"=>37,
@@ -23,7 +23,7 @@ class EventDetailsTest < FeatureTest
 
   def test_goes_to_event_details_page
     TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "http://jumpstartlab.com")
-    TrafficSpy::Payload.create(payload)
+    TrafficSpy::Payload.create(ruby_params)
 
     visit('/sources/jumpstartlab/events/socialLogin')
 
