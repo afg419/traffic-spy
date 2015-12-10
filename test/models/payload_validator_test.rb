@@ -89,7 +89,7 @@ class PayloadValidatorTest < ModelTest
     identifier = "jumpstartlab"
 
     validator = TrafficSpy::PayloadValidator.new
-    TrafficSpy::Payload.create(validator.prep_sha(ruby_params))
+    TrafficSpy::DbLoader.new(validator.prep_sha(ruby_params),identifier).load_databases
     validator.insert_or_error_status(ruby_params, identifier)
 
     assert_equal 403, validator.status
@@ -114,10 +114,13 @@ class PayloadValidatorTest < ModelTest
 
   def test_identifies_duplicate_data
     validator = TrafficSpy::PayloadValidator.new
+    load_user_info
+    identifier = "jumpstartlab"
 
     refute validator.duplicate_data?(ruby_params)
+
     ruby_params_sha = validator.prep_sha(ruby_params)
-    TrafficSpy::Payload.create(ruby_params_sha)
+    TrafficSpy::DbLoader.new(ruby_params_sha,identifier).load_databases
 
     assert validator.duplicate_data?(ruby_params_sha)
 
@@ -125,8 +128,6 @@ class PayloadValidatorTest < ModelTest
 
     refute validator.duplicate_data?(ruby_params_sha2)
   end
-
-
 
   def test_identifies_missing_or_extra_attributes
     validator = TrafficSpy::PayloadValidator.new
