@@ -1,18 +1,37 @@
 module TrafficSpy
   class EventAnalytics
-    attr_accessor :identifier, :event
+    attr_reader :identifier, :event_name
 
-    def find_event_times(identifier, event_name)
-      user_id = TrafficSpy::User.find_by(identifier: identifier).id
-      event = TrafficSpy::Payload.find_by(user_id: user_id).event_name
-      if event.include?(event_name)
-        time_array = TrafficSpy::Payload.where(event_name: event).map do |t|
-          t.requested_at.split[1]
-        end.sort
-      else
-        "ERROR"
-      end
+    def initialize(identifier, event_name)
+      @identifier = identifier
+      @event_name = event_name
     end
 
+    def find_event_times
+      time_array = TrafficSpy::Payload.where(event_name: event_name).pluck(:requested_at)
+      time_array.map { |t| t.split[1].split(":").first.to_i }.sort
+    end
+
+    def total_events
+      find_event_times.count
+    end
+
+    def hour_creation
+      hour_count = (1..24).to_a.zip(Array.new(24,0)).to_h
+      find_event_times.each do |num|
+        hour_count[num] += 1
+      end
+      hour_count
+    end
+
+    def hour_edited
+      hour_creation.sort.map do |k, v|
+        if k <= 12
+          [ k.to_s + " am" , v]
+        else
+          [(k - 12).to_s + " pm", v]
+        end
+      end.to_h
+    end
   end
 end

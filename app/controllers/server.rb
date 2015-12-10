@@ -49,7 +49,7 @@ module TrafficSpy
         erb :application_details_error
       else
         @local_url = relative_path
-        @data = 0
+        @analyst = TrafficSpy::UrlAnalytics.new
         erb :url_details
       end
     end
@@ -66,8 +66,24 @@ module TrafficSpy
         erb :application_details_error
       else
         @event = event_name
-        @data = 0
+        @analyst = EventAnalytics.new(identifier,event_name)
         erb :event_details
+      end
+    end
+
+
+    get '/sources/:identifier/events' do |identifier|
+      @user = identifier
+      user_row = TrafficSpy::User.find_by(identifier: identifier)
+      if user_row.nil?
+        @error = "Sorry! #{@user.capitalize} has not been registered!"
+        erb :application_details_error
+      elsif user_row.payloads.length == 0
+        @error = "Sorry! No events have been defined!"
+        erb :application_details_error
+      else
+        @data = 0
+        erb :event_index
       end
     end
 

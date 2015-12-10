@@ -1,8 +1,8 @@
 require_relative '../test_helper'
 
-class EventDetailsTest < FeatureTest
+class EventIndexTest < FeatureTest
 
-  def ruby_params
+  def payload
     {          "url"=>"blog",
                "requested_at"=>"2013-02-16 21:38:28 -0700",
                "responded_in"=>37,
@@ -21,24 +21,23 @@ class EventDetailsTest < FeatureTest
     assert_equal 1+1, 2
   end
 
-  def test_goes_to_event_details_page
+  def test_goes_to_event_index_page
     TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "http://jumpstartlab.com")
-    TrafficSpy::Payload.create(ruby_params)
+    TrafficSpy::Payload.create(payload)
 
-    visit('/sources/jumpstartlab/events/socialLogin')
+    visit('/sources/jumpstartlab/events')
 
-    within('#event_details_header') do
+    within('#event_index_header') do
       assert page.has_content?("jumpstartlab")
-      assert page.has_content?("socialLogin")
     end
 
     refute page.has_css?("app_details_error")
   end
 
   def test_goes_to_app_error_page_if_user_not_registered
-    visit('/sources/jumpstartlab/events/socialLogin')
+    visit('/sources/jumpstartlab/events')
 
-    refute page.has_css?("#event_details_header")
+    refute page.has_css?("#event_index_header")
 
     within('#app_details_header') do
       assert page.has_content?("jumpstartlab's")
@@ -50,17 +49,17 @@ class EventDetailsTest < FeatureTest
     end
   end
 
-  def test_goes_to_app_error_page_if_url_does_not_exist
-    TrafficSpy::User.create("identifier":"jumpstartlab", "root_url":"/jumpstartlab")
+  def test_goes_to_app_error_page_if_no_data_for_user
+    TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "http://jumpstartlab.com")
 
-    visit('/sources/jumpstartlab/events/socialBLOGIN')
+    visit('/sources/jumpstartlab/events')
 
     within('#app_details_header') do
       assert page.has_content?("jumpstartlab")
     end
 
     within('#app_details_error') do
-      assert page.has_content?("has not been defined")
+      assert page.has_content?("Sorry! No events have been defined!")
     end
   end
 end

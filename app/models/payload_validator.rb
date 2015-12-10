@@ -49,6 +49,5 @@ module TrafficSpy
       sha = Digest::SHA1.hexdigest(ruby_params.values.join)
       ruby_params.merge({"payload_sha" => sha})
     end
-
   end
 end
