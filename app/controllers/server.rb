@@ -45,7 +45,7 @@ module TrafficSpy
       if user_row.nil?
         @error = "Sorry! #{@user.capitalize} has not been registered!"
         erb :application_details_error
-      elsif user_row.payloads.find_by(url:relative_path).nil?
+      elsif user_row.urls.find_by(url:relative_path).nil?
         @error = "Sorry! #{relative_path} has not been requested!"
         erb :application_details_error
       else

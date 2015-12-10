@@ -14,7 +14,8 @@ class UrlDetailsTest < FeatureTest
                "ip"=>"63.29.38.211",
                "user_id"=>1,
                "browser"=>"Mozilla",
-               "platform"=>"Mac"}
+               "platform"=>"Mac",
+               "payload_sha" => "12489809850939491939823"}
   end
 
   def test_the_truth
@@ -23,8 +24,7 @@ class UrlDetailsTest < FeatureTest
 
   def test_goes_to_url_details_page
     TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "http://jumpstartlab.com")
-    TrafficSpy::Payload.create(payload)
-
+    TrafficSpy::DbLoader.new(payload,"jumpstartlab").load_databases
     visit('/sources/jumpstartlab/urls/blog')
     assert_equal '/sources/jumpstartlab/urls/blog', current_path
 
