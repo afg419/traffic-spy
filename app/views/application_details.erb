@@ -1,1 +1,13 @@
 <h1 id="app_details_header">Got to <%= @user %>'s page!</h1>
+
+<br>Most to Least Requested URLS: <%= @analyst.requested_urls(@user) %>
+
+<br>Web Browser Breakdown: <%= @analyst.browser_breakdown(@user) %>
+
+<br>OS Breakdown: <%= @analyst.os_breakdown(@user) %>
+
+<br>Screen Resolution: <%= @analyst.resolution(@user) %>
+
+<br>Longest to Shortest Average Response Time per URL: <%= @analyst.url_response_times(@user) %>
+
+<br><br>View Detailed Data for each of <%= @user %>'s URLS:<br>
