@@ -12,17 +12,5 @@ module TrafficSpy
                           :ip,
                           :browser,
                           :platform
-
-    validates_uniqueness_of :url, scope:[
-                          :requested_at,
-                          :responded_in,
-                          :referred_by,
-                          :request_type,
-                          :event_name,
-                          :resolution_width,
-                          :resolution_height,
-                          :ip,
-                          :browser,
-                          :platform]
   end
 end
