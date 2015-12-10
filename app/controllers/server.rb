@@ -25,6 +25,7 @@ module TrafficSpy
     end
 
     get '/sources/:identifier' do |identifier|
+      # @user = User.find_by(identifier: identifer)
       @user = identifier
       if TrafficSpy::User.find_by(identifier: identifier).nil?
         @error = "Sorry! #{@user.capitalize} has not been registered!"
@@ -33,7 +34,7 @@ module TrafficSpy
         @error = "Sorry! No payload data has been registered for #{@user.capitalize}."
         erb :application_details_error
       else
-        @data = 0
+        @analyst = 0
         erb :application_details
       end
     end
@@ -54,7 +55,6 @@ module TrafficSpy
       end
     end
 
-
     get '/sources/:identifier/events/:event_name' do |identifier, event_name|
       @user = identifier
       user_row = TrafficSpy::User.find_by(identifier: identifier)
@@ -66,11 +66,10 @@ module TrafficSpy
         erb :application_details_error
       else
         @event = event_name
-        @analyst = EventAnalytics.new(identifier,event_name)
+        @analyst = TrafficSpy::EventAnalytics.new(identifier,event_name)
         erb :event_details
       end
     end
-
 
     get '/sources/:identifier/events' do |identifier|
       @user = identifier
