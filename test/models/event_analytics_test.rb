@@ -27,20 +27,53 @@ class EventAnalyticsTest < ModelTest
 
   def test_event_returns_one_requested_time
     associate_user_payload(2)
-    identifier = "identifier1"
-    event = "event_name1"
-    var = TrafficSpy::EventAnalytics.new
-    assert_equal ["21:38:28"], var.find_event_times(identifier, event)
+
+    var = TrafficSpy::EventAnalytics.new("identifier1", "event_name1")
+    assert_equal ["21"], var.find_event_times
   end
 
   def test_event_returns_two_requested_time
     associate_user_payload(2)
     associate_user_payload(1, "GET",  "2013-02-16 20:38:28 -0700" )
-    identifier = "identifier0"
-    event = "event_name0"
-    var = TrafficSpy::EventAnalytics.new
-    time = ["20:38:28","21:38:28"]
-    assert_equal time, var.find_event_times(identifier, event)
+
+    var = TrafficSpy::EventAnalytics.new("identifier0", "event_name0")
+    time = ["20","21"]
+    assert_equal time, var.find_event_times
   end
 
+  def test_total_events_counts_total
+    associate_user_payload(2)
+    associate_user_payload(1, "GET",  "2013-02-16 01:38:28 -0700" )
+    associate_user_payload(1, "GET",  "2013-02-16 05:38:28 -0700" )
+    associate_user_payload(1, "GET",  "2013-02-16 12:38:28 -0700" )
+
+    var = TrafficSpy::EventAnalytics.new("identifier0", "event_name0")
+
+    assert_equal 4, var.total_events
+  end
+
+  def test_hourly_events_creates_hash
+    associate_user_payload(2)
+    associate_user_payload(1, "GET",  "2013-02-16 01:38:28 -0700" )
+    associate_user_payload(1, "GET",  "2013-02-16 12:23:28 -0700" )
+
+    var = TrafficSpy::EventAnalytics.new("identifier0", "event_name0")
+    expected = {"01"=>1, "12"=>1, "21"=>1}
+
+    assert_equal expected, var.hourly_events
+  end
+
+  def test_hourly_works_with_multiple_of_same_times
+    associate_user_payload(4)
+    associate_user_payload(1, "GET",  "2013-02-16 01:38:28 -0700" )
+    associate_user_payload(1, "GET",  "2013-02-16 12:23:28 -0700" )
+    associate_user_payload(1, "GET",  "2013-02-16 12:38:28 -0700" )
+    associate_user_payload(1, "GET",  "2013-02-16 12:34:28 -0700" )
+    associate_user_payload(1, "GET",  "2013-02-16 21:43:28 -0700" )
+
+    var = TrafficSpy::EventAnalytics.new("identifier0", "event_name0")
+    expected = {"01"=>1, "12"=>3, "21"=>2}
+
+    assert_equal expected, var.hourly_events
+  end
 end

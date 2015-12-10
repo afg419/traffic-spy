@@ -1,1 +1,13 @@
 <h1 id="url_details_header">Got to <%= @user %>'s <%= @local_url %> page!</h1>
+
+<br>Longest Response Time <%= @analyst.longest_response_time(@user) %>
+
+<br>Shortest Response Time <%= @analyst.shortest_response_time(@user) %>
+
+<br>Average Response Time <%= @analyst.average_response_time(@user) %>
+
+<br>Verbs Used <%= @analyst.verbs_used(@user) %>
+
+<br>Most Popular Referrers <%= @analyst.most_popular_referrers(@user) %>
+
+<br>Most Popular User Agents <%= @analyst.most_popular_user_agents(@user) %>
