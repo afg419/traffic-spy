@@ -5,8 +5,10 @@ module TrafficSpy
       TrafficSpy::User.find_by(identifier: identifier)
     end
 
-    def url_response_times
-
+    def url_response_times(identifier, url)
+      client = find_client(identifier)
+      average = client.payloads.select(:responded_in).where(url: url).average("responded_in").to_f.round(3)
+      "#{url}: #{average} ms"
     end
 
     def requested_urls(identifier)
@@ -19,28 +21,20 @@ module TrafficSpy
       client = find_client(identifier)
       browsers = client.payloads.group(:browser).count
       browsers = browsers.sort_by { |k, v| [-v, k] }
-      breakdown = []
-      browsers.each { |k, v| breakdown << "#{k}: #{v}"}
-      breakdown
+      browsers.map { |k, v| "#{k}: #{v}"}
     end
 
     def os_breakdown(identifier)
       client = find_client(identifier)
       os = client.payloads.group(:platform).count
       os = os.sort_by { |k, v| [-v, k] }
-      breakdown = []
-      os.each { |k, v| breakdown << "#{k}: #{v}"}
-      breakdown
+      os.map { |k, v| "#{k}: #{v}"}
     end
 
     def resolution(identifier)
       client = find_client(identifier)
-      w = client.payloads.pluck(:resolution_width)
-      h = client.payloads.pluck(:resolution_height)
-      pairs = w.zip(h).uniq
-      res = []
-      pairs.each { |p| res << "#{p[0]} x #{p[1]}" }
-      res
+      pairs = client.payloads.pluck(:resolution_width, :resolution_height).uniq
+      pairs.map { |p| "#{p[0]} x #{p[1]}" }
     end
 
   end
