@@ -6,23 +6,17 @@ class EventIndexAnalyticsTest < ModelTest
     TrafficSpy::User.find_or_create_by("identifier"=>"identifier#{m}", "root_url"=>"http://jumpstartlab.com")
   end
 
-  def load_user_payload(n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com", browser="Chrome")
-    TrafficSpy::Payload.create({"url"=>"url#{n}",
+  def load_user_payload(n)
+    TrafficSpy::Payload.create({"url_id"=>10,
                                 "requested_at"=>"2013-02-16 21:38:28 -0700",
-                                "responded_in"=>response_time,
-                                "referred_by"=>referred_by,
-                                "request_type"=>verb,
                                 "event_name"=>"event_name#{n}",
                                 "resolution_width"=>"1920",
                                 "resolution_height"=>"1280",
-                                "ip"=>"63.29.38.211",
-                                "browser"=>browser,
-                                "platform"=>"platform#{n}",
-                                "payload_sha"=>"#{rand(0..1000)}"})
+                                "ip"=>"63.29.38.211"})
   end
 
-  def associate_user_payload(m, n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com", browser="Chrome")
-    load_user_info(m).payloads << load_user_payload(n, verb, response_time, referred_by, browser)
+  def associate_user_payload(m, n)
+    load_user_info(m).payloads << load_user_payload(n)
   end
 
   def test_returns_events_by_popularity

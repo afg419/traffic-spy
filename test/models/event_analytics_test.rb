@@ -6,17 +6,12 @@ class EventAnalyticsTest < ModelTest
   end
 
   def load_user_payload(n, verb = "GET", datetime = "2013-02-16 21:38:28 -0700")
-    TrafficSpy::Payload.create({"url"=>"url#{n}",
+    TrafficSpy::Payload.create({"url_id"=>10,
                                 "requested_at"=>datetime,
-                                "responded_in"=>37,
-                                "referred_by"=>"http://root_url#{n}.com",
-                                "request_type"=>verb,
                                 "event_name"=>"event_name#{n}",
                                 "resolution_width"=>"1920",
                                 "resolution_height"=>"1280",
-                                "ip"=>"63.29.38.211",
-                                "browser"=>"browser#{n}",
-                                "platform"=>"platform#{n}"})
+                                "ip"=>"63.29.38.211"})
   end
 
   def associate_user_payload(n, verb = "GET", datetime = "2013-02-16 21:38:28 -0700")
