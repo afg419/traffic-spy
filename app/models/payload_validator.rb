@@ -23,6 +23,12 @@ module TrafficSpy
       end
     end
 
+    # def ruby_params
+    #   { event: Event.find_or_create_by(),
+    #   { url: Url.find_or_create_by(),
+    #     requested_at: params["requestedAt"]}
+    # end
+
     def duplicate_data?(ruby_params)
       TrafficSpy::Payload.find_by("payload_sha" => ruby_params["payload_sha"])
     end
@@ -32,6 +38,7 @@ module TrafficSpy
     end
 
     def missing_or_extra_attribute?(ruby_params)
+      # look at this method and column names method
       columns = column_names
       columns.delete("user_id")
       keys = ruby_params.keys
