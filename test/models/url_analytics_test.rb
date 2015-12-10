@@ -99,9 +99,11 @@ class UrlAnalyticsTest < ModelTest
   def test_most_popular_user_agents_returns_top_3
     associate_user_payload(1, "GET", 37, "url")
     associate_user_payload(1, "GET", 16, "url")
+    associate_user_payload(1, "GET", 17, "url")
     associate_user_payload(1, "GET", 44, "url", "Firefox")
     associate_user_payload(1, "GET", 45, "url", "Firefox")
     associate_user_payload(1, "GET", 46, "url", "Firefox")
+    associate_user_payload(1, "GET", 47, "url", "Firefox")
     associate_user_payload(1, "GET", 47, "url", "Safari")
     associate_user_payload(1, "GET", 48, "url", "Safari")
     associate_user_payload(1, "GET", 5, "url", "Internet Explorer")
