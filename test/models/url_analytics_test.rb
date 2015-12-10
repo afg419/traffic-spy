@@ -96,7 +96,7 @@ class UrlAnalyticsTest < ModelTest
     assert_equal ["http://google.com", "http://facebook.com", "http://jumpstartlab.com"], client.most_popular_referrers("identifier1")
   end
 
-  def test_most_popular_user_agents_returns_top_3
+  def test_most_popular_user_agents_returns_top_3_browsers
     associate_user_payload(1, "GET", 37, "url")
     associate_user_payload(1, "GET", 16, "url")
     associate_user_payload(1, "GET", 17, "url")
