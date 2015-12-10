@@ -26,7 +26,6 @@ class EventIndexAnalyticsTest < ModelTest
   end
 
   def test_returns_events_by_popularity
-    skip
     associate_user_payload(0,0)
     associate_user_payload(0,0)
     associate_user_payload(0,0)
@@ -37,5 +36,32 @@ class EventIndexAnalyticsTest < ModelTest
     returned = TrafficSpy::EventIndexAnalytics.new.events_by_popularity("identifier0")
 
     assert_equal ["event_name#{0}","event_name#{2}","event_name#{1}"], returned
+  end
+
+  def test_returns_events_by_popularity_multiple_users
+    associate_user_payload(2,0)
+    associate_user_payload(2,1)
+    associate_user_payload(2,2)
+    associate_user_payload(2,2)
+
+    associate_user_payload(0,0)
+    associate_user_payload(0,0)
+    associate_user_payload(0,0)
+    associate_user_payload(0,1)
+    associate_user_payload(0,2)
+    associate_user_payload(0,2)
+
+    associate_user_payload(1,0)
+    associate_user_payload(1,0)
+    associate_user_payload(1,2)
+
+    returned0 = TrafficSpy::EventIndexAnalytics.new.events_by_popularity("identifier0")
+    returned1 = TrafficSpy::EventIndexAnalytics.new.events_by_popularity("identifier1")
+    returned2 = TrafficSpy::EventIndexAnalytics.new.events_by_popularity("identifier2")
+
+    assert_equal ["event_name#{0}","event_name#{2}","event_name#{1}"], returned0
+    assert_equal ["event_name#{0}","event_name#{2}"],                  returned1
+    assert_equal ["event_name#{2}","event_name#{0}","event_name#{1}"], returned2
+
   end
 end

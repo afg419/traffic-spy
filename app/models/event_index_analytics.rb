@@ -6,8 +6,8 @@ module TrafficSpy
 
     def events_by_popularity(identifier)
       client = find_client(identifier)
-      binding.pry
-      referrers = client.payloads.group(:event_name)
+      referrers = client.payloads.group(:event_name).count
+      referrers.sort_by { |k, v| [-v, k] }.map{ |u| u[0] }
     end
 
   end
