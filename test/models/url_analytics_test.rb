@@ -6,7 +6,7 @@ class UrlAnalyticsTest < ModelTest
     TrafficSpy::User.find_or_create_by("identifier"=>"identifier#{n}", "root_url"=>"http://jumpstartlab.com")
   end
 
-  def load_user_payload(n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com")
+  def load_user_payload(n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com", browser="Chrome")
     TrafficSpy::Payload.create({"url"=>"url#{n}",
                                 "requested_at"=>"2013-02-16 21:38:28 -0700",
                                 "responded_in"=>response_time,
@@ -16,12 +16,12 @@ class UrlAnalyticsTest < ModelTest
                                 "resolution_width"=>"1920",
                                 "resolution_height"=>"1280",
                                 "ip"=>"63.29.38.211",
-                                "browser"=>"browser#{n}",
+                                "browser"=>browser,
                                 "platform"=>"platform#{n}"})
   end
 
-  def associate_user_payload(n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com")
-    load_user_info(n).payloads << load_user_payload(n, verb, response_time, referred_by)
+  def associate_user_payload(n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com", browser="Chrome")
+    load_user_info(n).payloads << load_user_payload(n, verb, response_time, referred_by, browser)
   end
 
   def test_we_can_access_a_specfic_users_payloads
@@ -81,19 +81,34 @@ class UrlAnalyticsTest < ModelTest
     assert_equal ["DELETE", "GET", "POST"], client.verbs_used("identifier1")
   end
 
-  def test_most_popular_referrers
+  def test_most_popular_referrers_returns_top_3
     associate_user_payload(1, "GET", 37)
     associate_user_payload(1, "GET", 16)
     associate_user_payload(1, "GET", 44, "http://google.com")
-    associate_user_payload(1, "GET", 44, "http://facebook.com")
+    associate_user_payload(1, "GET", 45, "http://google.com")
+    associate_user_payload(1, "GET", 46, "http://google.com")
+    associate_user_payload(1, "GET", 47, "http://facebook.com")
+    associate_user_payload(1, "GET", 48, "http://facebook.com")
+    associate_user_payload(1, "GET", 5, "http://turing.io")
 
     client = TrafficSpy::UrlAnalytics.new
 
-    assert_equal "http://jumpstartlab.com", client.most_popular_referrers("identifier1")
+    assert_equal ["http://google.com", "http://facebook.com", "http://jumpstartlab.com"], client.most_popular_referrers("identifier1")
   end
 
-  def test_most_popular_user_agents
+  def test_most_popular_user_agents_returns_top_3
+    associate_user_payload(1, "GET", 37, "url")
+    associate_user_payload(1, "GET", 16, "url")
+    associate_user_payload(1, "GET", 44, "url", "Firefox")
+    associate_user_payload(1, "GET", 45, "url", "Firefox")
+    associate_user_payload(1, "GET", 46, "url", "Firefox")
+    associate_user_payload(1, "GET", 47, "url", "Safari")
+    associate_user_payload(1, "GET", 48, "url", "Safari")
+    associate_user_payload(1, "GET", 5, "url", "Internet Explorer")
 
+    client = TrafficSpy::UrlAnalytics.new
+
+    assert_equal ["Firefox", "Chrome", "Safari"], client.most_popular_user_agents("identifier1")
   end
 
 end
