@@ -34,7 +34,7 @@ module TrafficSpy
         @error = "Sorry! No payload data has been registered for #{@user.capitalize}."
         erb :application_details_error
       else
-        @analyst = 0
+        @analyst = TrafficSpy::AppAnalytics.new
         erb :application_details
       end
     end
