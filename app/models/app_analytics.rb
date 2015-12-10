@@ -5,8 +5,15 @@ module TrafficSpy
       TrafficSpy::User.find_by(identifier: identifier)
     end
 
-    def url_response_times
-
+    def url_response_times(identifier)
+      client = find_client(identifier)
+      pairs = client.payloads.pluck(:url, :responded_in)
+      grouped = pairs.group_by(&:first).map { |url, rt| [url, rt.map(&:last)]}
+      urls = grouped.map { |g| g[0] }
+      averages = grouped.map { |g| g[1].reduce(:+)/g[1].length.to_f }
+      stats = urls.zip(averages)
+      stats.sort_by { |g| g[1] }.reverse
+      stats.map { |s| "#{s[0]}: #{s[1].round(3)} ms" }.reverse
     end
 
     def requested_urls(identifier)
@@ -19,28 +26,20 @@ module TrafficSpy
       client = find_client(identifier)
       browsers = client.payloads.group(:browser).count
       browsers = browsers.sort_by { |k, v| [-v, k] }
-      breakdown = []
-      browsers.each { |k, v| breakdown << "#{k}: #{v}"}
-      breakdown
+      browsers.map { |k, v| "#{k}: #{v}"}
     end
 
     def os_breakdown(identifier)
       client = find_client(identifier)
       os = client.payloads.group(:platform).count
       os = os.sort_by { |k, v| [-v, k] }
-      breakdown = []
-      os.each { |k, v| breakdown << "#{k}: #{v}"}
-      breakdown
+      os.map { |k, v| "#{k}: #{v}"}
     end
 
     def resolution(identifier)
       client = find_client(identifier)
-      w = client.payloads.pluck(:resolution_width)
-      h = client.payloads.pluck(:resolution_height)
-      pairs = w.zip(h).uniq
-      res = []
-      pairs.each { |p| res << "#{p[0]} x #{p[1]}" }
-      res
+      pairs = client.payloads.pluck(:resolution_width, :resolution_height).uniq
+      pairs.map { |p| "#{p[0]} x #{p[1]}" }
     end
 
   end
