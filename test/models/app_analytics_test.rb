@@ -25,6 +25,7 @@ class AppAnalyticsTest < ModelTest
   end
 
   def test_we_can_return_average_response_times_per_url_in_descending_order
+    skip
     associate_user_payload(1, 37, "blog")
     associate_user_payload(1, 38, "blog")
     associate_user_payload(1, 23, "about")
