@@ -34,7 +34,7 @@ class PayloadValidatorTest < ModelTest
     assert_equal "Success - 200 OK", validator.body
   end
 
-  def test_assigns_object_to_correct_user
+  def test_assigns_payload_to_correct_user
     load_user_info
     identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
@@ -42,6 +42,16 @@ class PayloadValidatorTest < ModelTest
 
     assert_equal 200, validator.status
     assert_equal 1, TrafficSpy::Payload.all.first.user_id
+  end
+
+  def test_assigns_url_to_correct_user
+    load_user_info
+    identifier = "jumpstartlab"
+    validator = TrafficSpy::PayloadValidator.new
+    validator.insert_or_error_status(ruby_params, identifier)
+
+    assert_equal 200, validator.status
+    assert_equal 1, TrafficSpy::Payload.all.first.url_id
   end
 
   def test_assigns_object_to_correct_user_multiple_users

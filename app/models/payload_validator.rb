@@ -18,23 +18,10 @@ module TrafficSpy
         self.body = "Already Received Request - 403 Forbidden"
       else
         DbLoader.new(ruby_params,identifier).load_databases
-
-        # payload_params = ruby_params.select{|k,v| payload_columns.include?(k)}
-        # url_params = ruby_params.select{|k,v| url_columns.include?(k)}
-        # ruby_params_loadable = payload_params.merge({"url" => Url.find_or_create_by(url_params)})
-        # user = User.find_by(identifier: identifier)
-        # user.payloads.create(ruby_params_loadable)
-
         self.status = 200
         self.body = "Success - 200 OK"
       end
     end
-    #
-    # def ruby_params
-    #   { event: Event.find_or_create_by(),
-    #   { url: Url.find_or_create_by(),
-    #     requested_at: params["requestedAt"]}
-    # end
 
     def duplicate_data?(ruby_params)
       TrafficSpy::Payload.find_by("payload_sha" => ruby_params["payload_sha"])
