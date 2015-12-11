@@ -7,20 +7,21 @@ module TrafficSpy
 
     def insert_or_error_status(ruby_params, identifier)
       ruby_params = prep_sha(ruby_params)
-      if no_user?(ruby_params,identifier)
-        self.status = 403
-        self.body = "Application Not Registered - 403 Forbidden"
+        if no_user?(ruby_params,identifier)
+        response(403, "Application Not Registered - 403 Forbidden")
       elsif missing_or_extra_attribute?(ruby_params)
-        self.status = 400
-        self.body = "Missing Payload - 400 Bad Request"
+        response(400, "Missing Payload - 400 Bad Request")
       elsif duplicate_data?(ruby_params)
-        self.status = 403
-        self.body = "Already Received Request - 403 Forbidden"
+        response(403, "Already Received Request - 403 Forbidden")
       else
         DbLoader.new(ruby_params,identifier).load_databases
-        self.status = 200
-        self.body = "Success - 200 OK"
+        response(200, "Success - 200 OK")
       end
+    end
+
+    def response(status, message)
+      self.status = status
+      self.body = message
     end
 
     def duplicate_data?(ruby_params)
