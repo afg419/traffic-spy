@@ -9,6 +9,5 @@ module TrafficSpy
       referrers = client.payloads.group(:event_name).count
       referrers.sort_by { |k, v| [-v, k] }.map{ |u| u[0] }
     end
-
   end
 end

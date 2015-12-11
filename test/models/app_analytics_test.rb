@@ -5,29 +5,7 @@ class AppAnalyticsTest < ModelTest
   def load_user_info(n)
     TrafficSpy::User.find_or_create_by("identifier"=>"identifier#{n}", "root_url"=>"http://jumpstartlab.com")
   end
-  #
-  # def user_payload(n, res_width="1920", res_height="1280")
-  #                               {"requested_at"=>"2013-02-16 21:38:28 -0700",
-  #                               "event_name"=>"event_name#{n}",
-  #                               "resolution_width"=>res_width,
-  #                               "resolution_height"=>res_height,
-  #                               "ip"=>"63.29.38.211",
-  #                               "payload_sha"=>"953829399845098230498130948"}
-  # end
-  #
-  # def load_user_url(n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com", browser="Chrome", res_width="1920", res_height="1280")
-  #   user_payload(n, res_width, res_height).merge(url: TrafficSpy::Url.create({"url"=>"url#{n}",
-  #                               "responded_in"=>response_time,
-  #                               "referred_by"=>referred_by,
-  #                               "request_type"=>verb,
-  #                               "browser"=>browser,
-  #                               "platform"=>"platform#{n}"}))
-  # end
-  #
-  # def load_database_tables(n, response_time = 37, url = "blog", browser="Chrome", platform="Macintosh", res_width="1920", res_height="1280")
-  #   load_user_info(n).payloads.create(load_user_url(n ,response_time, browser, res_width, res_height))
-  #   #  << load_user_payload(n, verb, response_time, referred_by, browser)
-  # end
+
   def load_database_tables(n, responded_in, url = "blog", browser = "Chrome", operating_system = "Macintosh", resolution_width = "1920", resolution_height = "1280")
     load_user_info(n)
     TrafficSpy::DbLoader.new({"url"=> url,

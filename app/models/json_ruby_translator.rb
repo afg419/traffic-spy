@@ -1,6 +1,5 @@
 module TrafficSpy
   module JSONRubyTranslator
-
     def prep_for_table_column_names(raw_data)
       raw_data.map do |key, value|
         [json_ruby_translator[key],value]
