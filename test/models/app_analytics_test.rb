@@ -5,33 +5,54 @@ class AppAnalyticsTest < ModelTest
   def load_user_info(n)
     TrafficSpy::User.find_or_create_by("identifier"=>"identifier#{n}", "root_url"=>"http://jumpstartlab.com")
   end
-
-  def load_user_payload(n, response_time = 37, url = "blog", browser="Chrome", platform="Macintosh", res_width="1920", res_height="1280")
-    TrafficSpy::Payload.create({"url"=>url,
-                                "requested_at"=>"2013-02-16 21:38:28 -0700",
-                                "responded_in"=>response_time,
-                                "referred_by"=>"http://jumpstartlab.com",
-                                "request_type"=>"GET",
-                                "event_name"=>"event_name#{n}",
-                                "resolution_width"=>res_width,
-                                "resolution_height"=>res_height,
-                                "ip"=>"63.29.38.211",
-                                "browser"=>browser,
-                                "platform"=>platform})
-  end
-
-  def associate_user_payload(n, response_time = 37, url = "blog", browser="Chrome", platform="Macintosh", res_width="1920", res_height="1280")
-    load_user_info(n).payloads << load_user_payload(n, response_time, url, browser, platform, res_width, res_height)
+  #
+  # def user_payload(n, res_width="1920", res_height="1280")
+  #                               {"requested_at"=>"2013-02-16 21:38:28 -0700",
+  #                               "event_name"=>"event_name#{n}",
+  #                               "resolution_width"=>res_width,
+  #                               "resolution_height"=>res_height,
+  #                               "ip"=>"63.29.38.211",
+  #                               "payload_sha"=>"953829399845098230498130948"}
+  # end
+  #
+  # def load_user_url(n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com", browser="Chrome", res_width="1920", res_height="1280")
+  #   user_payload(n, res_width, res_height).merge(url: TrafficSpy::Url.create({"url"=>"url#{n}",
+  #                               "responded_in"=>response_time,
+  #                               "referred_by"=>referred_by,
+  #                               "request_type"=>verb,
+  #                               "browser"=>browser,
+  #                               "platform"=>"platform#{n}"}))
+  # end
+  #
+  # def load_database_tables(n, response_time = 37, url = "blog", browser="Chrome", platform="Macintosh", res_width="1920", res_height="1280")
+  #   load_user_info(n).payloads.create(load_user_url(n ,response_time, browser, res_width, res_height))
+  #   #  << load_user_payload(n, verb, response_time, referred_by, browser)
+  # end
+  def load_database_tables(n, responded_in, url = "blog", browser = "Chrome", operating_system = "Macintosh", resolution_width = "1920", resolution_height = "1280")
+    load_user_info(n)
+    TrafficSpy::DbLoader.new({"url"=> url,
+               "requested_at"=>"2013-02-16 21:38:28 -0700",
+               "responded_in"=> responded_in,
+               "referred_by"=>"http://jumpstartlab.com",
+               "request_type"=>"GET",
+               "event_name"=>"socialLogin",
+               "resolution_width"=> resolution_width,
+               "resolution_height"=> resolution_height,
+               "ip"=>"63.29.38.211",
+               "user_id"=>1,
+               "browser"=> browser,
+               "platform"=> operating_system,
+               "payload_sha" => "12489809850939491939823"}, "identifier#{n}").load_databases
   end
 
   def test_we_can_return_average_response_times_per_url_in_descending_order
-    associate_user_payload(1, 37, "blog")
-    associate_user_payload(1, 38, "blog")
-    associate_user_payload(1, 23, "about")
-    associate_user_payload(1, 16, "article/1")
-    associate_user_payload(1, 37, "about")
-    associate_user_payload(1, 11, "blog")
-    associate_user_payload(1, 99, "article/1")
+    load_database_tables(1, 37, "blog")
+    load_database_tables(1, 38, "blog")
+    load_database_tables(1, 23, "about")
+    load_database_tables(1, 16, "article/1")
+    load_database_tables(1, 37, "about")
+    load_database_tables(1, 11, "blog")
+    load_database_tables(1, 99, "article/1")
 
     client = TrafficSpy::AppAnalytics.new
 
@@ -39,13 +60,13 @@ class AppAnalyticsTest < ModelTest
   end
 
   def test_we_can_return_all_the_requested_urls_in_the_correct_order
-    associate_user_payload(1, 37, "blog")
-    associate_user_payload(1, 38, "blog")
-    associate_user_payload(1, 23, "about")
-    associate_user_payload(1, 17, "article/1")
-    associate_user_payload(1, 37, "about")
-    associate_user_payload(1, 11, "blog")
-    associate_user_payload(1, 99, "article/2")
+    load_database_tables(1, 37, "blog")
+    load_database_tables(1, 38, "blog")
+    load_database_tables(1, 23, "about")
+    load_database_tables(1, 17, "article/1")
+    load_database_tables(1, 37, "about")
+    load_database_tables(1, 11, "blog")
+    load_database_tables(1, 99, "article/2")
 
     client = TrafficSpy::AppAnalytics.new
 
@@ -53,16 +74,16 @@ class AppAnalyticsTest < ModelTest
   end
 
   def test_we_can_return_all_the_browsers_and_their_breakdown
-    associate_user_payload(1, 37, "url")
-    associate_user_payload(1, 16, "url")
-    associate_user_payload(1, 17, "url")
-    associate_user_payload(1, 44, "url", "Firefox")
-    associate_user_payload(1, 45, "url", "Firefox")
-    associate_user_payload(1, 46, "url", "Firefox")
-    associate_user_payload(1, 47, "url", "Firefox")
-    associate_user_payload(1, 47, "url", "Safari")
-    associate_user_payload(1, 48, "url", "Safari")
-    associate_user_payload(1, 5, "url", "Internet Explorer")
+    load_database_tables(1, 37, "url")
+    load_database_tables(1, 16, "url")
+    load_database_tables(1, 17, "url")
+    load_database_tables(1, 44, "url", "Firefox")
+    load_database_tables(1, 45, "url", "Firefox")
+    load_database_tables(1, 46, "url", "Firefox")
+    load_database_tables(1, 47, "url", "Firefox")
+    load_database_tables(1, 47, "url", "Safari")
+    load_database_tables(1, 48, "url", "Safari")
+    load_database_tables(1, 5, "url", "Internet Explorer")
 
     client = TrafficSpy::AppAnalytics.new
 
@@ -70,12 +91,12 @@ class AppAnalyticsTest < ModelTest
   end
 
   def test_we_can_return_all_the_operating_systems_and_their_breakdown
-    associate_user_payload(1, 37, "url", "Chrome")
-    associate_user_payload(1, 16, "url", "Firefox")
-    associate_user_payload(1, 17, "url", "Chrome")
-    associate_user_payload(1, 44, "url", "Chrome", "Microsoft")
-    associate_user_payload(1, 45, "url", "Safari", "Linux")
-    associate_user_payload(1, 46, "url", "Firefox", "Linux")
+    load_database_tables(1, 37, "url", "Chrome")
+    load_database_tables(1, 16, "url", "Firefox")
+    load_database_tables(1, 17, "url", "Chrome")
+    load_database_tables(1, 44, "url", "Chrome", "Microsoft")
+    load_database_tables(1, 45, "url", "Safari", "Linux")
+    load_database_tables(1, 46, "url", "Firefox", "Linux")
 
     client = TrafficSpy::AppAnalytics.new
 
@@ -83,12 +104,12 @@ class AppAnalyticsTest < ModelTest
   end
 
   def test_we_can_return_screen_resolution_for_all_requests
-    associate_user_payload(1, 37, "url", "Chrome", "Linux")
-    associate_user_payload(1, 16, "url", "Firefox", "Linux")
-    associate_user_payload(1, 17, "url", "Chrome", "Linux")
-    associate_user_payload(1, 44, "url", "Chrome", "Microsoft", "1366", "768")
-    associate_user_payload(1, 45, "url", "Safari", "Linux", "1920", "1080")
-    associate_user_payload(1, 46, "url", "Firefox", "Linux", "1024", "768")
+    load_database_tables(1, 37, "url", "Chrome", "Linux")
+    load_database_tables(1, 16, "url", "Firefox", "Linux")
+    load_database_tables(1, 17, "url", "Chrome", "Linux")
+    load_database_tables(1, 44, "url", "Chrome", "Microsoft", "1366", "768")
+    load_database_tables(1, 45, "url", "Safari", "Linux", "1920", "1080")
+    load_database_tables(1, 46, "url", "Firefox", "Linux", "1024", "768")
 
     client = TrafficSpy::AppAnalytics.new
 

@@ -17,10 +17,6 @@ class AppDetailsTest < FeatureTest
                "platform"=>"Mac"}
   end
 
-  def test_the_truth
-    assert_equal 1+1, 2
-  end
-
   def test_goes_to_app_details_page
     TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "/jumpstartlab")
     TrafficSpy::Payload.create(payload)

@@ -7,7 +7,7 @@ module TrafficSpy
 
     def url_response_times(identifier)
       client = find_client(identifier)
-      pairs = client.payloads.pluck(:url, :responded_in)
+      pairs = client.urls.pluck(:url, :responded_in)
       grouped = pairs.group_by(&:first).map { |url, rt| [url, rt.map(&:last)]}
       urls = grouped.map { |g| g[0] }
       averages = grouped.map { |g| g[1].reduce(:+)/g[1].length.to_f }
@@ -18,20 +18,20 @@ module TrafficSpy
 
     def requested_urls(identifier)
       client = find_client(identifier)
-      urls = client.payloads.group(:url).count
+      urls = client.urls.group(:url).count
       urls.sort_by { |k, v| [-v, k] }.map{ |u| u[0] }
     end
 
     def browser_breakdown(identifier)
       client = find_client(identifier)
-      browsers = client.payloads.group(:browser).count
+      browsers = client.urls.group(:browser).count
       browsers = browsers.sort_by { |k, v| [-v, k] }
       browsers.map { |k, v| "#{k}: #{v}"}
     end
 
     def os_breakdown(identifier)
       client = find_client(identifier)
-      os = client.payloads.group(:platform).count
+      os = client.urls.group(:platform).count
       os = os.sort_by { |k, v| [-v, k] }
       os.map { |k, v| "#{k}: #{v}"}
     end
