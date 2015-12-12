@@ -12,7 +12,7 @@
 
 <br><br><h4>View Detailed Data for each of <%= @user.identifier %>'s URLS:</h4><br><br>
 
-<% @user.urls.each do |url| %>
+<% @user.urls.uniq.each do |url| %>
   <a href="/sources/<%= @user.identifier %>/urls/<%= url.url %>"><%= url.url %><br></a>
 <% end %>
 

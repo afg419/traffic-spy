@@ -37,7 +37,6 @@ module TrafficSpy
         @error = "Sorry! No payload data has been registered for #{identifier.capitalize}."
         erb :application_details_error
       when true
-        @analyst = TrafficSpy::AppAnalytics.new
         erb :application_details
       end
 
@@ -66,7 +65,6 @@ module TrafficSpy
         erb :application_details_error
       else
         @local_url = relative_path
-        @analyst = TrafficSpy::UrlAnalytics.new
         erb :url_details
       end
     end
@@ -74,7 +72,6 @@ module TrafficSpy
     get '/sources/:identifier/events/:event_name' do |identifier, event_name|
       @id = identifier
       @user = User.find_by(identifier: @id)
-
       if @user.nil?
         @error = "Sorry! #{@id.capitalize} has not been registered!"
         erb :application_details_error
@@ -83,7 +80,6 @@ module TrafficSpy
         erb :application_details_error
       else
         @event = event_name
-        @analyst = TrafficSpy::EventAnalytics.new(identifier,event_name)
         erb :event_details
       end
     end
@@ -99,7 +95,6 @@ module TrafficSpy
         @error = "Sorry! No events have been defined!"
         erb :application_details_error
       else
-        @analyst = TrafficSpy::EventIndexAnalytics.new
         erb :event_index
       end
     end
