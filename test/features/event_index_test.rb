@@ -27,9 +27,8 @@ class EventIndexTest < FeatureTest
     TrafficSpy::DbLoader.new(payload,"jumpstartlab").load_databases
 
     visit('/sources/jumpstartlab/events')
-
     within('#event_index_header') do
-      assert page.has_content?("jumpstartlab")
+      assert page.has_content?("Jumpstartlab")
     end
 
     refute page.has_css?("app_details_error")
@@ -41,7 +40,7 @@ class EventIndexTest < FeatureTest
     refute page.has_css?("#event_index_header")
 
     within('#app_details_header') do
-      assert page.has_content?("jumpstartlab's")
+      assert page.has_content?("Jumpstartlab's")
       assert page.has_content?("Error")
     end
 
@@ -56,7 +55,7 @@ class EventIndexTest < FeatureTest
     visit('/sources/jumpstartlab/events')
 
     within('#app_details_header') do
-      assert page.has_content?("jumpstartlab")
+      assert page.has_content?("Jumpstartlab")
     end
 
     within('#app_details_error') do

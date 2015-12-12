@@ -49,7 +49,7 @@ class UrlDetailsTest < FeatureTest
   end
 
   def test_goes_to_app_error_page_if_url_does_not_exist
-    TrafficSpy::User.create("identifier":"jumpstartlab", "root_url":"/jumpstartlab")
+    TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "/jumpstartlab")
 
     visit('/sources/jumpstartlab/urls/dog')
     assert_equal '/sources/jumpstartlab/urls/dog', current_path
