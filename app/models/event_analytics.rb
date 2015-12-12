@@ -9,7 +9,7 @@ module TrafficSpy
 
     def find_event_times
       TrafficSpy::Payload.where(event_name: event_name).pluck(:requested_at).map do |num|
-        num.localtime.hour
+        num.localtime.hour if num
       end
     end
 
