@@ -12,6 +12,7 @@ module TrafficSpy
       urls = grouped.map { |g| g[0] }
       averages = grouped.map { |g| g[1].reduce(:+)/g[1].length.to_f }
       stats = urls.zip(averages)
+      #client.urls.group(:url).average(:responded_in).map{|k,v| [k,v.to_f]}.to_h
       stats.sort_by { |g| g[1] }.reverse
       stats.map { |s| "#{s[0]}: #{s[1].round(3)} ms" }.reverse
     end

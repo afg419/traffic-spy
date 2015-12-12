@@ -9,6 +9,7 @@ module TrafficSpy
 
     def find_event_times
       time_array = TrafficSpy::Payload.where(event_name: event_name).pluck(:requested_at)
+      binding.pry
       time_array.map { |t| t.split[1].split(":").first.to_i }.sort
     end
 

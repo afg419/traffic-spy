@@ -7,7 +7,7 @@ module TrafficSpy
 
     def insert_or_error_status(ruby_params, identifier)
       ruby_params = prep_sha(ruby_params)
-        if no_user?(ruby_params,identifier)
+      if no_user?(ruby_params,identifier)
         response(403, "Application Not Registered - 403 Forbidden")
       elsif missing_or_extra_attribute?(ruby_params)
         response(400, "Missing Payload - 400 Bad Request")
