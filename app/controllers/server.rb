@@ -9,11 +9,11 @@ module TrafficSpy
     end
 
     post '/sources' do
-      user = TrafficSpy::UserValidator.new
-      user.validate(params)
+      validator = TrafficSpy::UserValidator.new
+      validator.validate(params)
 
-      status(user.status)
-      body(user.body)
+      status(validator.status)
+      body(validator.body)
     end
 
     post '/sources/:identifier/data' do |identifier|
@@ -29,16 +29,29 @@ module TrafficSpy
       @id = identifier
       @user = User.find_by(identifier: @id)
 
-      if @user.nil?
+      case true
+      when @user.nil?
         @error = "Sorry! #{identifier.capitalize} has not been registered!"
         erb :application_details_error
-      elsif @user.payloads.length == 0
+      when @user.payloads.length == 0
         @error = "Sorry! No payload data has been registered for #{identifier.capitalize}."
         erb :application_details_error
-      else
+      when true
         @analyst = TrafficSpy::AppAnalytics.new
         erb :application_details
       end
+
+      #
+      # if @user.nil?
+      #   @error = "Sorry! #{identifier.capitalize} has not been registered!"
+      #   erb :application_details_error
+      # elsif @user.payloads.length == 0
+      #   @error = "Sorry! No payload data has been registered for #{identifier.capitalize}."
+      #   erb :application_details_error
+      # else
+      #   @analyst = TrafficSpy::AppAnalytics.new
+      #   erb :application_details
+      # end
     end
 
     get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
