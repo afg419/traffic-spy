@@ -1,27 +1,25 @@
+require_relative 'responses'
+
 module TrafficSpy
   class PayloadValidator
 
     attr_accessor :status, :body
 
     include TrafficSpy::JSONRubyTranslator
+    include TrafficSpy::Responses
 
     def insert_or_error_status(ruby_params, identifier)
       ruby_params = prep_sha(ruby_params)
-      if no_user?(ruby_params,identifier)
-        response(403, "Application Not Registered - 403 Forbidden")
+      if no_user?(ruby_params, identifier)
+        response(403, payload_message_to_client[:error_no_user] )
       elsif missing_or_extra_attribute?(ruby_params)
-        response(400, "Missing Payload - 400 Bad Request")
+        response(400, payload_message_to_client[:error_missing])
       elsif duplicate_data?(ruby_params)
-        response(403, "Already Received Request - 403 Forbidden")
+        response(403, payload_message_to_client[:error_duplicate])
       else
         DbLoader.new(ruby_params,identifier).load_databases
-        response(200, "Success - 200 OK")
+        response(200, payload_message_to_client[:ok])
       end
-    end
-
-    def response(status, message)
-      self.status = status
-      self.body = message
     end
 
     def duplicate_data?(ruby_params)
