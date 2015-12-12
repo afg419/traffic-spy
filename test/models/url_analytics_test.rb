@@ -8,7 +8,7 @@ class UrlAnalyticsTest < ModelTest
 
   def payload_data
     {
-      "requested_at"=>"NOW",
+      "requested_at"=> "2013-02-16 21:38:28 -0700",
       "event_name"=>"event_name",
       "resolution_width"=>"1920",
       "resolution_height"=>"1280",

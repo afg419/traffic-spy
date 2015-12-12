@@ -32,7 +32,7 @@ class EventAnalyticsTest < ModelTest
     associate_user_payload(1, "GET",  "2013-02-16 20:38:28 -0700" )
 
     var = TrafficSpy::EventAnalytics.new("identifier0", "event_name0")
-    time = [20,21]
+    time = [21,20]
     assert_equal time, var.find_event_times
   end
 
