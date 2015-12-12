@@ -8,20 +8,28 @@ module TrafficSpy
     def validate(params)
       ruby_params = change_attributes_to_match_table_column_names(params)
       user = TrafficSpy::User.new(ruby_params)
-      # self.status = generate_status
-      # self.body   = generate_body
+      id = ruby_params['identifier']
       if user.save
-        self.status = 200
-        self.body = "Success - 200 OK: User registered! {'identifier':'#{ruby_params['identifier']}'}"
+        response(200, message_to_client(id)[:ok])
       elsif
-        # user.errors.full_messages
-        ruby_params["identifier"].nil? || ruby_params["root_url"].nil?
-        self.status = 400
-        self.body = "Missing Parameters - 400 Bad Request"
+        id.nil? || ruby_params["root_url"].nil?
+        response(400, message_to_client(id)[:error_missing])
       else
-        self.status = 403
-        self.body = "Identifier Already Exists - 403 Forbidden"
+        response(403,message_to_client(id)[:error_duplicate])
       end
+    end
+
+    def message_to_client(identifier)
+      {
+        :ok => "Success - 200 OK: User registered! {'identifier':'#{identifier}'}",
+        :error_missing => "Missing Parameters - 400 Bad Request",
+        :error_duplicate => "Identifier Already Exists - 403 Forbidden"
+      }
+    end
+
+    def response(status, message)
+      self.status = status
+      self.body = message
     end
   end
 end
