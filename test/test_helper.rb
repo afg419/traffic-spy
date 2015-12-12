@@ -38,6 +38,21 @@ class FeatureTest < Minitest::Test
     DatabaseCleaner.clean
   end
 
+  def payload
+    {          "url"=>"blog",
+               "requested_at"=>"2013-02-16 21:38:28 -0700",
+               "responded_in"=>37,
+               "referred_by"=>"http://jumpstartlab.com",
+               "request_type"=>"GET",
+               "event_name"=>"socialLogin",
+               "resolution_width"=>"1920",
+               "resolution_height"=>"1280",
+               "ip"=>"63.29.38.211",
+               "user_id"=>1,
+               "browser"=>"Mozilla",
+               "platform"=>"Mac",
+               "payload_sha" => "12489809850939491939823"}
+  end
 end
 
 class ModelTest < Minitest::Test

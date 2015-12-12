@@ -99,7 +99,7 @@ module TrafficSpy
         @error = "Sorry! No events have been defined!"
         erb :application_details_error
       else
-        @data = 0
+        @analyst = TrafficSpy::EventIndexAnalytics.new
         erb :event_index
       end
     end
