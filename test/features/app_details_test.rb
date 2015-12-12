@@ -26,7 +26,7 @@ class AppDetailsTest < FeatureTest
     assert_equal '/sources/jumpstartlab', current_path
 
     within('#app_details_header') do
-      assert page.has_content?("jumpstartlab")
+      assert page.has_content?("Jumpstartlab's")
     end
 
     refute page.has_css?('#app_details_error')
@@ -37,7 +37,7 @@ class AppDetailsTest < FeatureTest
     assert_equal '/sources/jumpstartlab', current_path
 
     within('#app_details_header') do
-      assert page.has_content?("jumpstartlab")
+      assert page.has_content?("Jumpstartlab")
     end
 
     within('#app_details_error') do
@@ -52,7 +52,7 @@ class AppDetailsTest < FeatureTest
     assert_equal '/sources/jumpstartlab', current_path
 
     within('#app_details_header') do
-      assert page.has_content?("jumpstartlab")
+      assert page.has_content?("Jumpstartlab")
     end
 
     within('#app_details_error') do
