@@ -25,7 +25,7 @@ class EventDetailsTest < FeatureTest
     visit('/sources/jumpstartlab/events/socialLogin')
 
     within('#event_details_header') do
-      assert page.has_content?("jumpstartlab")
+      assert page.has_content?("Jumpstartlab")
       assert page.has_content?("socialLogin")
     end
 
@@ -38,7 +38,7 @@ class EventDetailsTest < FeatureTest
     refute page.has_css?("#event_details_header")
 
     within('#app_details_header') do
-      assert page.has_content?("jumpstartlab's")
+      assert page.has_content?("Jumpstartlab's")
       assert page.has_content?("Error")
     end
 
@@ -53,7 +53,7 @@ class EventDetailsTest < FeatureTest
     visit('/sources/jumpstartlab/events/socialBLOGIN')
 
     within('#app_details_header') do
-      assert page.has_content?("jumpstartlab")
+      assert page.has_content?("Jumpstartlab")
     end
 
     within('#app_details_error') do
