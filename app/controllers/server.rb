@@ -25,13 +25,14 @@ module TrafficSpy
     end
 
     get '/sources/:identifier' do |identifier|
-      # @user = User.find_by(identifier: identifer)
-      @user = identifier
-      if TrafficSpy::User.find_by(identifier: identifier).nil?
-        @error = "Sorry! #{@user.capitalize} has not been registered!"
+      @id = identifier
+      @user = User.find_by(identifier: @id)
+
+      if @user.nil?
+        @error = "Sorry! #{identifier.capitalize} has not been registered!"
         erb :application_details_error
-      elsif TrafficSpy::User.find_by(identifier: identifier).payloads.length == 0
-        @error = "Sorry! No payload data has been registered for #{@user.capitalize}."
+      elsif @user.payloads.length == 0
+        @error = "Sorry! No payload data has been registered for #{identifier.capitalize}."
         erb :application_details_error
       else
         @analyst = TrafficSpy::AppAnalytics.new
@@ -40,12 +41,13 @@ module TrafficSpy
     end
 
     get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
-      @user = identifier
-      user_row = TrafficSpy::User.find_by(identifier: identifier)
-      if user_row.nil?
-        @error = "Sorry! #{@user.capitalize} has not been registered!"
+      @id = identifier
+      @user = User.find_by(identifier: @id)
+
+      if @user.nil?
+        @error = "Sorry! #{@id.capitalize} has not been registered!"
         erb :application_details_error
-      elsif user_row.urls.find_by(url:relative_path).nil?
+      elsif @user.urls.find_by(url:relative_path).nil?
         @error = "Sorry! #{relative_path} has not been requested!"
         erb :application_details_error
       else
@@ -56,12 +58,13 @@ module TrafficSpy
     end
 
     get '/sources/:identifier/events/:event_name' do |identifier, event_name|
-      @user = identifier
-      user_row = TrafficSpy::User.find_by(identifier: identifier)
-      if user_row.nil?
-        @error = "Sorry! #{@user.capitalize} has not been registered!"
+      @id = identifier
+      @user = User.find_by(identifier: @id)
+
+      if @user.nil?
+        @error = "Sorry! #{@id.capitalize} has not been registered!"
         erb :application_details_error
-      elsif user_row.payloads.find_by(event_name:event_name).nil?
+      elsif @user.payloads.find_by(event_name:event_name).nil?
         @error = "Sorry! #{event_name} has not been defined!"
         erb :application_details_error
       else
@@ -72,12 +75,13 @@ module TrafficSpy
     end
 
     get '/sources/:identifier/events' do |identifier|
-      @user = identifier
-      user_row = TrafficSpy::User.find_by(identifier: identifier)
-      if user_row.nil?
-        @error = "Sorry! #{@user.capitalize} has not been registered!"
+      @id = identifier
+      @user = User.find_by(identifier: @id)
+
+      if @user.nil?
+        @error = "Sorry! #{@id.capitalize} has not been registered!"
         erb :application_details_error
-      elsif user_row.payloads.length == 0
+      elsif @user.payloads.length == 0
         @error = "Sorry! No events have been defined!"
         erb :application_details_error
       else
