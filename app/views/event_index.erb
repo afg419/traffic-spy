@@ -1,9 +1,9 @@
 <h1 id="event_index_header">Got to <%= @id.capitalize %>'s event index page!</h1>
 
-<br>Most to Least Requested Events: <%= @analyst.events_by_popularity(@user.identifier) %>
+<br>Most to Least Requested Events: <%= @user.payloads.events_by_popularity %>
 
 <br><br><h4>View Specific Data for Each Event:</h4><br>
 
-<% @analyst.events_by_popularity(@user.identifier).each do |event| %>
+<% @user.payloads.events_by_popularity.each do |event| %>
   <a href="/sources/<%= @user.identifier %>/events/<%= event %>"><%= event %><br></a>
 <% end %>

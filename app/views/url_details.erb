@@ -1,13 +1,13 @@
 <h1 id="url_details_header">Got to <%= @id.capitalize %>'s <%= @local_url %> page!</h1>
 
-<br>Longest Response Time: <%= @analyst.longest_response_time(@id) %>
+<br>Longest Response Time: <%= @user.urls.longest_response_time %>
 
-<br>Shortest Response Time: <%= @analyst.shortest_response_time(@id) %>
+<br>Shortest Response Time: <%= @user.urls.shortest_response_time %>
 
-<br>Average Response Time: <%= @analyst.average_response_time(@id) %>
+<br>Average Response Time: <%= @user.urls.average_response_time %>
 
-<br>Verbs Used: <%= @analyst.verbs_used(@id) %>
+<br>Verbs Used: <%= @user.urls.verbs_used %>
 
-<br>Most Popular Referrers: <%= @analyst.most_popular_referrers(@id) %>
+<br>Most Popular Referrers: <%= @user.urls.most_popular_referrers %>
 
-<br>Most Popular User Agents: <%= @analyst.most_popular_user_agents(@id) %>
+<br>Most Popular User Agents: <%= @user.urls.most_popular_user_agents %>

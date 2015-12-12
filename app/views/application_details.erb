@@ -1,14 +1,14 @@
 <h1 id="app_details_header">Got to <%= @user.identifier.capitalize %>'s page!</h1>
 
-<br>Most to Least Requested URLS: <%= @analyst.requested_urls(@user.identifier) %>
+<br>Most to Least Requested URLS: <%= @user.urls.requested_urls %>
 
-<br>Web Browser Breakdown: <%= @analyst.browser_breakdown(@user.identifier) %>
+<br>Web Browser Breakdown: <%= @user.urls.browser_breakdown %>
 
-<br>OS Breakdown: <%= @analyst.os_breakdown(@user.identifier) %>
+<br>OS Breakdown: <%= @user.urls.os_breakdown %>
 
-<br>Screen Resolution: <%= @analyst.resolution(@user.identifier) %>
+<br>Screen Resolution: <%= @user.urls.resolution %>
 
-<br>Longest to Shortest Average Response Time per URL: <%= @analyst.url_response_times(@user.identifier) %>
+<br>Longest to Shortest Average Response Time per URL: <%= @user.urls.url_response_times %>
 
 <br><br><h4>View Detailed Data for each of <%= @user.identifier %>'s URLS:</h4><br><br>
 

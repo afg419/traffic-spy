@@ -1,9 +1,9 @@
 <h1 id="event_details_header">Got to <%= @id.capitalize %>'s <%= @event %> page!</h1>
 
 
-<h2>Total Overall Events: <%= @analyst.total_events %><br><br></h2>
+<h2>Total Overall Events: <%= @user.payloads.total_events(@event) %><br><br></h2>
 
 
-<% @analyst.hour_edited.each do |k, v| %>
+<% @user.payloads.hour_edited(@event).each do |k, v| %>
   <%= k %>: <%= v %><br>
 <% end %>
