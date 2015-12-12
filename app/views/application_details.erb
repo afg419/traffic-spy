@@ -1,4 +1,4 @@
-<h1 id="app_details_header">Got to <%= @user.identifier %>'s page!</h1>
+<h1 id="app_details_header">Got to <%= @user.identifier.capitalize %>'s page!</h1>
 
 <br>Most to Least Requested URLS: <%= @analyst.requested_urls(@user.identifier) %>
 
@@ -10,4 +10,11 @@
 
 <br>Longest to Shortest Average Response Time per URL: <%= @analyst.url_response_times(@user.identifier) %>
 
-<br><br>View Detailed Data for each of <%= @user.identifier %>'s URLS:<br>
+<br><br><h4>View Detailed Data for each of <%= @user.identifier %>'s URLS:</h4><br><br>
+
+<% @user.urls.each do |url| %>
+  <a href="/sources/<%= @user.identifier %>/urls/<%= url.url %>"><%= url.url %><br></a>
+<% end %>
+
+<br><br><a href="/sources/<%= @user.identifier %>/events"><h4>View Event Data for <%= @user.identifier %>:</h4></a>
+<br><br>
