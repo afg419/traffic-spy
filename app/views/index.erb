@@ -1,1 +1,7 @@
 <h1>Hello, Traffic Spyer</h1>
+
+<ul>
+  <% TrafficSpy::User.all.each do |user| %>
+    <li><a href="/sources/<%=user.identifier%>"><%= user.identifier.capitalize %></a></li>
+  <% end %>
+</ul>
