@@ -11,17 +11,18 @@ module TrafficSpy
     post '/sources' do
       user = TrafficSpy::UserValidator.new
       user.validate(params)
+
       status(user.status)
       body(user.body)
     end
 
     post '/sources/:identifier/data' do |identifier|
+      validator = TrafficSpy::PayloadValidator.new
       ruby_params = TrafficSpy::Parser.new.parse(params)
-      payload = TrafficSpy::PayloadValidator.new
-      payload.insert_or_error_status(ruby_params, identifier)
+      validator.insert_or_error_status(ruby_params, identifier)
 
-      status(payload.status)
-      body(payload.body)
+      status(validator.status)
+      body(validator.body)
     end
 
     get '/sources/:identifier' do |identifier|

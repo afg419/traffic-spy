@@ -6,7 +6,7 @@ module TrafficSpy
     attr_accessor :status, :body
 
     def validate(params)
-      ruby_params = prep_for_table_column_names(params)
+      ruby_params = change_attributes_to_match_table_column_names(params)
       user = TrafficSpy::User.new(ruby_params)
       # self.status = generate_status
       # self.body   = generate_body
