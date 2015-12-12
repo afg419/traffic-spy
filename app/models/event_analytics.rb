@@ -8,8 +8,9 @@ module TrafficSpy
     end
 
     def find_event_times
-      time_array = TrafficSpy::Payload.where(event_name: event_name).pluck(:requested_at)
-      time_array.map { |t| t.split[1].split(":").first.to_i }.sort
+      TrafficSpy::Payload.where(event_name: event_name).pluck(:requested_at).map do |num|
+        num.localtime.hour
+      end
     end
 
     def total_events
