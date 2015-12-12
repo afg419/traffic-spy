@@ -25,7 +25,7 @@ class UrlDetailsTest < FeatureTest
     assert_equal '/sources/jumpstartlab/urls/blog', current_path
 
     within('#url_details_header') do
-      assert page.has_content?("jumpstartlab")
+      assert page.has_content?("Jumpstartlab")
       assert page.has_content?("blog")
     end
 
@@ -39,7 +39,7 @@ class UrlDetailsTest < FeatureTest
     refute page.has_css?("#url_details_header")
 
     within('#app_details_header') do
-      assert page.has_content?("jumpstartlab's")
+      assert page.has_content?("Jumpstartlab's")
       assert page.has_content?("Error")
     end
 
@@ -55,7 +55,7 @@ class UrlDetailsTest < FeatureTest
     assert_equal '/sources/jumpstartlab/urls/dog', current_path
 
     within('#app_details_header') do
-      assert page.has_content?("jumpstartlab")
+      assert page.has_content?("Jumpstartlab")
     end
 
     within('#app_details_error') do
