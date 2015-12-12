@@ -55,6 +55,5 @@ class EventIndexAnalyticsTest < ModelTest
     assert_equal ["event_name#{0}","event_name#{2}","event_name#{1}"], returned0
     assert_equal ["event_name#{0}","event_name#{2}"],                  returned1
     assert_equal ["event_name#{2}","event_name#{0}","event_name#{1}"], returned2
-
   end
 end
