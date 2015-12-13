@@ -2,7 +2,8 @@ require_relative '../test_helper'
 
 class PayloadTest < ModelTest
   def test_event_returns_one_requested_time
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 21:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 21:38:28 -0700"})
 
     user = TrafficSpy::User.find_by(identifier: "identifier1")
 
@@ -10,8 +11,10 @@ class PayloadTest < ModelTest
   end
 
   def test_event_returns_two_requested_time
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 21:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 20:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 21:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 20:38:28 -0700"})
 
     user = TrafficSpy::User.find_by(identifier: "identifier1")
     times = [21,20]
@@ -19,10 +22,14 @@ class PayloadTest < ModelTest
   end
 
   def test_total_events_counts_total
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 21:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 01:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 05:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 12:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 21:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 01:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 05:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 12:38:28 -0700"})
 
     user = TrafficSpy::User.find_by(identifier: "identifier1")
 
@@ -30,10 +37,14 @@ class PayloadTest < ModelTest
   end
 
   def test_hourly_events_creates_hash
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 21:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 01:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 05:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 12:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 21:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 01:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 05:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 12:38:28 -0700"})
 
     user = TrafficSpy::User.find_by(identifier: "identifier1")
     expected = {1=>1, 2=>0, 3=>0, 4=>0, 5=>1, 6=>0, 7=>0, 8=>0, 9=>0, 10=>0,
@@ -44,15 +55,24 @@ class PayloadTest < ModelTest
   end
 
   def test_hourly_works_with_multiple_of_same_times
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 21:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 21:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 21:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 21:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 01:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 05:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 12:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 12:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 12:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 21:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 21:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 21:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 21:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 01:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 05:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 12:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 12:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 12:38:28 -0700"})
 
     user = TrafficSpy::User.find_by(identifier: "identifier1")
     expected = {1=>1, 2=>0, 3=>0, 4=>0, 5=>1, 6=>0, 7=>0, 8=>0, 9=>0, 10=>0,
@@ -63,11 +83,16 @@ class PayloadTest < ModelTest
   end
 
   def test_hour_edits_to_having_am_and_pm
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 01:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 21:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 12:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 12:38:28 -0700"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name1", "requested_at" => "2013-02-16 12:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 01:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 21:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 12:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 12:38:28 -0700"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name1",
+                                      "requested_at" => "2013-02-16 12:38:28 -0700"})
 
     user = TrafficSpy::User.find_by(identifier: "identifier1")
     expected = {"1 am"=>1, "2 am"=>0, "3 am"=>0, "4 am"=>0, "5 am"=>0, "6 am"=>0,
@@ -81,12 +106,12 @@ class PayloadTest < ModelTest
   end
 
   def test_returns_events_by_popularity
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name0"})
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name0"})
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name0"})
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name1"})
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name2"})
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name2"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name0"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name0"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name0"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name1"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name2"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name2"})
 
     user = TrafficSpy::User.find_by(identifier: "identifier0")
     returned = user.payloads.events_by_popularity
@@ -95,21 +120,21 @@ class PayloadTest < ModelTest
   end
 
   def test_returns_events_by_popularity_multiple_users
-    load_database_tables_x("identifier2", "url2", {"event_name" => "event_name0"})
-    load_database_tables_x("identifier2", "url2", {"event_name" => "event_name1"})
-    load_database_tables_x("identifier2", "url2", {"event_name" => "event_name2"})
-    load_database_tables_x("identifier2", "url2", {"event_name" => "event_name2"})
+    load_tables("identifier2", "url2", {"event_name" => "event_name0"})
+    load_tables("identifier2", "url2", {"event_name" => "event_name1"})
+    load_tables("identifier2", "url2", {"event_name" => "event_name2"})
+    load_tables("identifier2", "url2", {"event_name" => "event_name2"})
 
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name0"})
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name0"})
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name0"})
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name1"})
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name2"})
-    load_database_tables_x("identifier0", "url0", {"event_name" => "event_name2"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name0"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name0"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name0"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name1"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name2"})
+    load_tables("identifier0", "url0", {"event_name" => "event_name2"})
 
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name0"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name0"})
-    load_database_tables_x("identifier1", "url1", {"event_name" => "event_name2"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name0"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name0"})
+    load_tables("identifier1", "url1", {"event_name" => "event_name2"})
 
     user0 = TrafficSpy::User.find_by(identifier: "identifier0")
     user1 = TrafficSpy::User.find_by(identifier: "identifier1")
