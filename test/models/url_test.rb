@@ -1,7 +1,6 @@
   require_relative '../test_helper'
 
 class UrlTest < ModelTest
-
   def test_we_can_access_a_specfic_users_url
     load_database_tables_x("identifier1", "url1")
     load_database_tables_x("identifier2", "url2", {"request_type"=>"POST"})

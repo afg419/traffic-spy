@@ -52,51 +52,6 @@ class FeatureTest < AppTest
 end
 
 class ModelTest < AppTest
-  def register_user(n)
-    TrafficSpy::User.find_or_create_by("identifier"=>"identifier#{n}", "root_url"=>"http://jumpstartlab.com")
-  end
-
-  def ruby_payload_params
-    {
-      "requested_at"=> "2013-02-16 21:38:28 -0700",
-      "event_name"=>"event_name",
-      "resolution_width"=>"1920",
-      "resolution_height"=>"1280",
-      "ip"=>"63.29.38.211",
-      "payload_sha"=>"953829399845098230498130948"
-    }
-  end
-
-    def load_user_url(n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com", browser="Chrome")
-    ruby_payload_params.merge(url: TrafficSpy::Url.create({"url"=>"url#{n}",
-                                "responded_in"=>response_time,
-                                "referred_by"=>referred_by,
-                                "request_type"=>verb,
-                                "browser"=>browser,
-                                "platform"=>"platform#{n}"}))
-  end
-
-  def load_url_data_to_user(n, verb = "GET", response_time = 37, referred_by = "http://jumpstartlab.com", browser="Chrome")
-    register_user(n).payloads.create(load_user_url(n,verb,response_time,referred_by,browser))
-  end
-
-  def load_database_tables(n, responded_in, url = "blog", browser = "Chrome", operating_system = "Macintosh", resolution_width = "1920", resolution_height = "1280")
-    register_user(n)
-    TrafficSpy::DbLoader.new({"url"=> url,
-               "requested_at"=>"2013-02-16 21:38:28 -0700",
-               "responded_in"=> responded_in,
-               "referred_by"=>"http://jumpstartlab.com",
-               "request_type"=>"GET",
-               "event_name"=>"socialLogin",
-               "resolution_width"=> resolution_width,
-               "resolution_height"=> resolution_height,
-               "ip"=>"63.29.38.211",
-               "user_id"=>1,
-               "browser"=> browser,
-               "platform"=> operating_system,
-               "payload_sha" => "12489809850939491939823"}, "identifier#{n}").load_databases
-  end
-
   def defaults
     {"url"=>"blog",
      "requested_at"=>"2013-02-16 21:38:28 -0700",

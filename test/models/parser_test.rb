@@ -1,7 +1,6 @@
 require_relative '../test_helper'
 
 class ParserTest < Minitest::Test
-
   def test_module_exists
     assert TrafficSpy::Parser
   end

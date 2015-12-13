@@ -16,7 +16,7 @@ class PayloadValidatorTest < ModelTest
      "platform"=>"Macintosh"}
   end
 
-  def load_user_info(j = nil)
+  def register_user(j = nil)
     TrafficSpy::User.create("identifier"=>"jumpstartlab#{j}", "root_url"=>"http://jumpstartlab.com")
   end
 
@@ -25,7 +25,7 @@ class PayloadValidatorTest < ModelTest
   end
 
   def test_returns_proper_messages_for_good_params
-    load_user_info
+    register_user
     identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
     validator.insert_or_error_status(ruby_params_no_sha, identifier)
@@ -35,7 +35,7 @@ class PayloadValidatorTest < ModelTest
   end
 
   def test_assigns_payload_to_correct_user
-    load_user_info
+    register_user
     identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
     validator.insert_or_error_status(ruby_params_no_sha, identifier)
@@ -45,7 +45,7 @@ class PayloadValidatorTest < ModelTest
   end
 
   def test_assigns_url_to_correct_user
-    load_user_info
+    register_user
     identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
     validator.insert_or_error_status(ruby_params_no_sha, identifier)
@@ -55,8 +55,8 @@ class PayloadValidatorTest < ModelTest
   end
 
   def test_assigns_object_to_correct_user_multiple_users
-    load_user_info
-    load_user_info(1)
+    register_user
+    register_user(1)
 
     identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
@@ -80,7 +80,7 @@ class PayloadValidatorTest < ModelTest
 
 
   def test_returns_proper_messages_for_missing_params
-    load_user_info
+    register_user
     identifier = "jumpstartlab"
 
     key_to_delete = ruby_params_no_sha.keys.sample
@@ -95,7 +95,7 @@ class PayloadValidatorTest < ModelTest
   end
 
   def test_returns_proper_messages_for_duplicate_payload
-    load_user_info
+    register_user
     identifier = "jumpstartlab"
 
     validator = TrafficSpy::PayloadValidator.new
@@ -107,7 +107,7 @@ class PayloadValidatorTest < ModelTest
   end
 
   def test_returns_proper_messages_if_data_is_submitted_to_an_application_url_that_does_not_exist
-    load_user_info
+    register_user
     identifier = "gobbiltygook"
 
     validator = TrafficSpy::PayloadValidator.new
@@ -124,7 +124,7 @@ class PayloadValidatorTest < ModelTest
 
   def test_identifies_duplicate_data
     validator = TrafficSpy::PayloadValidator.new
-    load_user_info
+    register_user
     identifier = "jumpstartlab"
 
     refute validator.duplicate_data?(ruby_params_no_sha)
