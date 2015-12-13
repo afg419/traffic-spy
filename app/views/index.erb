@@ -1,7 +1,22 @@
-<h1>Hello, Traffic Spyer</h1>
+<h1 id="title">Hello, Traffic Spyer</h1>
+
+<!-- <div class="parallax-container">
+  <div class="parallax">
+    <img src="/images/city-night.jpg" alt="" />
+  </div>
+</div> -->
 
 <ul>
   <% TrafficSpy::User.all.each do |user| %>
     <li><a href="/sources/<%=user.identifier%>"><%= user.identifier.capitalize %></a></li>
   <% end %>
 </ul>
+
+<div class="fullscreen-bg">
+  <video loop muted autoplay poster="videos/videoframe.jpg" class="fullscreen-bg__video">
+    <source src="videos/TheGrid(Video Only).mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- <iframe id="tubular-player"  frameborder="0" allowfullscreen="1" title="YouTube video player" width="1440" height="810" src="https://www.youtube.com/embed/ab0TSkLe-E0?controls=0&amp;showinfo=0&amp;modestbranding=1&amp;wmode=transparent&amp;enablejsapi=1&amp;origin=http%3A%2F%2Fwww.seanmccambridge.com">
+</iframe> -->
