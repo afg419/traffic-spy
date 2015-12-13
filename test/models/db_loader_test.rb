@@ -75,4 +75,14 @@ class DbLoaderTest < ModelTest
     assert_equal "63.29.38.211", TrafficSpy::Payload.all.first.ip
     assert_equal "socialLogin", TrafficSpy::Payload.all.first.event_name
   end
+
+  def test_associates_url_and_payload_through_user
+    register_user
+    loader.load_databases
+    user = TrafficSpy::User.all.first
+
+    assert_equal user.payloads.first, TrafficSpy::Payload.all.first
+    assert_equal user.urls.first, TrafficSpy::Url.all.first
+    assert_equal user.urls.first.payloads.first, TrafficSpy::Payload.all.first
+  end
 end
