@@ -2,7 +2,7 @@ require_relative '../test_helper'
 
 class PayloadValidatorTest < ModelTest
 
-  def ruby_params(i = nil)
+  def ruby_params_no_sha(i = nil)
     {"url"=>"blog#{i}",
      "requested_at"=>"2013-02-16 21:38:28 -0700",
      "responded_in"=>37,
@@ -28,7 +28,7 @@ class PayloadValidatorTest < ModelTest
     load_user_info
     identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
-    validator.insert_or_error_status(ruby_params, identifier)
+    validator.insert_or_error_status(ruby_params_no_sha, identifier)
 
     assert_equal 200, validator.status
     assert_equal "Success - 200 OK", validator.body
@@ -38,7 +38,7 @@ class PayloadValidatorTest < ModelTest
     load_user_info
     identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
-    validator.insert_or_error_status(ruby_params, identifier)
+    validator.insert_or_error_status(ruby_params_no_sha, identifier)
 
     assert_equal 200, validator.status
     assert_equal 1, TrafficSpy::Payload.all.first.user_id
@@ -48,7 +48,7 @@ class PayloadValidatorTest < ModelTest
     load_user_info
     identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
-    validator.insert_or_error_status(ruby_params, identifier)
+    validator.insert_or_error_status(ruby_params_no_sha, identifier)
 
     assert_equal 200, validator.status
     assert_equal 1, TrafficSpy::Payload.all.first.url_id
@@ -60,16 +60,16 @@ class PayloadValidatorTest < ModelTest
 
     identifier = "jumpstartlab"
     validator = TrafficSpy::PayloadValidator.new
-    validator.insert_or_error_status(ruby_params, identifier)
+    validator.insert_or_error_status(ruby_params_no_sha, identifier)
 
     identifier = "jumpstartlab1"
-    validator.insert_or_error_status(ruby_params(1), identifier)
+    validator.insert_or_error_status(ruby_params_no_sha(1), identifier)
 
     identifier = "jumpstartlab1"
-    validator.insert_or_error_status(ruby_params(2), identifier)
+    validator.insert_or_error_status(ruby_params_no_sha(2), identifier)
 
     identifier = "jumpstartlab"
-    validator.insert_or_error_status(ruby_params(3), identifier)
+    validator.insert_or_error_status(ruby_params_no_sha(3), identifier)
 
     first_urls = TrafficSpy::User.find_by(identifier:"jumpstartlab").payloads.map{|x| x.url.url}
     second_urls = TrafficSpy::User.find_by(identifier:"jumpstartlab1").payloads.map{|x| x.url.url}
@@ -83,8 +83,8 @@ class PayloadValidatorTest < ModelTest
     load_user_info
     identifier = "jumpstartlab"
 
-    key_to_delete = ruby_params.keys.sample
-    incomplete_params = ruby_params
+    key_to_delete = ruby_params_no_sha.keys.sample
+    incomplete_params = ruby_params_no_sha
     incomplete_params.delete(key_to_delete)
     validator = TrafficSpy::PayloadValidator.new
 
@@ -99,8 +99,8 @@ class PayloadValidatorTest < ModelTest
     identifier = "jumpstartlab"
 
     validator = TrafficSpy::PayloadValidator.new
-    TrafficSpy::DbLoader.new(validator.prep_sha(ruby_params),identifier).load_databases
-    validator.insert_or_error_status(ruby_params, identifier)
+    TrafficSpy::DbLoader.new(validator.prep_sha(ruby_params_no_sha),identifier).load_databases
+    validator.insert_or_error_status(ruby_params_no_sha, identifier)
 
     assert_equal 403, validator.status
     assert_equal "Already Received Request - 403 Forbidden", validator.body
@@ -111,7 +111,7 @@ class PayloadValidatorTest < ModelTest
     identifier = "gobbiltygook"
 
     validator = TrafficSpy::PayloadValidator.new
-    validator.insert_or_error_status(ruby_params, identifier)
+    validator.insert_or_error_status(ruby_params_no_sha, identifier)
 
     assert_equal 403, validator.status
     assert_equal "Application Not Registered - 403 Forbidden", validator.body
@@ -119,7 +119,7 @@ class PayloadValidatorTest < ModelTest
 
   def test_inserts_sha_to_params
     validator = TrafficSpy::PayloadValidator.new
-    assert_equal 40, validator.prep_sha(ruby_params)["payload_sha"].length
+    assert_equal 40, validator.prep_sha(ruby_params_no_sha)["payload_sha"].length
   end
 
   def test_identifies_duplicate_data
@@ -127,22 +127,22 @@ class PayloadValidatorTest < ModelTest
     load_user_info
     identifier = "jumpstartlab"
 
-    refute validator.duplicate_data?(ruby_params)
+    refute validator.duplicate_data?(ruby_params_no_sha)
 
-    ruby_params_sha = validator.prep_sha(ruby_params)
+    ruby_params_sha = validator.prep_sha(ruby_params_no_sha)
     TrafficSpy::DbLoader.new(ruby_params_sha,identifier).load_databases
 
     assert validator.duplicate_data?(ruby_params_sha)
 
-    ruby_params_sha2 = validator.prep_sha(ruby_params.merge({"url"=>"AHHH"}))
+    ruby_params_sha2 = validator.prep_sha(ruby_params_no_sha.merge({"url"=>"AHHH"}))
 
     refute validator.duplicate_data?(ruby_params_sha2)
   end
 
   def test_identifies_missing_or_extra_attributes
     validator = TrafficSpy::PayloadValidator.new
-    ruby_params_sha = validator.prep_sha(ruby_params)
+    ruby_params_sha = validator.prep_sha(ruby_params_no_sha)
     refute validator.missing_or_extra_attribute?(ruby_params_sha)
-    assert validator.missing_or_extra_attribute?(ruby_params.tap {|x| x.delete("responded_in")})
+    assert validator.missing_or_extra_attribute?(ruby_params_no_sha.tap {|x| x.delete("responded_in")})
   end
 end

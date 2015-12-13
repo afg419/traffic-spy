@@ -11,13 +11,8 @@ require 'capybara'
 
 Capybara.app = TrafficSpy::Server
 
-class ControllerTest < Minitest::Test
-  include Rack::Test::Methods #gives GET, POST, DELETE, etc
 
-  def app  #this is what tells Rack::Test what app to look for.
-    TrafficSpy::Server
-  end
-
+class AppTest < Minitest::Test
   def setup
     DatabaseCleaner.start
   end
@@ -27,16 +22,17 @@ class ControllerTest < Minitest::Test
   end
 end
 
-class FeatureTest < Minitest::Test
+
+class ControllerTest < AppTest
+  include Rack::Test::Methods #gives GET, POST, DELETE, etc
+
+  def app  #this is what tells Rack::Test what app to look for.
+    TrafficSpy::Server
+  end
+end
+
+class FeatureTest < AppTest
   include Capybara::DSL
-
-  def setup
-    DatabaseCleaner.start
-  end
-
-  def teardown
-    DatabaseCleaner.clean
-  end
 
   def payload
     {          "url"=>"blog",
@@ -55,12 +51,6 @@ class FeatureTest < Minitest::Test
   end
 end
 
-class ModelTest < Minitest::Test
-  def setup
-    DatabaseCleaner.start
-  end
+class ModelTest < AppTest
 
-  def teardown
-    DatabaseCleaner.clean
-  end
 end
