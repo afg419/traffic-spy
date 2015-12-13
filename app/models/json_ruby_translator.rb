@@ -36,6 +36,5 @@ module TrafficSpy
        "root_url",
        "identifier"]).to_h
     end
-
   end
 end
