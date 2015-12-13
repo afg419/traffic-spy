@@ -29,14 +29,9 @@ module TrafficSpy
     end
 
     def self.url_response_times
-      pairs = pluck(:url, :responded_in)
-      grouped = pairs.group_by(&:first).map { |url, rt| [url, rt.map(&:last)]}
-      urls = grouped.map { |g| g[0] }
-      averages = grouped.map { |g| g[1].reduce(:+)/g[1].length.to_f }
-      stats = urls.zip(averages)
-      #client.urls.group(:url).average(:responded_in).map{|k,v| [k,v.to_f]}.to_h
-      stats.sort_by { |g| g[1] }.reverse
-      stats.map { |s| "#{s[0]}: #{s[1].round(3)} ms" }.reverse
+      stats = group(:url).average(:responded_in).to_a
+      stats.sort_by! { |g| [-g[1], g[0]] }
+      stats.map { |s| "#{s[0]}: #{s[1].to_f.round(3)} ms" }
     end
 
     def self.requested_urls
