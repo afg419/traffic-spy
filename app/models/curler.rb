@@ -10,7 +10,7 @@ class Curl
     TrafficSpy::User.find_or_create_by("identifier"=>id, "root_url"=>root_url)
   end
 
-  def load_database_tables(id="jumpstartlab", root_url = "http://jumpstartlab.com", local_url = "blog", event_name = "socialLogin", browser = "Chrome", operating_system = "Macintosh", resolution_width = "1920", resolution_height = "1280")
+  def load_database_tables(id="PennyLane", root_url = "http://pennylane.com", local_url = "something", event_name = "socialLogin", browser = "Chrome", operating_system = "Macintosh", resolution_width = "1920", resolution_height = "1280")
     load_user_info(id, root_url)
     TrafficSpy::DbLoader.new({"url"=> local_url,
                "requested_at"=>"2013-02-16 21:38:28 -0700",
