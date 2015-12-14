@@ -49,6 +49,7 @@ class UrlDetailsTest < FeatureTest
 
   def test_sees_app_url_data
     register_user("jumpstartlab", "http://jumpstartlab.com")
+    load_tables("jumpstartlab", "http://jumpstartlab.com")
     load_tables("jumpstartlab", "http://jumpstartlab.com",{
                 "request_type" => "POST",
                 "browser" => "Firefox"
@@ -61,15 +62,37 @@ class UrlDetailsTest < FeatureTest
                 "request_type" => "DELETE",
                 "browser" => "Opera"
     })
+    load_tables("jumpstartlab", "http://jumpstartlab.com",{
+                "responded_in" => 10
+    })
+    load_tables("jumpstartlab", "http://jumpstartlab.com",{
+                "responded_in" => 50
+    })
 
     visit('/sources/jumpstartlab/urls/blog')
 
-    assert page.has_content?("POST")
-    assert page.has_content?("GET")
-    assert page.has_content?("DELETE")
-    assert page.has_content?("Firefox")
-    assert page.has_content?("Chrome")
-    assert page.has_content?("Opera")
+    within("#verbs") do
+      assert page.has_content?("POST")
+      assert page.has_content?("GET")
+      assert page.has_content?("DELETE")
+    end
 
+    within("#agents") do
+      assert page.has_content?("Firefox")
+      assert page.has_content?("Chrome")
+      assert page.has_content?("Opera")
+    end
+
+    within("#shortest-response") do
+      assert page.has_content?("10")
+    end
+
+    within("#longest-response") do
+      assert page.has_content?("50")
+    end
+
+    within("#average-response") do
+      assert page.has_content?("34.667")
+    end
   end
 end
