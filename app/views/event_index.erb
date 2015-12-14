@@ -20,7 +20,7 @@
 
           <p class="card-details">
             <ul>
-              <%  @user.payloads.events_by_popularity.each do |event| %>
+              <% @user.payloads.events_by_popularity.each do |event| %>
               <li><a href="/sources/<%= @user.identifier %>/events/<%= event.split(":")[0] %>"><%= event.split(":")[0] %></a>:<%=event.split(":")[1]%></li>
               <%  end %>
             </ul>

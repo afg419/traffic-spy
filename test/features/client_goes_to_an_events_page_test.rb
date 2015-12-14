@@ -30,6 +30,27 @@ class EventDetailsTest < FeatureTest
     refute page.has_css?("app_details_error")
   end
 
+  def test_goes_into_event_page_finds_content
+    register_user("jumpstartlab", "http://jumpstartlab.com")
+    load_tables("jumpstartlab", "http://jumpstartlab.com")
+
+
+    visit('/sources/jumpstartlab/events')
+    click_link('socialLogin')
+
+    within('h2') do
+      assert page.has_content?("Total Events: 1")
+    end
+
+    within('.container') do
+      assert page.has_content?("Hour Amount Total Count")
+      assert page.has_content?("9 pm	1	1")
+      assert page.has_content?("10 pm  0 1")
+    end
+
+    refute page.has_css?("app_details_error")
+  end
+
   def test_goes_to_app_error_page_if_user_not_registered
     visit('/sources/jumpstartlab/events/socialLogin')
 
