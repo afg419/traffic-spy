@@ -24,8 +24,8 @@ module TrafficSpy
 
       def errors(identifier = nil)
         {
-          :non_registered => "Sorry! #{identifier.capitalize} has not been registered!",
-          :error_missing => "Missing Payload - 400 Bad Request",
+          :no_user => "Sorry! #{identifier.capitalize} has not been registered!",
+          :no_payload => "Missing Payload - 400 Bad Request",
           :error_duplicate => "Already Received Request - 403 Forbidden"
         }
       end
