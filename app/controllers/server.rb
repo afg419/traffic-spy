@@ -9,24 +9,26 @@ module TrafficSpy
     end
 
     helpers do
-      def run_routes(condition, error1, error2)
+      def decide_view(condition, error)
         case true
         when @user.nil?
-          @error = error1
+          @error = error![:no_user]
           erb :application_details_error
         when condition
-          @error = error2
+          @error = error![error]
           erb :application_details_error
         when true
           yield
         end
       end
 
-      def errors(identifier = nil)
+      def error!
         {
-          :no_user => "Sorry! #{identifier.capitalize} has not been registered!",
-          :no_payload => "Missing Payload - 400 Bad Request",
-          :error_duplicate => "Already Received Request - 403 Forbidden"
+          :no_user => "Sorry! #{@id.capitalize} has not been registered!",
+          :no_payload => "Sorry! No payload data has been registered for #{@id.capitalize}. - 400 Bad Request",
+          :no_path => "Sorry! #{@local_url} has not been requested!",
+          :no_event => "Sorry! #{@event} has not been defined!",
+          :no_events => "Sorry! No events have been defined!"
         }
       end
 
@@ -53,38 +55,17 @@ module TrafficSpy
       @id = identifier
       @user = User.find_by(identifier: @id)
 
-      case true
-      when @user.nil?
-        @error = "Sorry! #{identifier.capitalize} has not been registered!"
-        erb :application_details_error
-      when @user.payloads.length == 0
-        @error = "Sorry! No payload data has been registered for #{identifier.capitalize}."
-        erb :application_details_error
-      when true
+      decide_view(@user.nil? || @user.payloads.length == 0, :no_payload) do
         erb :application_details
       end
-      #
-      # run_routes(@user.payloads.length == 0,
-      #           "Sorry! #{identifier.capitalize} has not been registered!",
-      #           "Sorry! No payload data has been registered for #{identifier.capitalize}.") do
-      #
-      #             erb :application_details
-      #
-      #           end
     end
 
     get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
       @id = identifier
       @user = User.find_by(identifier: @id)
+      @local_url = relative_path
 
-      if @user.nil?
-        @error = "Sorry! #{@id.capitalize} has not been registered!"
-        erb :application_details_error
-      elsif @user.urls.find_by(url:relative_path).nil?
-        @error = "Sorry! #{relative_path} has not been requested!"
-        erb :application_details_error
-      else
-        @local_url = relative_path
+      decide_view(@user.nil? || @user.urls.find_by(url:relative_path).nil?, :no_path) do
         erb :url_details
       end
     end
@@ -92,14 +73,9 @@ module TrafficSpy
     get '/sources/:identifier/events/:event_name' do |identifier, event_name|
       @id = identifier
       @user = User.find_by(identifier: @id)
-      if @user.nil?
-        @error = "Sorry! #{@id.capitalize} has not been registered!"
-        erb :application_details_error
-      elsif @user.payloads.find_by(event_name:event_name).nil?
-        @error = "Sorry! #{event_name} has not been defined!"
-        erb :application_details_error
-      else
-        @event = event_name
+      @event = event_name
+
+      decide_view(@user.nil? || @user.payloads.find_by(event_name:event_name).nil?, :no_event) do
         erb :event_details
       end
     end
@@ -107,13 +83,8 @@ module TrafficSpy
     get '/sources/:identifier/events' do |identifier|
       @id = identifier
       @user = User.find_by(identifier: @id)
-      if @user.nil?
-        @error = "Sorry! #{@id.capitalize} has not been registered!"
-        erb :application_details_error
-      elsif @user.payloads.length == 0
-        @error = "Sorry! No events have been defined!"
-        erb :application_details_error
-      else
+
+      decide_view(@user.nil? || @user.payloads.length == 0, :no_events) do
         erb :event_index
       end
     end
