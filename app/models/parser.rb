@@ -7,10 +7,10 @@ module TrafficSpy
 
     def parse(params)
       raw_data = JSON.parse(params["payload"])
-      raw_data.delete("parameters")
       raw_data = replace_agent_with_browser_and_platorm(raw_data) if raw_data["userAgent"]
       raw_data["url"] = local_url(raw_data)
-      change_attributes_to_match_table_column_names(raw_data)
+      loadable_data = change_attributes_to_match_table_column_names(raw_data)
+      loadable_data.tap{|h| h.delete(nil) && h.delete("parameters")}
     end
 
     def local_url(data)

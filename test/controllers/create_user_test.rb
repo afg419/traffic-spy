@@ -32,6 +32,17 @@ class CreateUserTest < ControllerTest
     assert_equal "Missing Parameters - 400 Bad Request", last_response.body
   end
 
+  def test_400_is_returned_if_no_params_given
+    initial_count = TrafficSpy::User.count
+    post '/sources', {}
+    final_count = TrafficSpy::User.count
+
+    assert_equal 400, last_response.status
+    assert_equal 0, (final_count - initial_count)
+    assert_equal "Missing Parameters - 400 Bad Request", last_response.body
+  end
+
+
   def test_403_is_returned_if_user_already_exists
     initial_count = TrafficSpy::User.count
 

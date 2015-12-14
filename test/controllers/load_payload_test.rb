@@ -68,7 +68,8 @@ class LoadPayloadTest < ControllerTest
     create_user
 
     initial_count = TrafficSpy::Payload.count
-    post '/sources/jumpstartlab/data', params
+    # post '/sources/jumpstartlab/data', params
+    load_tables("jumpstartlab","http://jumpstartlab.com")
     # Payload.create(payload_data)
     post '/sources/jumpstartlab/data', params
     final_count = TrafficSpy::Payload.count

@@ -1,6 +1,5 @@
 module TrafficSpy
-  module Responses
-    
+  module Responses  
     def registration_message_to_client(identifier)
       {
         :ok => "Success - 200 OK: User registered! {'identifier':'#{identifier}'}",
