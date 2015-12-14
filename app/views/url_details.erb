@@ -1,13 +1,84 @@
 <h1 id="url_details_header">Got to <%= @id.capitalize %>'s <%= @local_url %> page!</h1>
 
-<br>Longest Response Time: <%= @user.urls.longest_response_time %>
-
-<br>Shortest Response Time: <%= @user.urls.shortest_response_time %>
-
-<br>Average Response Time: <%= @user.urls.average_response_time %>
-
-<br>Verbs Used: <%= @user.urls.verbs_used %>
-
-<br>Most Popular Referrers: <%= @user.urls.most_popular_referrers %>
-
-<br>Most Popular User Agents: <%= @user.urls.most_popular_user_agents %>
+<div class= "container">
+  <div class="row">
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/blue-eye.gif">
+        </div>
+        <div class="card-content">
+          <p class="card-header">Longest Response Time</p>
+        </div>
+        <div class="card-action">
+          <p class="card-details"><%= @user.urls.longest_response_time %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/blue-eye.gif">
+        </div>
+        <div class="card-content">
+          <p class="card-header">Shortest Response Time</p>
+        </div>
+        <div class="card-action">
+          <p class="card-details"><%= @user.urls.shortest_response_time %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/blue-eye.gif">
+        </div>
+        <div class="card-content">
+          <p class="card-header">Average Response Time</p>
+        </div>
+        <div class="card-action">
+          <p class="card-details"><%= @user.urls.average_response_time %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/blue-eye.gif">
+        </div>
+        <div class="card-content">
+          <p class="card-header">Verbs Used</p>
+        </div>
+        <div class="card-action">
+          <p class="card-details"><%= @user.urls.verbs_used %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/blue-eye.gif">
+        </div>
+        <div class="card-content">
+          <p class="card-header">Most Popular Referrers</p>
+        </div>
+        <div class="card-action">
+          <p class="card-details"><%= @user.urls.most_popular_referrers %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/blue-eye.gif">
+        </div>
+        <div class="card-content">
+          <p class="card-header">Most Popular User Agents</p>
+        </div>
+        <div class="card-action">
+          <p class="card-details"><%= @user.urls.most_popular_user_agents %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,9 @@
-<div class="center"> <h1 id="event_details_header">Got to <%= @id.capitalize %>'s <%= @event %> page!</h1></div>
+<div class="center"> <h1 id="event_details_header"><%= @id.capitalize %>'s <%= @event %> Page</h1></div>
 <div class="divider"></div>
-<div class="center"><h2>Total Overall Events: <%= @user.payloads.total_events(@event) %><br><br></h2></div>
+<div class="center"><h2>Total Events: <%= @user.payloads.total_events(@event) %><br><br></h2></div>
 
 <% @count = 0 %>
-<table class="highlight card-panel white centered responsive-table">
+<table class="highlight card-panel centered responsive-table", id="event-table">
        <thead>
          <tr class="blue-text text-darken-2">
              <th data-field="id">Hour</th>
