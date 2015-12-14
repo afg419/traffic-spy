@@ -53,6 +53,16 @@ body {
   background-color: grey;
   color: #ffab40;;
 }
+
  #table-text {
   color: #C5D8FB
  }
+
+
+.list-links{
+  color: #FFAB40
+}
+
+.event_index {
+  text-align: center;
+}

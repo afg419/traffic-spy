@@ -84,6 +84,7 @@ class UrlDetailsTest < FeatureTest
 
     visit('/sources/jumpstartlab/urls/blog')
 
+
     within("#verbs") do
       assert page.has_content?("POST")
       assert page.has_content?("GET")
