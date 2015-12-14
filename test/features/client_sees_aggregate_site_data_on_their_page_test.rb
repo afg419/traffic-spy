@@ -7,8 +7,9 @@ class ClientSeesAggregateSiteData < FeatureTest
 
     visit "/sources/jumpstartlab"
 
-    assert page.has_content? 'Most to Least Requested URLS: ["blog"]'
-    assert page.has_content? 'Screen Resolution: ["1920 x 1280"]'
-    assert page.has_content? "View Detailed Data for each of jumpstartlab's URLS:"
+    within('.container') do
+      assert page.has_content? "Most to Least Requested URLS"
+      assert page.has_content? 'Screen Resolution'
+    end
   end
 end

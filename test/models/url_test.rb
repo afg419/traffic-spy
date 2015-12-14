@@ -160,7 +160,7 @@ class UrlTest < ModelTest
     user = TrafficSpy::User.find_by(identifier: "identifier1")
     expected = ["1024 x 768", "1920 x 1080", "1366 x 768", "1920 x 1280"]
 
-    assert_equal expected, user.urls.resolution
+    assert_equal expected.sort, user.urls.resolution.sort
   end
 
   def test_we_can_return_all_the_browsers_and_their_breakdown
