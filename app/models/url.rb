@@ -15,7 +15,8 @@ module TrafficSpy
     end
 
     def self.verbs_used
-      pluck(:request_type)
+      verbs = group(:request_type).count
+      verbs.sort_by { |k, v| [-v, k] }.map{ |u| "#{u[0]}: #{u[1]}" }
     end
 
     def self.most_popular_referrers

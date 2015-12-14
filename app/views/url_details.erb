@@ -1,85 +1,46 @@
 <%= erb :_navbar_url, locals: { user: @user, local_url: @local_url } %>
-<h1 id="url_details_header">Got to <%= @id.capitalize %>'s <%= @local_url %> page!</h1>
+<h1 id="url_details_header"><%= @id.capitalize %>'s <%= @local_url %> Page</h1>
 
 <div class= "container">
-  <div class="row">
-    <div class="col s4">
-      <div class="card large" id="longest-response">
-        <div class="card-image">
-          <img class="activator" src="/images/blue-eye.gif">
-        </div>
-        <div class="card-content">
-          <p class="card-header">Longest Response Time</p>
-        </div>
-        <div class="card-action">
-          <p class="card-details"><%= @user.urls.longest_response_time %></p>
-        </div>
-      </div>
+<div class="row">
+  <div class="col s4">
+    <div class="card large" id="longest-response">
+      <%= erb :_card_with_image, locals: {title: "Longest Response Time", details: @user.urls.longest_response_time } %>
     </div>
-    <div class="col s4">
-      <div class="card large" id="shortest-response">
-        <div class="card-image">
-          <img class="activator" src="/images/blue-eye.gif">
-        </div>
-        <div class="card-content">
-          <p class="card-header">Shortest Response Time</p>
-        </div>
-        <div class="card-action">
-          <p class="card-details"><%= @user.urls.shortest_response_time %></p>
-        </div>
-      </div>
+  </div>
+  <div class="col s4">
+    <div class="card large" id="shortest-response">
+      <%= erb :_card_with_image, locals: {title: "Shortest Response Time", details: @user.urls.shortest_response_time } %>
     </div>
-    <div class="col s4">
-      <div class="card large" id="average-response">
-        <div class="card-image">
-          <img class="activator" src="/images/blue-eye.gif">
-        </div>
-        <div class="card-content">
-          <p class="card-header">Average Response Time</p>
-        </div>
-        <div class="card-action">
-          <p class="card-details"><%= @user.urls.average_response_time %></p>
-        </div>
-      </div>
+  </div>
+  <div class="col s4">
+    <div class="card large" id="average-response">
+      <%= erb :_card_with_image, locals: {title: "Average Response Time", details: @user.urls.average_response_time } %>
     </div>
-    <div class="col s4">
-      <div class="card large" id="verbs">
-        <div class="card-image">
-          <img class="activator" src="/images/blue-eye.gif">
-        </div>
-        <div class="card-content">
-          <p class="card-header">Verbs Used</p>
-        </div>
-        <div class="card-action">
-          <p class="card-details"><%= @user.urls.verbs_used %></p>
-        </div>
-      </div>
-    </div>
-    <div class="col s4">
-      <div class="card large" id="referrers">
-        <div class="card-image">
-          <img class="activator" src="/images/blue-eye.gif">
-        </div>
-        <div class="card-content">
-          <p class="card-header">Most Popular Referrers</p>
-        </div>
-        <div class="card-action">
-          <p class="card-details"><%= @user.urls.most_popular_referrers %></p>
-        </div>
-      </div>
-    </div>
-    <div class="col s4">
-      <div class="card large" id="agents">
-        <div class="card-image">
-          <img class="activator" src="/images/blue-eye.gif">
-        </div>
-        <div class="card-content">
-          <p class="card-header">Most Popular User Agents</p>
-        </div>
-        <div class="card-action">
-          <p class="card-details"><%= @user.urls.most_popular_user_agents %></p>
-        </div>
-      </div>
-    </div>
+  </div>
+
+  <div class="col s4">
+    <div class="card large" id="verbs">
+  <div class="card-content">
+    <ul>
+      <% @user.urls.verbs_used.each do |verb_and_number|  %>
+      <li>- <%= verb_and_number.split(":")[0] %>: <%= verb_and_number.split(":")[1] %> </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="card-action">
+    <p class="card-details">Verbs Used</p>
+  </div>
+  </div>
+</div>
+
+<div class="col s4">
+  <div class="card large" id="referrers">
+    <%= erb :_card_with_data, locals: {title: "Most Popular Referrers", iteratable: @user.urls.most_popular_referrers } %>
+  </div>
+</div>
+<div class="col s4">
+  <div class="card large" id="agents">
+    <%= erb :_card_with_data, locals: {title: "Most Popular User Agents", iteratable: @user.urls.most_popular_user_agents } %>
   </div>
 </div>
