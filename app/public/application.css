@@ -55,3 +55,12 @@ body {
 #event-table {
   background-color: grey;
 }
+
+.list-links{
+  color: #FFAB40
+}
+
+.event_index {
+  text-align: center;
+
+}

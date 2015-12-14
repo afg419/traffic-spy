@@ -9,6 +9,7 @@ module TrafficSpy
     end
 
     helpers do
+
       def decide_view(condition, error)
         case true
         when @user.nil?
@@ -31,7 +32,6 @@ module TrafficSpy
           :no_events => "Sorry! No events have been defined!"
         }
       end
-
     end
 
     post '/sources' do
