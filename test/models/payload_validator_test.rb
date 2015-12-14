@@ -33,6 +33,7 @@ class PayloadValidatorTest < ModelTest
 
   def test_returns_proper_messages_for_good_params
     register_default_user
+
     validator = TrafficSpy::PayloadValidator.new
     validator.insert_or_error_status(ruby_params_no_sha, default_identifier)
 
@@ -42,6 +43,7 @@ class PayloadValidatorTest < ModelTest
 
   def test_assigns_payload_to_correct_user
     register_default_user
+
     validator = TrafficSpy::PayloadValidator.new
     validator.insert_or_error_status(ruby_params_no_sha, default_identifier)
 
@@ -51,6 +53,7 @@ class PayloadValidatorTest < ModelTest
 
   def test_assigns_url_to_correct_user
     register_default_user
+
     validator = TrafficSpy::PayloadValidator.new
     validator.insert_or_error_status(ruby_params_no_sha, default_identifier)
 
@@ -117,8 +120,8 @@ class PayloadValidatorTest < ModelTest
   end
 
   def test_identifies_duplicate_data
-    validator = TrafficSpy::PayloadValidator.new
     register_default_user
+    validator = TrafficSpy::PayloadValidator.new
 
     refute validator.duplicate_data?(ruby_params_no_sha)
 
