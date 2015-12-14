@@ -29,12 +29,12 @@ class EventIndexTest < FeatureTest
   end
 
   def test_goes_to_app_error_page_if_user_not_registered
-    visit('/sources/jumpstartlab/events')
+    visit('/sources/blax/events')
 
     refute page.has_css?("#event_index_header")
 
     within('#app_details_header') do
-      assert page.has_content?("Jumpstartlab's")
+      assert page.has_content?("Blax's")
       assert page.has_content?("Error")
     end
 

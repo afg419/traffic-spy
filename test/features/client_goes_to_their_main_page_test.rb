@@ -29,11 +29,11 @@ class AppDetailsTest < FeatureTest
   end
 
   def test_goes_to_app_error_page_if_user_not_registered
-    visit('/sources/jumpstartlab')
-    assert_equal '/sources/jumpstartlab', current_path
+    visit('/sources/blax')
+    assert_equal '/sources/blax', current_path
 
     within('#app_details_header') do
-      assert page.has_content?("Jumpstartlab")
+      assert page.has_content?("Blax")
     end
 
     within('#app_details_error') do
