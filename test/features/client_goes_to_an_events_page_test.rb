@@ -2,25 +2,23 @@ require_relative '../test_helper'
 
 class EventDetailsTest < FeatureTest
 
-  def payload
-    {          "url"=>"blog",
-               "requested_at"=>"2013-02-16 21:38:28 -0700",
-               "responded_in"=>37,
-               "referred_by"=>"http://jumpstartlab.com",
-               "request_type"=>"GET",
-               "event_name"=>"socialLogin",
-               "resolution_width"=>"1920",
-               "resolution_height"=>"1280",
-               "ip"=>"63.29.38.211",
-               "user_id"=>1,
-               "browser"=>"Mozilla",
-               "platform"=>"Mac",
-               "payload_sha" => "12489809850939491939823"}
+  def test_event_page_nav_bar
+    register_user("jumpstartlab", "http://jumpstartlab.com")
+    load_tables("jumpstartlab", "http://jumpstartlab.com")
+
+    visit('/sources/jumpstartlab/events')
+
+    within('.nav-wrapper') do
+      assert has_link?("Jumpstartlab")
+      assert has_link?("Traffic Spy")
+      assert has_link?("Event")
+      assert has_link?("socialLogin")
+    end
   end
 
   def test_goes_to_event_details_page
-    TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "http://jumpstartlab.com")
-    TrafficSpy::DbLoader.new(payload,"jumpstartlab").load_databases
+    register_user("jumpstartlab", "http://jumpstartlab.com")
+    load_tables("jumpstartlab", "http://jumpstartlab.com")
 
     visit('/sources/jumpstartlab/events/socialLogin')
 
@@ -48,7 +46,7 @@ class EventDetailsTest < FeatureTest
   end
 
   def test_goes_to_app_error_page_if_url_does_not_exist
-    TrafficSpy::User.create("identifier":"jumpstartlab", "root_url":"/jumpstartlab")
+    register_user("jumpstartlab", "http://jumpstartlab.com")
 
     visit('/sources/jumpstartlab/events/socialBLOGIN')
 

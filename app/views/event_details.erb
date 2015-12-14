@@ -4,9 +4,12 @@
 <div class="center"><h2>Total Events: <%= @user.payloads.total_events(@event) %><br><br></h2></div>
 
 <% @count = 0 %>
+<div class="container">
+<div class="col s3"><p></p></div>
+<div class="col s6">
 <table class="highlight card-panel centered responsive-table", id="event-table">
        <thead>
-         <tr class="blue-text text-darken-2">
+         <tr>
              <th data-field="id">Hour</th>
              <th data-field="name">Amount</th>
              <th data-field="price">Total Count</th>
@@ -15,7 +18,7 @@
 
 <% @user.payloads.hour_edited(@event).each do |k, v| %>
        <tbody>
-         <tr class="blue-text text-darken-2">
+         <tr id="table-text">
            <td><%= k %></td>
            <td><%= v %></td>
            <td><%= @count += v  %></td>
@@ -23,3 +26,6 @@
         <% end %>
        </tbody>
      </table>
+   </div>
+   <div class="col s3"><p></p></div>
+</div>
