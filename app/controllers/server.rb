@@ -39,14 +39,6 @@ module TrafficSpy
       when true
         erb :application_details
       end
-      # <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Clients<i class="material-icons right">visibility</i></a></li>
-      #
-      # <ul id="dropdown1" class="dropdown-content">
-      #   <% @user.urls.uniq.each do |client|  %>
-      #   <li class="divider"></li>
-      #   <li><a href="/sources/<%= @user.identifier %>"><%= client.url %></a></li>
-      #   <% end %>
-      # </ul>
 
 
       #
