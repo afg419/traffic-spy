@@ -1,13 +1,14 @@
+<%= erb :_navbar_events_index, locals: { user: @user } %>
 <h1 id="event_index_header"><%= @id.capitalize %>'s Event Index Page</h1>
 
 <div class= "container">
   <div class="row">
-    <div class="col s4">
+    <div class="col s2">
       <p>
 
       </p>
     </div>
-    <div class="col s4">
+    <div class="col s8">
       <div class="card large">
         <div class="card-image">
           <img class="activator" src="/images/traffic-night-shanghai.jpg">
@@ -16,36 +17,14 @@
           <p class="card-header">Most to Least Requested Events</p>
         </div>
         <div class="card-action">
-          <p class="card-details"><%= @user.payloads.events_by_popularity %></p>
-        </div>
-      </div>
-    </div>
-    <div class="col s4">
-      <p>
 
-      </p>
-    </div>
-  </div>
-</div>
-
-<br><br><h4>View Specific Data for Each Event:</h4><br>
-
-<div class= "container">
-  <div class="row">
-    <div class="col s4">
-      <p>
-
-      </p>
-    </div>
-    <div class="col s4">
-      <div class="card large">
-        <div class="card-image">
-          <img class="activator" src="/images/traffic-night-shanghai.jpg">
-        </div>
-        <div class="card-action">
-          <p class="card-details"><% @user.payloads.events_by_popularity.each do |event| %>
-            <a href="/sources/<%= @user.identifier %>/events/<%= event %>"><%= event %><br></a>
-          <% end %></p>
+          <p class="card-details">
+            <ul>
+              <%  @user.payloads.events_by_popularity.each do |event| %>
+              <li><a href="/sources/<%= @user.identifier %>/events/<%= event.split(":")[0] %>"><%= event.split(":")[0] %></a>:<%=event.split(":")[1]%></li>
+              <%  end %>
+            </ul>
+          </p>
         </div>
       </div>
     </div>

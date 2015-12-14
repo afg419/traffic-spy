@@ -1,4 +1,4 @@
-<%= erb :navbar_index, locals: { user: @user }%>
+<%= erb :_navbar_index, locals: { user: @user } %>
 
 <h1 id="app_details_header"><%= @user.identifier.capitalize %>'s Application Details</h1>
 
@@ -93,6 +93,3 @@
     </div>
   </div>
 </div>
-
-<br><br><a id="event-data-link" href="/sources/<%= @user.identifier %>/events"><h4>View Event Data for <%= @user.identifier.capitalize %></h4></a>
-<br><br>

@@ -1,4 +1,5 @@
-<h1 id="url_details_header"><%= @id.capitalize %>'s <%= @local_url %> Page</h1>
+<%= erb :_navbar_url, locals: { user: @user, local_url: @local_url } %>
+<h1 id="url_details_header">Got to <%= @id.capitalize %>'s <%= @local_url %> page!</h1>
 
 <div class= "container">
   <div class="row">

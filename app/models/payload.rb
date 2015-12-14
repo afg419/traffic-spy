@@ -10,7 +10,7 @@ module TrafficSpy
 
 
     def self.events_by_popularity
-      group(:event_name).count.sort_by { |k, v| [-v, k] }.map{ |u| u[0] }
+      group(:event_name).count.sort_by { |k, v| [-v, k] }.map{ |u| "#{u[0]}: #{u[1]}" }
     end
 
     def self.find_event_times(event_name)

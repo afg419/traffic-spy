@@ -116,7 +116,7 @@ class PayloadTest < ModelTest
     user = TrafficSpy::User.find_by(identifier: "identifier0")
     returned = user.payloads.events_by_popularity
 
-    assert_equal ["event_name0","event_name2","event_name1"], returned
+    assert_equal ["event_name0: 3", "event_name2: 2", "event_name1: 1"], returned
   end
 
   def test_returns_events_by_popularity_multiple_users
@@ -144,8 +144,8 @@ class PayloadTest < ModelTest
     returned1 = user1.payloads.events_by_popularity
     returned2 = user2.payloads.events_by_popularity
 
-    assert_equal ["event_name0","event_name2","event_name1"], returned0
-    assert_equal ["event_name0","event_name2"],               returned1
-    assert_equal ["event_name2","event_name0","event_name1"], returned2
+    assert_equal ["event_name0: 3", "event_name2: 2", "event_name1: 1"], returned0
+    assert_equal ["event_name0: 2","event_name2: 1"], returned1
+    assert_equal ["event_name2: 2","event_name0: 1","event_name1: 1"], returned2
   end
 end
