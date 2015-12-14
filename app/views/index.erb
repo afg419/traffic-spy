@@ -1,21 +1,6 @@
 <%=  erb :_navbar, locals: { user: TrafficSpy::User.all }%>
 <h1 id="title">Hello, Traffic Spyer</h1>
 
-<!-- <div class="row">
- <div class="col s12 m6">
-   <div class="card">
-     <div class="card-content white-text">
-       <span class="Registered Users">Users</span>
-       <ul>
-         <% TrafficSpy::User.all.each do |user| %>
-           <li><a href="/sources/<%=user.identifier%>"><%= user.identifier.capitalize %></a></li>
-         <% end %>
-       </ul>
-     </div>
-   </div>
- </div>
-</div> -->
-
 <div class="fullscreen-bg">
   <video loop muted autoplay poster="videos/videoframe.jpg" class="fullscreen-bg__video">
     <source src="videos/TheGridCut.mp4" type="video/mp4">
