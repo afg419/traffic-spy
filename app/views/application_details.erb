@@ -1,22 +1,92 @@
 <%= erb :navbar_index, locals: { user: @user }%>
 
-<h1 id="app_details_header">Got to <%= @user.identifier.capitalize %>'s page!</h1>
+<h1 id="app_details_header"><%= @user.identifier.capitalize %>'s Application Details</h1>
 
-<br>Most to Least Requested URLS: <%= @user.urls.requested_urls %>
+<div class= "container">
+  <div class="row">
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/eyeball.jpg">
+        </div>
+        <div class="card-content">
+          <p>Most to Least Requested URLS</p>
+        </div>
+        <div class="card-action">
+          <p><%= @user.urls.requested_urls %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/eyeball.jpg">
+        </div>
+        <div class="card-content">
+          <p>Web Browser Breakdown</p>
+        </div>
+        <div class="card-action">
+          <p><%= @user.urls.browser_breakdown %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/eyeball.jpg">
+        </div>
+        <div class="card-content">
+          <p>Operating System Breakdown</p>
+        </div>
+        <div class="card-action">
+          <p><%= @user.urls.os_breakdown %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s2">
+      <p>
 
-<br>Web Browser Breakdown: <%= @user.urls.browser_breakdown %>
+      </p>
+    </div>
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/eyeball.jpg">
+        </div>
+        <div class="card-content">
+          <p>Screen Resolution</p>
+        </div>
+        <div class="card-action">
+          <p><%= @user.urls.resolution %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/eyeball.jpg">
+        </div>
+        <div class="card-content">
+          <p>Average Response Times per URL</p>
+        </div>
+        <div class="card-action">
+          <p><%= @user.urls.url_response_times %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s2">
+      <p>
 
-<br>OS Breakdown: <%= @user.urls.os_breakdown %>
+      </p>
+    </div>
+  </div>
+</div>
 
-<br>Screen Resolution: <%= @user.urls.resolution %>
-
-<br>Longest to Shortest Average Response Time per URL: <%= @user.urls.url_response_times %>
-
-<br><br><h4>View Detailed Data for each of <%= @user.identifier %>'s URLS:</h4><br><br>
+<br><br><h4>View Detailed Data for each of <%= @user.identifier.capitalize %>'s URLS:</h4><br><br>
 
 <% @user.urls.uniq.each do |url| %>
   <a href="/sources/<%= @user.identifier %>/urls/<%= url.url %>"><%= url.url %><br></a>
 <% end %>
 
-<br><br><a href="/sources/<%= @user.identifier %>/events"><h4>View Event Data for <%= @user.identifier %>:</h4></a>
+<br><br><a href="/sources/<%= @user.identifier %>/events"><h4>View Event Data for <%= @user.identifier.capitalize %></h4></a>
 <br><br>

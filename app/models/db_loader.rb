@@ -3,7 +3,7 @@ module TrafficSpy
 
     attr_reader :ruby_params, :identifier
 
-    def initialize(ruby_params, identifier)
+    def initialize(ruby_params = {}, identifier = "")
       @ruby_params = ruby_params
       @identifier = identifier
     end
