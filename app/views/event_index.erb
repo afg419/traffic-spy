@@ -1,9 +1,58 @@
-<h1 id="event_index_header">Got to <%= @id.capitalize %>'s event index page!</h1>
+<h1 id="event_index_header"><%= @id.capitalize %>'s Event Index Page</h1>
 
-<br>Most to Least Requested Events: <%= @user.payloads.events_by_popularity %>
+<div class= "container">
+  <div class="row">
+    <div class="col s4">
+      <p>
+
+      </p>
+    </div>
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/blue-eye.gif">
+        </div>
+        <div class="card-content">
+          <p class="card-header">Most to Least Requested Events</p>
+        </div>
+        <div class="card-action">
+          <p class="card-details"><%= @user.payloads.events_by_popularity %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <p>
+
+      </p>
+    </div>
+  </div>
+</div>
 
 <br><br><h4>View Specific Data for Each Event:</h4><br>
 
-<% @user.payloads.events_by_popularity.each do |event| %>
-  <a href="/sources/<%= @user.identifier %>/events/<%= event %>"><%= event %><br></a>
-<% end %>
+<div class= "container">
+  <div class="row">
+    <div class="col s4">
+      <p>
+
+      </p>
+    </div>
+    <div class="col s4">
+      <div class="card large">
+        <div class="card-image">
+          <img class="activator" src="/images/blue-eye.gif">
+        </div>
+        <div class="card-action">
+          <p class="card-details"><% @user.payloads.events_by_popularity.each do |event| %>
+            <a href="/sources/<%= @user.identifier %>/events/<%= event %>"><%= event %><br></a>
+          <% end %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col s4">
+      <p>
+
+      </p>
+    </div>
+  </div>
+</div>
