@@ -8,6 +8,30 @@ module TrafficSpy
       erb :error
     end
 
+    helpers do
+      def run_routes(condition, error1, error2)
+        case true
+        when @user.nil?
+          @error = error1
+          erb :application_details_error
+        when condition
+          @error = error2
+          erb :application_details_error
+        when true
+          yield
+        end
+      end
+
+      def errors(identifier = nil)
+        {
+          :non_registered => "Sorry! #{identifier.capitalize} has not been registered!",
+          :error_missing => "Missing Payload - 400 Bad Request",
+          :error_duplicate => "Already Received Request - 403 Forbidden"
+        }
+      end
+
+    end
+
     post '/sources' do
       validator = TrafficSpy::UserValidator.new
       validator.validate(params)
@@ -39,19 +63,14 @@ module TrafficSpy
       when true
         erb :application_details
       end
-
-
       #
-      # if @user.nil?
-      #   @error = "Sorry! #{identifier.capitalize} has not been registered!"
-      #   erb :application_details_error
-      # elsif @user.payloads.length == 0
-      #   @error = "Sorry! No payload data has been registered for #{identifier.capitalize}."
-      #   erb :application_details_error
-      # else
-      #   @analyst = TrafficSpy::AppAnalytics.new
-      #   erb :application_details
-      # end
+      # run_routes(@user.payloads.length == 0,
+      #           "Sorry! #{identifier.capitalize} has not been registered!",
+      #           "Sorry! No payload data has been registered for #{identifier.capitalize}.") do
+      #
+      #             erb :application_details
+      #
+      #           end
     end
 
     get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
@@ -88,7 +107,6 @@ module TrafficSpy
     get '/sources/:identifier/events' do |identifier|
       @id = identifier
       @user = User.find_by(identifier: @id)
-
       if @user.nil?
         @error = "Sorry! #{@id.capitalize} has not been registered!"
         erb :application_details_error
