@@ -7,92 +7,37 @@
 
     <div class="col s12 m4">
       <div class="card large" id="requested-urls">
-        <div class="card-content">
-          <ul>
-            <% @user.urls.requested_urls.each do |url_and_number|  %>
-            <li>- <a class="list-links" href="/sources/<%= @user.identifier %>/urls/<%= url_and_number.split(":")[0] %>"><%= url_and_number.split(":")[0] %></a>: <%= url_and_number.split(":")[1] %> </li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="card-action">
-          <p class="card-details">Most to Least Requested URLS</p>
-        </div>
+        <%= erb :_card_with_link, locals: {title: "Most to Least Requested URLS", iteratable: @user.urls.requested_urls } %>
       </div>
     </div>
 
     <div class="col s12 m4">
       <div class="card large" id="browser-breakdown">
-        <div class="card-content">
-          <ul>
-            <% @user.urls.browser_breakdown.each do |url|  %>
-            <li>- <%= url %></li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="card-action">
-          <p class="card-details">Web Browser Breakdown</p>
-        </div>
+        <%= erb :_card_with_data, locals: {title: "Web Browser Breakdown", iteratable: @user.urls.browser_breakdown } %>
       </div>
     </div>
 
     <div class="col s12 m4">
       <div class="card large" id="os-breakdown">
-        <div class="card-content">
-          <ul>
-            <% @user.urls.os_breakdown.each do |url|  %>
-            <li>- <%= url %></li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="card-action">
-          <p class="card-details">Operating System Breakdown</p>
-        </div>
+        <%= erb :_card_with_data, locals: {title: "Operating System Breakdown", iteratable: @user.urls.os_breakdown } %>
       </div>
     </div>
 
     <div class="col s12 m4">
       <div class="card large" id="screen-res">
-        <div class="card-content">
-          <ul>
-            <% @user.urls.resolution.each do |url|  %>
-            <li>- <%= url %></li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="card-action">
-          <p class="card-details">Screen Resolution</p>
-        </div>
+        <%= erb :_card_with_data, locals: {title: "Screen Resolution", iteratable: @user.urls.resolution } %>
       </div>
     </div>
 
     <div class="col s12 m4">
       <div class="card large" id="response-time">
-        <div class="card-content">
-          <ul>
-            <% @user.urls.url_response_times.each do |url|  %>
-            <li>- <%= url %></li>
-            <% end %>
-          </ul>
-        </div>
-        <div class="card-action">
-          <p class="card-details">Average Response Times per URL</p>
-        </div>
+        <%= erb :_card_with_data, locals: {title: "Average Response Times per URL", iteratable: @user.urls.url_response_times } %>
       </div>
     </div>
 
     <div class="col s12 m4">
       <div class="card large" id="events">
-        <div class="card-content">
-          <ul>
-            <% @user.payloads.events_by_popularity.each do |event_and_num|  %>
-            <li>-
-              <a class="list-links" href="/sources/<%=@user.identifier%>/events/<%=event_and_num.split(":")[0]%>">
-                <%= event_and_num.split(":")[0] %>
-              </a>: <%= event_and_num.split(":")[1]%>
-            </li>
-            <% end %>
-          </ul>
-        </div>
+        <%= erb :_card_with_link, locals: {title: "Most to Least Requested URLS", iteratable: @user.payloads.events_by_popularity } %>
         <div class="card-action event_index">
           <a class="card-details" href="/sources/<%=@user.identifier%>/events">
             Event index

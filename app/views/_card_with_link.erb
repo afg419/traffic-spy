@@ -1,0 +1,14 @@
+<div class="card-content">
+  <ul>
+    <% iteratable.each do |url_and_number|  %>
+    <li>-
+      <a class="list-links" href="/sources/<%= @user.identifier %>/urls/<%= url_and_number.split(":")[0] %>">
+        <%= url_and_number.split(":")[0] %>
+      </a>: <%= url_and_number.split(":")[1] %>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<div class="card-action">
+  <p class="card-details"><%= title %></p>
+</div>
