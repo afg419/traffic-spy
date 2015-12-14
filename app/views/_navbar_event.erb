@@ -1,12 +1,8 @@
 <nav>
-  <div class="nav-wrapper-index">
+  <div class="nav-wrapper">
     <a href="/" class="breadcrumb"><i class="material-icons left">home</i>Traffic Spy</a>
-    <a href="/sources/<%= user.identifier %>" class="breadcrumb"><%= user.identifier %></a>
+    <a href="/sources/<%= user.identifier %>" class="breadcrumb"><%= user.identifier.capitalize %></a>
     <a href="/sources/<%= user.identifier %>/events" class="breadcrumb">Events</a>
-    <a href="/sources/<%= user.identifier %>/events/<%=  %>" class="breadcrumb"><%= event %></a>
-    <ul class="right hide-on-med-and-down">
-      <li>
-      </li>
-    </ul>
+    <a href="/sources/<%= user.identifier %>/events/<%= event %>" class="breadcrumb"><%= event %></a>
   </div>
 </nav>

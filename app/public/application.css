@@ -45,13 +45,14 @@ body {
           }
 
 .nav-wrapper {
-  background-color: rgb(10,10,30);
-}
-
-.nav-wrapper-index {
   background-color: #555555;
+  color: #ffab40;
 }
 
 #event-table {
   background-color: grey;
+  color: #ffab40;;
 }
+ #table-text {
+  color: #C5D8FB
+ }

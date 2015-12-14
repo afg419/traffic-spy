@@ -1,6 +1,19 @@
 require_relative '../test_helper'
 
 class AppDetailsTest < FeatureTest
+  def test_goes_to_app_details_page_nav_bar
+    register_user("jumpstartlab", "http://jumpstartlab.com")
+    load_tables("jumpstartlab", "http://jumpstartlab.com")
+
+    visit('/sources/jumpstartlab')
+
+    within('.nav-wrapper') do
+      assert has_link?("Jumpstartlab")
+      assert has_link?("Traffic Spy")
+      assert has_link?("Event Index")
+    end
+  end
+
   def test_goes_to_app_details_page
     register_user("jumpstartlab", "http://jumpstartlab.com")
     load_tables("jumpstartlab","http://jumpstartlab.com")
