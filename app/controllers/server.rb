@@ -1,15 +1,6 @@
 module TrafficSpy
   class Server < Sinatra::Base
-    get '/' do
-      erb :index
-    end
-
-    not_found do
-      erb :error
-    end
-
     helpers do
-
       def decide_view(condition, error)
         case true
         when @user.nil?
@@ -34,6 +25,19 @@ module TrafficSpy
       end
     end
 
+    get '/' do
+      erb :index
+    end
+
+    get '/sources/:identifier' do |identifier|
+      @id = identifier
+      @user = User.find_by(identifier: identifier)
+
+      decide_view(@user.nil? || @user.payloads.length == 0, :no_payload) do
+        erb :application_details
+      end
+    end
+
     post '/sources' do
       validator = TrafficSpy::UserValidator.new
       validator.validate(params)
@@ -51,15 +55,6 @@ module TrafficSpy
       body(validator.body)
     end
 
-    get '/sources/:identifier' do |identifier|
-      @id = identifier
-      @user = User.find_by(identifier: @id)
-
-      decide_view(@user.nil? || @user.payloads.length == 0, :no_payload) do
-        erb :application_details
-      end
-    end
-
     get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
       @id = identifier
       @user = User.find_by(identifier: @id)
@@ -67,6 +62,15 @@ module TrafficSpy
 
       decide_view(@user.nil? || @user.urls.find_by(url:relative_path).nil?, :no_path) do
         erb :url_details
+      end
+    end
+
+    get '/sources/:identifier/events' do |identifier|
+      @id = identifier
+      @user = User.find_by(identifier: @id)
+
+      decide_view(@user.nil? || @user.payloads.length == 0, :no_events) do
+        erb :event_index
       end
     end
 
@@ -80,14 +84,8 @@ module TrafficSpy
       end
     end
 
-    get '/sources/:identifier/events' do |identifier|
-      @id = identifier
-      @user = User.find_by(identifier: @id)
-
-      decide_view(@user.nil? || @user.payloads.length == 0, :no_events) do
-        erb :event_index
-      end
+    not_found do
+      erb :error
     end
-
   end
 end
