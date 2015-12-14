@@ -21,16 +21,26 @@
 
   <div class="col s4">
     <div class="card large" id="verbs">
-      <%= erb :_card_with_data, locals: {title: "Verbs Used", iteratable: @user.urls.verbs_used } %>
-    </div>
+  <div class="card-content">
+    <ul>
+      <% @user.urls.verbs_used.each do |verb_and_number|  %>
+      <li>- <%= verb_and_number.split(":")[0] %>: <%= verb_and_number.split(":")[1] %> </li>
+      <% end %>
+    </ul>
   </div>
-  <div class="col s4">
-    <div class="card large" id="referrers">
-      <%= erb :_card_with_data, locals: {title: "Most Popular Referrers", iteratable: @user.urls.most_popular_referrers } %>
-    </div>
+  <div class="card-action">
+    <p class="card-details">Verbs Used</p>
   </div>
-  <div class="col s4">
-    <div class="card large" id="agents">
-      <%= erb :_card_with_data, locals: {title: "Most Popular User Agents", iteratable: @user.urls.most_popular_user_agents } %>
-    </div>
   </div>
+</div>
+
+<div class="col s4">
+  <div class="card large" id="referrers">
+    <%= erb :_card_with_data, locals: {title: "Most Popular Referrers", iteratable: @user.urls.most_popular_referrers } %>
+  </div>
+</div>
+<div class="col s4">
+  <div class="card large" id="agents">
+    <%= erb :_card_with_data, locals: {title: "Most Popular User Agents", iteratable: @user.urls.most_popular_user_agents } %>
+  </div>
+</div>

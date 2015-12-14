@@ -55,7 +55,7 @@ class UrlTest < ModelTest
 
     user = TrafficSpy::User.find_by(identifier: "identifier1")
 
-    assert_equal ["DELETE", "GET", "POST"], user.urls.verbs_used
+    assert_equal ["DELETE: 1", "GET: 1", "POST: 1"], user.urls.verbs_used
   end
 
   def test_most_popular_referrers_returns_top_3
