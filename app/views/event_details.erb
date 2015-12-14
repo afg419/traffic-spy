@@ -1,3 +1,4 @@
+<%= erb :_navbar_event, locals: { user: @user, event: @event} %>
 <div class="center"> <h1 id="event_details_header"><%= @id.capitalize %>'s <%= @event %> Page</h1></div>
 <div class="divider"></div>
 <div class="center"><h2>Total Events: <%= @user.payloads.total_events(@event) %><br><br></h2></div>
@@ -17,7 +18,7 @@
          <tr class="blue-text text-darken-2">
            <td><%= k %></td>
            <td><%= v %></td>
-           <td><%= @count + v  %></td>
+           <td><%= @count += v  %></td>
          </tr>
         <% end %>
        </tbody>
