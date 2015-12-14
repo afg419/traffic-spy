@@ -8,8 +8,8 @@
       <div class="card large" id="requested-urls">
         <div class="card-content">
           <ul>
-            <% @user.urls.requested_urls.each do |url|  %>
-            <li>- <%= url %></li>
+            <% @user.urls.requested_urls.each do |url_and_number|  %>
+            <li>- <a href="/sources/<%= @user.identifier %>/urls/<%= url_and_number.split(":")[0] %>"><%= url_and_number.split(":")[0] %></a>: <%= url_and_number.split(":")[1] %> </li>
             <% end %>
           </ul>
         </div>
@@ -86,37 +86,6 @@
     </div>
   </div>
 </div>
-
-<br><br><h4>View Detailed Data for each of <%= @user.identifier.capitalize %>'s URLS:</h4><br><br>
-
-
-<div class= "container">
-  <div class="row">
-    <div class="col s4">
-      <p>
-
-      </p>
-    </div>
-    <div class="col s4">
-      <div class="card large">
-        <div class="card-image">
-          <img class="activator" src="/images/blue-eye.gif">
-        </div>
-        <div class="card-content">
-          <p class="card-header"><% @user.urls.uniq.each do |url| %>
-            <a id="card-link" href="/sources/<%= @user.identifier %>/urls/<%= url.url %>"><%= url.url %><br></a>
-          <% end %></p>
-        </div>
-      </div>
-    </div>
-    <div class="col s4">
-      <p>
-
-      </p>
-    </div>
-  </div>
-</div>
-
 
 <br><br><a id="event-data-link" href="/sources/<%= @user.identifier %>/events"><h4>View Event Data for <%= @user.identifier.capitalize %></h4></a>
 <br><br>
