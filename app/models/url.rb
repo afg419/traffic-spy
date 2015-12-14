@@ -36,7 +36,7 @@ module TrafficSpy
 
     def self.requested_urls
       urls = group(:url).count
-      urls.sort_by { |k, v| [-v, k] }.map{ |u| u[0] }
+      urls.sort_by { |k, v| [-v, k] }.map{ |u| "#{u[0]}: #{u[1]}" }
     end
 
     def self.os_breakdown

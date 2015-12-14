@@ -1,14 +1,17 @@
-body {background-color: rgb(10,10,30);
-      color: rgb(200,220,255);
-      font-family: "Orbitron", "Play", sans-serif;
+body {
+  background-color: rgb(10,10,30);
+  color: rgb(200,220,255);
+  font-family: "Orbitron", "Play", sans-serif;
 }
 
-#title{ text-align: center;
-        margin-top: 100px;
-        font-size: 96px;
+#title{
+  text-align: center;
+  margin-top: 100px;
+  font-size: 96px;
 }
 
-.parallax { height: 400px;}
+.parallax {
+  height: 400px;}
 
 .fullscreen-bg {
     position: fixed;
@@ -27,8 +30,34 @@ body {background-color: rgb(10,10,30);
     width: 100%;
 }
 
-.card { background-color: white;
-        padding: 20px;
+#card-link{
+  color: #C5D8FB;
+  font-size: 24px;
+  text-decoration: underline;
+}
+
+.card {
+  background-color: #555555;
+  padding: 20px;
     }
 
-#app_details_header, h4 { text-align: center; }
+#app_details_header, #url_details_header, #event_index_header, #event_details_header, h4, .card-details, .card-header {
+  text-align: center; }
+
+#event-data-link {
+  text-align: center;
+  text-decoration: underline;
+  color: #C5D8FB;
+          }
+
+.nav-wrapper {
+  background-color: rgb(10,10,30);
+}
+
+.nav-wrapper-index {
+  background-color: #555555;
+}
+
+#event-table {
+  background-color: grey;
+}

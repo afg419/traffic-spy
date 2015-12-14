@@ -127,7 +127,7 @@ class UrlTest < ModelTest
     load_tables("identifier1", "url1", {"url" => "article/2"})
 
     user = TrafficSpy::User.find_by(identifier: "identifier1")
-    expected = ["blog", "about", "article/1", "article/2"]
+    expected = ["blog: 3", "about: 2", "article/1: 1", "article/2: 1"]
 
     assert_equal expected, user.urls.requested_urls
   end

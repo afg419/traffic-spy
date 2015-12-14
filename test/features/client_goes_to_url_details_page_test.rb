@@ -1,26 +1,10 @@
 require_relative '../test_helper'
 
 class UrlDetailsTest < FeatureTest
-
-  def payload
-    {          "url"=>"blog",
-               "requested_at"=>"2013-02-16 21:38:28 -0700",
-               "responded_in"=>37,
-               "referred_by"=>"http://jumpstartlab.com",
-               "request_type"=>"GET",
-               "event_name"=>"socialLogin",
-               "resolution_width"=>"1920",
-               "resolution_height"=>"1280",
-               "ip"=>"63.29.38.211",
-               "user_id"=>1,
-               "browser"=>"Mozilla",
-               "platform"=>"Mac",
-               "payload_sha" => "12489809850939491939823"}
-  end
-
   def test_goes_to_url_details_page
-    TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "http://jumpstartlab.com")
-    TrafficSpy::DbLoader.new(payload,"jumpstartlab").load_databases
+    register_user("jumpstartlab", "http://jumpstartlab.com")
+    load_tables("jumpstartlab", "http://jumpstartlab.com")
+
     visit('/sources/jumpstartlab/urls/blog')
     assert_equal '/sources/jumpstartlab/urls/blog', current_path
 
@@ -49,7 +33,7 @@ class UrlDetailsTest < FeatureTest
   end
 
   def test_goes_to_app_error_page_if_url_does_not_exist
-    TrafficSpy::User.create("identifier" => "jumpstartlab", "root_url" => "/jumpstartlab")
+    register_user("jumpstartlab", "http://jumpstartlab.com")
 
     visit('/sources/jumpstartlab/urls/dog')
     assert_equal '/sources/jumpstartlab/urls/dog', current_path
@@ -61,5 +45,31 @@ class UrlDetailsTest < FeatureTest
     within('#app_details_error') do
       assert page.has_content?("has not been requested")
     end
+  end
+
+  def test_sees_app_url_data
+    register_user("jumpstartlab", "http://jumpstartlab.com")
+    load_tables("jumpstartlab", "http://jumpstartlab.com",{
+                "request_type" => "POST",
+                "browser" => "Firefox"
+    })
+    load_tables("jumpstartlab", "http://jumpstartlab.com",{
+                "request_type" => "DELETE",
+                "browser" => "Firefox"
+    })
+    load_tables("jumpstartlab", "http://jumpstartlab.com",{
+                "request_type" => "DELETE",
+                "browser" => "Opera"
+    })
+
+    visit('/sources/jumpstartlab/urls/blog')
+
+    assert page.has_content?("POST")
+    assert page.has_content?("GET")
+    assert page.has_content?("DELETE")
+    assert page.has_content?("Firefox")
+    assert page.has_content?("Chrome")
+    assert page.has_content?("Opera")
+
   end
 end
