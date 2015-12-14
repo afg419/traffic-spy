@@ -37,14 +37,23 @@
 
     <div class="col s12 m4">
       <div class="card large" id="events">
-        <%= erb :_card_with_link, locals: {title: "Most to Least Requested URLS", iteratable: @user.payloads.events_by_popularity } %>
-        <div class="card-action event_index">
-          <a class="card-details" href="/sources/<%=@user.identifier%>/events">
-            Event index
-          </a>
+        <div class="card-content">
+          <ul>
+            <% @user.payloads.events_by_popularity.each do |event_and_number|  %>
+            <li>-
+              <a class="list-links" href="/sources/<%= @user.identifier %>/events/<%= event_and_number.split(":")[0] %>">
+                <%= event_and_number.split(":")[0] %>
+              </a>: <%= event_and_number.split(":")[1] %>
+            </li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="card-action">
+          <p class="card-details"><a href="/sources/<%= @user.identifier %>/events">Event Index</a></p>
         </div>
       </div>
     </div>
+
 
     <div class="col s2">
       <p>
