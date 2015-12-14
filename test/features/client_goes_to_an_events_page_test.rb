@@ -6,7 +6,7 @@ class EventDetailsTest < FeatureTest
     register_user("jumpstartlab", "http://jumpstartlab.com")
     load_tables("jumpstartlab", "http://jumpstartlab.com")
 
-    visit('/sources/jumpstartlab/events')
+    visit('/sources/jumpstartlab/events/socialLogin')
 
     within('.nav-wrapper') do
       assert has_link?("Jumpstartlab")
