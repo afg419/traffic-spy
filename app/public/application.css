@@ -46,18 +46,24 @@ body {
 
 .nav-wrapper {
   background-color: #555555;
-  color: #C5D8FB;
 }
 
 #event-table {
   background-color: grey;
-  color: #ffab40;;
+  color: #ffab40;
 }
 
  #table-text {
-  color: #C5D8FB
+  color: #C5D8FB;
  }
 
+.dropdown-content li>a, .dropdown-content li>span {
+    font-size: 16px;
+    color: #ffab40;;
+    display: block;
+    line-height: 22px;
+    padding: 14px 16px;
+}
 
 .list-links{
   color: #FFAB40
